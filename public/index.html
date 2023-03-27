@@ -30,30 +30,82 @@
     <link rel="stylesheet" href="./index.css" />
   </head>
   <body style="margin: 0">
-    <div class="modal" id="signupModal" tabindex="-1">
+    <!--signup modal-->
+    <div class="modal fade" id="signupModal" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Modal title</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
+            <h5 class="modal-title">註冊</h5>
           </div>
           <div class="modal-body">
-            <p>Modal body text goes here.</p>
+            <form>
+              <div class="mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  name="number"
+                  placeholder="電話號碼"
+                />
+              </div>
+              <div class="mb-3">
+                <input
+                  type="password"
+                  class="form-control"
+                  name="password"
+                  placeholder="密碼"
+                />
+              </div>
+              <div class="signup-form-button mb-3">
+                <button type="submit" class="btn btn-primary">提交</button>
+              </div>
+            </form>
+            <div class="row">
+              <div class="col-md-12 signup-form-button">signup with google</div>
+              <div class="col-md-12 signup-form-button">
+                signup with facebook
+              </div>
+              <div class="col-md-12 signup-form-button">signup with apple</div>
+            </div>
           </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+    <!--login modal-->
+    <div class="modal fade" id="loginModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">登入</h5>
+          </div>
+          <div class="modal-body">
+            <form action="/login" method="POST" id="login-form">
+              <div class="mb-3">
+                <input
+                  type="text"
+                  class="form-control"
+                  name="number"
+                  placeholder="電話號碼"
+                />
+              </div>
+              <div class="mb-3">
+                <input
+                  type="password"
+                  class="form-control"
+                  name="password"
+                  placeholder="密碼"
+                />
+              </div>
+              <div class="signup-form-button mb-3">
+                <button type="submit" class="btn btn-primary">提交</button>
+              </div>
+            </form>
+            <div class="row">
+              <div class="col-md-12 signup-form-button">signup with google</div>
+              <div class="col-md-12 signup-form-button">
+                signup with facebook
+              </div>
+              <div class="col-md-12 signup-form-button">signup with apple</div>
+            </div>
           </div>
         </div>
       </div>
@@ -78,7 +130,14 @@
           >
             註冊
           </button>
-          <button type="button" class="btn btn-primary">登入</button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#loginModal"
+          >
+            登入
+          </button>
         </div>
       </div>
       <!--banner-->
