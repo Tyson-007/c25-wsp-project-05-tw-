@@ -1,0 +1,47 @@
+.header {
+  display: flex;
+  background-color: darkgrey !important;
+  align-items: center;
+  line-height: 100%;
+  height: 5vh;
+  font-size: large;
+}
+
+.banner {
+  display: flex;
+  height: 30vh;
+  background-color: rgb(226, 182, 182);
+  align-items: center;
+}
+
+.filter-bars {
+  background-color: white;
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+  border-radius: 16px;
+}
+
+.room-row-container {
+  padding-top: 5vh;
+  padding-bottom: 5vh;
+}
+
+.room-card {
+  display: flex;
+  background-color: rgba(153, 50, 204, 0.253);
+  margin: 24px;
+  height: 200px;
+  align-items: center !important;
+  text-align: center;
+  justify-content: center;
+}
+
+.footer {
+  display: flex;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
