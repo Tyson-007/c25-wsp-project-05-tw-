@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(
   expressSession({
-    secret: "gufyeahjkfuiahgvaenrfa",
+    secret: "very secret",
     saveUninitialized: true,
     resave: true,
   })
@@ -32,22 +32,11 @@ declare module "express-session" {
 ///////////////////////////
 // counter route handler //
 ///////////////////////////
-app.use((req: Request, res: Response, next: NextFunction) => {
-  if (isNaN(req.session.counter!)) {
-    req.session.counter = 0;
-  } else {
-    req.session.counter! += 1;
-  }
-  const datetime = new Date();
-  console.log(
-    `${req.session.id} (${req.session.counter}): [${datetime.getFullYear()}-${
-      datetime.getMonth() + 1
-    }-${datetime.getDate()} ${datetime.getHours()}:${datetime.getMinutes()}:${datetime.getSeconds()}] Request ${
-      req.url
-    }`
-  );
-  next();
-});
+// Section xxx: Route Handlers
+import { authRoutes } from "./routers/authRoutes";
+import { userRoutes } from "./routers/memoRoutes";
+
+app.use(express.static("public"));
 
 /////////////////////////
 // login route handler //
@@ -86,7 +75,8 @@ const guardMiddleware = (req: Request, res: Response, next: NextFunction) => {
 };
 app.use(guardMiddleware, express.static("private"));
 
-app.use((req: Request, res: Response) => {
+// Section xxx: Error Handling
+app.use((_req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, "public", "404.html"));
 });
 
