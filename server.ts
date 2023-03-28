@@ -3,15 +3,60 @@ import expressSession from "express-session";
 import { Request, Response, NextFunction } from "express";
 import jsonfile from "jsonfile";
 import path from "path";
+import fs from "fs";
+import formidable from "formidable";
+import IncomingForm from "formidable/Formidable";
 
 const app = express();
-const USER_JSON_PATH = path.join(__dirname, "public", "data", "users.json");
+const USER_JSON_PATH = path.join(__dirname, "data", "users.json");
+const PARTYROOM_JSON_PATH = path.join(__dirname, "data", "partyrooms.json");
 
 interface User {
   name: string;
   password: string;
 }
 
+interface Partyroom {
+  id: number;
+  name: string;
+  price?: number;
+  venue: string;
+  style?: string;
+  area?: number;
+  capacity?: number;
+  intro?: string;
+  image: string;
+}
+
+const uploadDir = "uploads";
+fs.mkdirSync(uploadDir, { recursive: true });
+
+const partyroomForm = formidable({
+  uploadDir,
+  keepExtensions: false,
+  maxFiles: 1,
+  maxFileSize: 1024 ** 2 * 200,
+  filter: (part) => part.mimetype?.startsWith("image/") || false,
+  filename: (_originalName, _originalExt, part) => {
+    const fieldName = part.name;
+    const timestamp = Date.now();
+    const ext = part.mimetype?.split("/").pop();
+    return `${fieldName}-${timestamp}.${ext}`;
+  },
+});
+
+export function partyroomFormPromise(form: IncomingForm, req: express.Request) {
+  return new Promise<{ fields: formidable.Fields; files: formidable.Files }>(
+    (resolve, reject) => {
+      form.parse(req, (err, fields, files) => {
+        if (err) reject(err);
+        else resolve({ fields, files });
+      });
+    }
+  );
+}
+
+// Section xxx: Basic Middleware //
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(
@@ -24,30 +69,9 @@ app.use(
 
 declare module "express-session" {
   interface SessionData {
-    counter?: number;
     isLoggedIn?: boolean;
   }
 }
-
-////////////
-// logger //
-////////////
-app.use((req: Request, res: Response, next: NextFunction) => {
-  if (isNaN(req.session.counter!)) {
-    req.session.counter = 0;
-  } else {
-    req.session.counter! += 1;
-  }
-  const datetime = new Date();
-  console.log(
-    `${req.session.id} (${req.session.counter}): [${datetime.getFullYear()}-${
-      datetime.getMonth() + 1
-    }-${datetime.getDate()} ${datetime.getHours()}:${datetime.getMinutes()}:${datetime.getSeconds()}] Request ${
-      req.url
-    }`
-  );
-  next();
-});
 
 // Section xxx: Route Handlers
 // import { authRoutes } from "./routers/authRoutes";
@@ -75,14 +99,69 @@ app.post("/login", async (req, res, next) => {
     res.status(400).json({ message: "invalid username or password" });
     return;
   }
-  console.log("/login ");
 
   req.session.isLoggedIn = true;
-  res.status(200).json({ message: "logined" });
-
-  // next();
+  res.status(200).json({ message: "logged in" });
 });
 
+/////////////////////////
+// user route handlers //
+/////////////////////////
+
+// get all party rooms //
+app.get("/partyrooms", async (req, res, next) => {
+  const partyrooms: Array<Partyroom> = await jsonfile.readFile(
+    PARTYROOM_JSON_PATH
+  );
+  res.json(partyrooms);
+});
+
+// upload a party room //
+app.post("/upload", async (req, res, next) => {
+  const { fields, files } = await partyroomFormPromise(partyroomForm, req);
+
+  const name = fields.name as string;
+  const price = parseInt(fields.price as string);
+  const venue = fields.venue as string;
+  const style = fields.style as string;
+  const area = parseInt(fields.area as string);
+  const capacity = parseInt(fields.capacity as string);
+  const intro = fields.intro as string;
+
+  // name: string;
+  // price?: number;
+  // venue: string;
+  // style?: string;
+  // area?: number;
+  // capacity?: number;
+  // intro?: string;
+
+  if (!name || !price || !venue || !style || !area || !capacity || !intro) {
+    res.status(400).json({ message: "missing content" });
+    return;
+  }
+
+  const imageFilename = (files.image as formidable.File)?.newFilename;
+
+  // change below from jsonfile technique to sql technique //
+  const partyrooms: Array<Partyroom> =
+    jsonfile.readFileSync(PARTYROOM_JSON_PATH);
+  partyrooms.push({
+    id: partyrooms.length + 1,
+    name,
+    price,
+    venue,
+    style,
+    area,
+    capacity,
+    intro,
+    image: imageFilename,
+  });
+  jsonfile.writeFileSync(PARTYROOM_JSON_PATH, partyrooms, { spaces: 2 });
+  res.json({ message: "party room uploaded" });
+});
+
+// express.static //
 app.use(express.static("public"));
 const guardMiddleware = (req: Request, res: Response, next: NextFunction) => {
   if (req.session.isLoggedIn) {
@@ -91,7 +170,7 @@ const guardMiddleware = (req: Request, res: Response, next: NextFunction) => {
     res.redirect("/");
   }
 };
-app.use(guardMiddleware, express.static("private")); //express.static not working
+app.use(guardMiddleware, express.static("private"));
 
 // Section xxx: Error Handling
 app.use((_req: Request, res: Response) => {
