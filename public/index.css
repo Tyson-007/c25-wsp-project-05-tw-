@@ -1,3 +1,14 @@
+.signup-form-button {
+  display: flex;
+  justify-content: center;
+}
+
+.modal-footer {
+  justify-content: center;
+  width: 100%;
+  flex-shrink: 0;
+}
+
 .header {
   display: flex;
   background-color: darkgrey !important;
