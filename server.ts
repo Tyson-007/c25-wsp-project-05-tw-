@@ -6,6 +6,17 @@ import path from "path";
 import fs from "fs";
 import formidable from "formidable";
 import IncomingForm from "formidable/Formidable";
+import pg from "pg";
+
+import dotenv from "dotenv";
+dotenv.config();
+
+export const dbClient = new pg.Client({
+  database: process.env.DB_NAME,
+  user: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+});
+dbClient.connect();
 
 const app = express();
 const USER_JSON_PATH = path.join(__dirname, "data", "users.json");
