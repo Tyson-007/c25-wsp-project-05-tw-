@@ -23,7 +23,6 @@ const app = express();
 
 export const USER_JSON_PATH = path.join(__dirname, "data", "users.json");
 // const PARTYROOM_JSON_PATH = path.join(__dirname, "data", "partyrooms.json");
-const PARTYROOM_JSON_PATH = path.join(__dirname, "data", "partyrooms.json");
 
 interface User {
   name: string;
@@ -108,12 +107,6 @@ app.post("/login", async (req, res) => {
   );
   const foundUser = queryResult.rows[0];
 
-  // previous jsonfile logic //
-  // const users: Array<User> = await jsonfile.readFile(USER_JSON_PATH);
-  // const foundUser = users.find(
-  //   (u) => u.name === name && u.password === password
-  // );
-
   if (!foundUser) {
     res.status(400).json({ message: "invalid username or password" });
     return;
@@ -151,45 +144,31 @@ app.post("/upload", async (req, res, next) => {
   const capacity = parseInt(fields.capacity as string);
   const intro = fields.intro as string;
 
-  if (
-    !name ||
-    !price ||
-    !venue ||
-    !style ||
-    !area ||
-    !capacity ||
-    !intro
-  ) {
+  if (!name || !price || !venue || !style || !area || !capacity || !intro) {
     res.status(400).json({ message: "missing content" });
     return;
   }
 
-  const imageFilename = (files.image as formidable.File | undefined)?.newFilename;
+  const imageFilename = (files.image as formidable.File | undefined)
+    ?.newFilename;
 
   // change below from jsonfile technique to sql technique //
   await dbClient.query<Partyroom>(
     /*SQL*/ `INSERT INTO partyrooms (name, price, venue, style,area,capacity,intro, imagefilename) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
-    [
-      name,
-      price,
-      venue,
-      style,
-      area,
-      capacity,
-      intro,
-      imageFilename,
-    ]
+    [name, price, venue, style, area, capacity, intro, imageFilename]
   );
 
   // no need to change below //
   res.json({ message: "party room uploaded" });
-  next()
+  next();
 });
 
-app.get("/upload", async (_req, res) =>{
-  const queryResult = await dbClient.query<Partyroom>("SELECT * FROM memos ORDER BY id DESC");
+app.get("/upload", async (_req, res) => {
+  const queryResult = await dbClient.query<Partyroom>(
+    "SELECT * FROM memos ORDER BY id DESC"
+  );
   res.json(queryResult.rows); // pass array into res.json()
-}) 
+});
 
 // express.static //
 app.use(express.static("public"));
