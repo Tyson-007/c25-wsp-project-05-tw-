@@ -11,7 +11,7 @@ import pg from "pg";
 import dotenv from "dotenv";
 dotenv.config();
 
-export const dbClient = new pg.Client({
+const dbClient = new pg.Client({
   database: process.env.DB_NAME,
   user: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
@@ -19,7 +19,7 @@ export const dbClient = new pg.Client({
 dbClient.connect();
 
 const app = express();
-const USER_JSON_PATH = path.join(__dirname, "data", "users.json");
+export const USER_JSON_PATH = path.join(__dirname, "data", "users.json");
 const PARTYROOM_JSON_PATH = path.join(__dirname, "data", "partyrooms.json");
 
 interface User {
@@ -101,11 +101,17 @@ app.post("/login", async (req, res, next) => {
     return;
   }
 
-  const users: Array<User> = await jsonfile.readFile(USER_JSON_PATH);
-
-  const foundUser = users.find(
-    (u) => u.name === name && u.password === password
+  const queryResult = await dbClient.query<User>(
+    /*SQL*/ `SELECT id, name, password, phone_no, date_of_birth, email FROM users WHERE name = $1 AND password = $2`,
+    [name, password]
   );
+  const foundUser = queryResult.rows[0];
+
+  // previous jsonfile logic //
+  // const users: Array<User> = await jsonfile.readFile(USER_JSON_PATH);
+  // const foundUser = users.find(
+  //   (u) => u.name === name && u.password === password
+  // );
 
   if (!foundUser) {
     res.status(400).json({ message: "invalid username or password" });
