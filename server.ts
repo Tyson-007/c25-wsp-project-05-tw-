@@ -47,14 +47,12 @@ const partyroomForm = formidable({
 });
 
 export function partyroomFormPromise(form: IncomingForm, req: express.Request) {
-  return new Promise<{ fields: formidable.Fields; files: formidable.Files }>(
-    (resolve, reject) => {
-      form.parse(req, (err, fields, files) => {
-        if (err) reject(err);
-        else resolve({ fields, files });
-      });
-    }
-  );
+  return new Promise<{ fields: formidable.Fields; files: formidable.Files }>((resolve, reject) => {
+    form.parse(req, (err, fields, files) => {
+      if (err) reject(err);
+      else resolve({ fields, files });
+    });
+  });
 }
 
 // Section xxx: Basic Middleware //
@@ -92,9 +90,7 @@ app.post("/login", async (req, res, next) => {
 
   const users: Array<User> = await jsonfile.readFile(USER_JSON_PATH);
 
-  const foundUser = users.find(
-    (u) => u.name === name && u.password === password
-  );
+  const foundUser = users.find((u) => u.name === name && u.password === password);
 
   if (!foundUser) {
     res.status(400).json({ message: "invalid username or password" });
@@ -111,9 +107,7 @@ app.post("/login", async (req, res, next) => {
 
 // get all party rooms //
 app.get("/partyrooms", async (req, res, next) => {
-  const partyrooms: Array<Partyroom> = await jsonfile.readFile(
-    PARTYROOM_JSON_PATH
-  );
+  const partyrooms: Array<Partyroom> = await jsonfile.readFile(PARTYROOM_JSON_PATH);
   res.json(partyrooms);
 });
 
@@ -138,38 +132,18 @@ app.post("/upload", async (req, res, next) => {
   // capacity?: number;
   // intro?: string;
 
-  if (
-    !name ||
-    !price ||
-    !venue ||
-    !style ||
-    !equipment_id ||
-    !area ||
-    !capacity ||
-    !intro
-  ) {
+  if (!name || !price || !venue || !style || !equipment_id || !area || !capacity || !intro) {
     res.status(400).json({ message: "missing content" });
     return;
   }
 
-  const imageFilename = (files.image as formidable.File)?.newFilename;
+  const imageFilename = (files.image as formidable.File | undefined)?.newFilename;
 
   // change below from jsonfile technique to sql technique //
-  const partyrooms: Array<Partyroom> =
-    jsonfile.readFileSync(PARTYROOM_JSON_PATH);
-  partyrooms.push({
-    id: partyrooms.length + 1,
-    name,
-    price,
-    venue,
-    style,
-    equipment_id,
-    area,
-    capacity,
-    intro,
-    image: imageFilename,
-  });
-  jsonfile.writeFileSync(PARTYROOM_JSON_PATH, partyrooms, { spaces: 2 });
+  await dbClient.query(
+    /*SQL*/ `INSERT INTO partyrooms (name, price, venue, style, equipment_id,area,capacity,intro) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+    [name, price, venue, style, equipment_id, area, capacity, intro, imageFilename]
+  );
 
   // no need to change below //
   res.json({ message: "party room uploaded" });
