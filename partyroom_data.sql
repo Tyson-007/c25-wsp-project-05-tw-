@@ -18,11 +18,10 @@ CREATE TABLE users (
 DROP TABLE IF EXISTS partyrooms;
 CREATE TABLE partyrooms (
 	id SERIAL PRIMARY KEY,
-	name INT,
+	name VARCHAR(255),
     price INT,
     venue VARCHAR(255),
     style VARCHAR(255),
-	equipment_id VARCHAR(255),
     area INT,
     capacity INT,
     intro TEXT,
