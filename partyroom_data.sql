@@ -19,6 +19,7 @@ DROP TABLE IF EXISTS partyrooms;
 CREATE TABLE partyrooms (
 	id SERIAL PRIMARY KEY,
 	name VARCHAR(255),
+    phone_no VARCHAR(255),
     price INT,
     venue VARCHAR(255),
     style VARCHAR(255),
