@@ -6,6 +6,10 @@ import path from "path";
 import fs from "fs";
 import formidable from "formidable";
 import IncomingForm from "formidable/Formidable";
+// import pg from "pg";
+
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 const USER_JSON_PATH = path.join(__dirname, "data", "users.json");
