@@ -22,7 +22,7 @@ const app = express();
 
 export const USER_JSON_PATH = path.join(__dirname, "data", "users.json");
 // const PARTYROOM_JSON_PATH = path.join(__dirname, "data", "partyrooms.json");
-const PARTYROOM_JSON_PATH = path.join(__dirname, "data", "partyrooms.json");
+export const PARTYROOM_JSON_PATH = path.join(__dirname, "data", "partyrooms.json");
 
 interface User {
   name: string;
@@ -59,14 +59,12 @@ const partyroomForm = formidable({
 });
 
 export function partyroomFormPromise(form: IncomingForm, req: express.Request) {
-  return new Promise<{ fields: formidable.Fields; files: formidable.Files }>(
-    (resolve, reject) => {
-      form.parse(req, (err, fields, files) => {
-        if (err) reject(err);
-        else resolve({ fields, files });
-      });
-    }
-  );
+  return new Promise<{ fields: formidable.Fields; files: formidable.Files }>((resolve, reject) => {
+    form.parse(req, (err, fields, files) => {
+      if (err) reject(err);
+      else resolve({ fields, files });
+    });
+  });
 }
 
 // Section xxx: Basic Middleware //
@@ -136,7 +134,7 @@ app.post("/login", async (req, res, next) => {
 // });
 
 // upload a party room //
-app.post("/upload", async (req, res, next) => {
+app.post("/upload", async (req, res) => {
   const { fields, files } = await partyroomFormPromise(partyroomForm, req);
 
   const name = fields.name as string;
@@ -147,15 +145,7 @@ app.post("/upload", async (req, res, next) => {
   const capacity = parseInt(fields.capacity as string);
   const intro = fields.intro as string;
 
-  if (
-    !name ||
-    !price ||
-    !venue ||
-    !style ||
-    !area ||
-    !capacity ||
-    !intro
-  ) {
+  if (!name || !price || !venue || !style || !area || !capacity || !intro) {
     res.status(400).json({ message: "missing content" });
     return;
   }
@@ -165,27 +155,17 @@ app.post("/upload", async (req, res, next) => {
   // change below from jsonfile technique to sql technique //
   await dbClient.query<Partyroom>(
     /*SQL*/ `INSERT INTO partyrooms (name, price, venue, style,area,capacity,intro, imagefilename) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
-    [
-      name,
-      price,
-      venue,
-      style,
-      area,
-      capacity,
-      intro,
-      imageFilename,
-    ]
+    [name, price, venue, style, area, capacity, intro, imageFilename]
   );
 
   // no need to change below //
   res.json({ message: "party room uploaded" });
-  next()
 });
 
-app.get("/upload", async (_req, res) =>{
-  const queryResult = await dbClient.query<Partyroom>("SELECT * FROM memos ORDER BY id DESC");
+app.get("/upload", async (_req, res) => {
+  const queryResult = await dbClient.query<Partyroom>("SELECT * FROM partyrooms");
   res.json(queryResult.rows); // pass array into res.json()
-}) 
+});
 
 // express.static //
 app.use(express.static("public"));
