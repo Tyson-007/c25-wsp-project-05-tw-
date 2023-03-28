@@ -10,5 +10,28 @@
     "name": "another party room",
     "venue": "shatin",
     "image": "283940102lsdkf"
+  },
+  {
+    "id": 3,
+    "name": "test party room",
+    "price": 500,
+    "venue": "ho man tin",
+    "style": "retro",
+    "area": 500,
+    "capacity": 8,
+    "intro": "an intro",
+    "image": "image-1679976976950.png"
+  },
+  {
+    "id": 4,
+    "name": "test party room",
+    "price": 500,
+    "venue": "ho man tin",
+    "style": "retro",
+    "equipment_id": "an equipment id",
+    "area": 40,
+    "capacity": 12,
+    "intro": "an intro",
+    "image": "image-1679977142596.png"
   }
 ]

@@ -22,6 +22,7 @@ interface Partyroom {
   price?: number;
   venue: string;
   style?: string;
+  equipment_id?: string;
   area?: number;
   capacity?: number;
   intro?: string;
@@ -124,6 +125,7 @@ app.post("/upload", async (req, res, next) => {
   const price = parseInt(fields.price as string);
   const venue = fields.venue as string;
   const style = fields.style as string;
+  const equipment_id = fields.equipment_id as string;
   const area = parseInt(fields.area as string);
   const capacity = parseInt(fields.capacity as string);
   const intro = fields.intro as string;
@@ -136,7 +138,16 @@ app.post("/upload", async (req, res, next) => {
   // capacity?: number;
   // intro?: string;
 
-  if (!name || !price || !venue || !style || !area || !capacity || !intro) {
+  if (
+    !name ||
+    !price ||
+    !venue ||
+    !style ||
+    !equipment_id ||
+    !area ||
+    !capacity ||
+    !intro
+  ) {
     res.status(400).json({ message: "missing content" });
     return;
   }
@@ -152,12 +163,15 @@ app.post("/upload", async (req, res, next) => {
     price,
     venue,
     style,
+    equipment_id,
     area,
     capacity,
     intro,
     image: imageFilename,
   });
   jsonfile.writeFileSync(PARTYROOM_JSON_PATH, partyrooms, { spaces: 2 });
+
+  // no need to change below //
   res.json({ message: "party room uploaded" });
 });
 
