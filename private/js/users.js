@@ -24,7 +24,6 @@ function uploadRoomData() {
       formData.append("price", price);
       formData.append("venue", venue);
       formData.append("style", style);
-      formData.append("equipment_id", equipment_id);
       formData.append("area", area);
       formData.append("capacity", capacity);
       formData.append("intro", intro);

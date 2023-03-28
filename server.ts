@@ -27,7 +27,11 @@ const app = express();
 
 export const USER_JSON_PATH = path.join(__dirname, "data", "users.json");
 // const PARTYROOM_JSON_PATH = path.join(__dirname, "data", "partyrooms.json");
-const PARTYROOM_JSON_PATH = path.join(__dirname, "data", "partyrooms.json");
+export const PARTYROOM_JSON_PATH = path.join(
+  __dirname,
+  "data",
+  "partyrooms.json"
+);
 
 interface User {
   name: string;
@@ -171,7 +175,6 @@ app.post("/upload", async (req, res) => {
 
   // no need to change below //
   res.json({ message: "party room uploaded" });
-  next();
 });
 
 app.get("/upload", async (_req, res) => {
