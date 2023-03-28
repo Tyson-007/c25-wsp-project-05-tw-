@@ -21,10 +21,17 @@
       <input type="submit" value="Submit My Photo" />
     </form> -->
 
-    <form action="/uploadInfo" method="POST" enctype="multipart/form-data">
-      <textarea class="uploads" name="content"></textarea>
+    <form id="upload-info" enctype="multipart/form-data">
+      <textarea class="uploads" name="name"></textarea>
+      <textarea class="uploads" name="price"></textarea>
+      <textarea class="uploads" name="venue"></textarea>
+      <textarea class="uploads" name="style"></textarea>
+      <textarea class="uploads" name="equipment_id"></textarea>
+      <textarea class="uploads" name="area"></textarea>
+      <textarea class="uploads" name="capacity"></textarea>
+      <textarea class="uploads" name="intro"></textarea>
       <input type="file" name="image" />
-      <input type="submit" value="Submit My Memo" />
+      <input type="submit" value="Submit Party Room Information" />
     </form>
   </body>
   <script src="./js/users.js"></script>
