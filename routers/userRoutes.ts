@@ -9,9 +9,9 @@ import jsonfile from "jsonfile";
 import formidable from "formidable";
 
 userRoutes.post("/users", uploadInfo); //upload owners data
-userRoutes.get("/users", getAllInfo); //users get party room info
-userRoutes.put("/users:mid", updateInfo); //change room info
-userRoutes.delete("/users:mid", deleteInfo); //del room info
+// userRoutes.get("/users", getAllInfo); //users get party room info
+// userRoutes.put("/users:mid", updateInfo); //change room info
+// userRoutes.delete("/users:mid", deleteInfo); //del room info
 
 /* ---------------------------upload room information ---------------------------------------------- */
 //以下內容都要再改
@@ -81,19 +81,19 @@ async function uploadInfo(req: Request, res: Response) {
   }
 
   //upload photo
-  const imageFilename = (files.image as formidable.File | undefined)
-    ?.newFilename;
+  // const imageFilename = (files.image as formidable.File | undefined)
+  //   ?.newFilename;
 
-  const memos: Memo[] = jsonfile.readFileSync(MEMO_JSON_PATH);
-  memos.push({
-    id: memos.length + 1,
-    content,
-    image: imageFilename,
-    is_active: true,
-  });
-  jsonfile.writeFileSync(MEMO_JSON_PATH, memos, { spaces: 2 });
+  // const memos: Memo[] = jsonfile.readFileSync(MEMO_JSON_PATH);
+  // memos.push({
+  //   id: memos.length + 1,
+  //   content,
+  //   image: imageFilename,
+  //   is_active: true,
+  // });
+  // jsonfile.writeFileSync(MEMO_JSON_PATH, memos, { spaces: 2 });
 
-  res.json({ message: "success" });
+  // res.json({ message: "success" });
 }
 
 /* ---------------------------users get room information ---------------------------------------------- */
