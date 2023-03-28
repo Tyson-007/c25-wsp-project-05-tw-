@@ -7,7 +7,7 @@
     <title>Document</title>
   </head>
   <body>
-    <p>Username</p>
+    <!-- <p>Username</p>
     <p>Phone Number</p>
     <p>Price</p>
     <p>面積</p>
@@ -19,6 +19,12 @@
     <form id="add-photo">
       <input type="file" name="image" />
       <input type="submit" value="Submit My Photo" />
+    </form> -->
+
+    <form action="/uploadInfo" method="POST" enctype="multipart/form-data">
+      <textarea class="uploads" name="content"></textarea>
+      <input type="file" name="image" />
+      <input type="submit" value="Submit My Memo" />
     </form>
   </body>
   <script src="./js/users.js"></script>
