@@ -23,6 +23,11 @@ const app = express();
 
 export const USER_JSON_PATH = path.join(__dirname, "data", "users.json");
 // const PARTYROOM_JSON_PATH = path.join(__dirname, "data", "partyrooms.json");
+export const PARTYROOM_JSON_PATH = path.join(
+  __dirname,
+  "data",
+  "partyrooms.json"
+);
 
 interface User {
   name: string;
@@ -133,7 +138,7 @@ app.post("/login", async (req, res) => {
 // });
 
 // upload a party room //
-app.post("/upload", async (req, res, next) => {
+app.post("/upload", async (req, res) => {
   const { fields, files } = await partyroomFormPromise(partyroomForm, req);
 
   const name = fields.name as string;
@@ -160,12 +165,11 @@ app.post("/upload", async (req, res, next) => {
 
   // no need to change below //
   res.json({ message: "party room uploaded" });
-  next();
 });
 
 app.get("/upload", async (_req, res) => {
   const queryResult = await dbClient.query<Partyroom>(
-    "SELECT * FROM memos ORDER BY id DESC"
+    "SELECT * FROM partyrooms"
   );
   res.json(queryResult.rows); // pass array into res.json()
 });
