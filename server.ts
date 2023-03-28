@@ -1,13 +1,13 @@
 import express from "express";
 import expressSession from "express-session";
 import { Request, Response, NextFunction } from "express";
-import jsonfile from "jsonfile";
+// import jsonfile from "jsonfile";
 import path from "path";
 
 const app = express();
-const USER_JSON_PATH = path.join(__dirname, "public", "data", "users.json");
+// const USER_JSON_PATH = path.join(__dirname, "public", "data", "users.json");
 
-interface User {
+export interface User {
   name: string;
   password: string;
 }
@@ -57,27 +57,30 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 // login route handler //
 /////////////////////////
 app.post("/login", async (req, res, next) => {
-  const name: string = req.body.name;
-  const password: string = req.body.password;
+  // const name: string = req.body.name;
+  // const password: string = req.body.password;
 
-  if (!name || !password) {
-    res.status(400).json({ message: "missing username or password" });
-    return;
-  }
+  // if (!name || !password) {
+  //   res.status(400).json({ message: "missing username or password" });
+  //   return;
+  // }
 
-  const users: Array<User> = await jsonfile.readFile(USER_JSON_PATH);
+  // const users: Array<User> = await jsonfile.readFile(USER_JSON_PATH);
 
-  const foundUser = users.find(
-    (u) => u.name === name && u.password === password
-  );
+  // const foundUser = users.find(
+  //   (u) => u.name === name && u.password === password
+  // );
 
-  if (!foundUser) {
-    res.status(400).json({ message: "invalid username or password" });
-    return;
-  }
+  // if (!foundUser) {
+  //   res.status(400).json({ message: "invalid username or password" });
+  //   return;
+  // }
+  console.log("/login ");
 
   req.session.isLoggedIn = true;
-  next();
+  res.status(200).json({ message: "logined" });
+
+  // next();
 });
 
 app.use(express.static("public"));
@@ -88,7 +91,7 @@ const guardMiddleware = (req: Request, res: Response, next: NextFunction) => {
     res.redirect("/");
   }
 };
-app.use(guardMiddleware, express.static("private"));
+app.use(guardMiddleware, express.static("private")); //express.static not working
 
 // Section xxx: Error Handling
 app.use((_req: Request, res: Response) => {
