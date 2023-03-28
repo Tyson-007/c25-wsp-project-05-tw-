@@ -6,10 +6,25 @@ import path from "path";
 import fs from "fs";
 import formidable from "formidable";
 import IncomingForm from "formidable/Formidable";
+import pg from "pg";
+
+import dotenv from "dotenv";
+dotenv.config();
+
+const dbClient = new pg.Client({
+  database: process.env.DB_NAME,
+  user: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+});
+dbClient.connect();
 
 const app = express();
+<<<<<<< HEAD
 
 const USER_JSON_PATH = path.join(__dirname, "data", "users.json");
+=======
+export const USER_JSON_PATH = path.join(__dirname, "data", "users.json");
+>>>>>>> 2284d29ba26f6876bdb065e714c70e948cca23ec
 const PARTYROOM_JSON_PATH = path.join(__dirname, "data", "partyrooms.json");
 
 interface User {
@@ -91,11 +106,17 @@ app.post("/login", async (req, res, next) => {
     return;
   }
 
-  const users: Array<User> = await jsonfile.readFile(USER_JSON_PATH);
-
-  const foundUser = users.find(
-    (u) => u.name === name && u.password === password
+  const queryResult = await dbClient.query<User>(
+    /*SQL*/ `SELECT id, name, password, phone_no, date_of_birth, email FROM users WHERE name = $1 AND password = $2`,
+    [name, password]
   );
+  const foundUser = queryResult.rows[0];
+
+  // previous jsonfile logic //
+  // const users: Array<User> = await jsonfile.readFile(USER_JSON_PATH);
+  // const foundUser = users.find(
+  //   (u) => u.name === name && u.password === password
+  // );
 
   if (!foundUser) {
     res.status(400).json({ message: "invalid username or password" });
@@ -153,24 +174,24 @@ app.post("/upload", async (req, res, next) => {
     return;
   }
 
-  const imageFilename = (files.image as formidable.File)?.newFilename;
+  const imageFilename = (files.image as formidable.File | undefined)
+    ?.newFilename;
 
   // change below from jsonfile technique to sql technique //
-  const partyrooms: Array<Partyroom> =
-    jsonfile.readFileSync(PARTYROOM_JSON_PATH);
-  partyrooms.push({
-    id: partyrooms.length + 1,
-    name,
-    price,
-    venue,
-    style,
-    equipment_id,
-    area,
-    capacity,
-    intro,
-    image: imageFilename,
-  });
-  jsonfile.writeFileSync(PARTYROOM_JSON_PATH, partyrooms, { spaces: 2 });
+  await dbClient.query(
+    /*SQL*/ `INSERT INTO partyrooms (name, price, venue, style, equipment_id,area,capacity,intro) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+    [
+      name,
+      price,
+      venue,
+      style,
+      equipment_id,
+      area,
+      capacity,
+      intro,
+      imageFilename,
+    ]
+  );
 
   // no need to change below //
   res.json({ message: "party room uploaded" });
