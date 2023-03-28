@@ -7,6 +7,7 @@ import fs from "fs";
 import formidable from "formidable";
 import IncomingForm from "formidable/Formidable";
 import pg from "pg";
+// import { checkPassword } from "./hash";
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -92,10 +93,9 @@ declare module "express-session" {
 /////////////////////////
 // login route handler //
 /////////////////////////
-app.post("/login", async (req, res, next) => {
+app.post("/login", async (req, res) => {
   const name: string = req.body.name;
   const password: string = req.body.password;
-
   if (!name || !password) {
     res.status(400).json({ message: "missing username or password" });
     return;
@@ -118,6 +118,10 @@ app.post("/login", async (req, res, next) => {
     return;
   }
 
+  // if (!(await checkPassword(password, foundUser.password))) {
+  //   res.status(400).json({ message: "invalid password" });
+  //   return;
+  // }
   req.session.isLoggedIn = true;
   res.status(200).json({ message: "logged in" });
 });
