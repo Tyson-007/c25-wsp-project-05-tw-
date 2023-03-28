@@ -21,21 +21,56 @@
   margin-left: 5%;
   margin-right: 5%;
 }
-.venue-check {
-  border: solid black;
-  width: 25%;
-  height: 70px;
+.venue-check-and-add {
+  width: 100%;
+  height: 300px;
   margin-top: 3%;
   border-radius: 20px;
+  display: flex;
+  justify-content: space-around;
 }
-.venue-check-title {
-  font-size: 20px;
+
+/* 加新party room資料 */
+.roomInfo-photo-add-div {
+  border: solid black;
+  width: 15%;
+  height: 150px;
+  border-radius: 20px;
+  margin-top: 1%;
+}
+.roomInfo-photo-add {
   text-align: center;
+  margin-top: 30%;
+  font-size: 150%;
 }
+
+/* venue check */
+.venue-check-title-div {
+  font-size: 20px;
+  width: 30%;
+  height: 100px;
+  text-align: center;
+  border: solid black;
+  border-radius: 20px;
+  margin-top: 1%;
+}
+/* 約時間 */
+.vote-div {
+  border: solid black;
+  width: 15%;
+  height: 100px;
+  border-radius: 20px;
+  margin-top: 1%;
+}
+.vote {
+  text-align: center;
+  font-size: 160%;
+}
+
+/* -------------------------------------------------------party room 名同相------------------------------------------------------------------------------------- */
 .roomInfo-photo {
   display: flex;
   justify-content: space-between;
-  margin-top: 10%;
 }
 .roomInfo-photo-title {
   border: solid black;

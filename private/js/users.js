@@ -13,7 +13,6 @@ function uploadRoomData() {
       const price = form.price.value;
       const venue = form.venue.value;
       const style = form.style.value;
-      const equipment_id = form.equipment_id.value;
       const area = form.area.value;
       const capacity = form.capacity.value;
       const intro = form.intro.value;

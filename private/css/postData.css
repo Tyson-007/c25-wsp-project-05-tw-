@@ -1,0 +1,16 @@
+body {
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+/* top side information */
+.top-info {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* middle side information */
+.mid-info {
+  display: flex;
+  justify-content: space-between;
+}
