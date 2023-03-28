@@ -21,7 +21,7 @@ async function initLogin() {
       window.location = "/users.html";
     } else {
       const data = await res.json();
-      alert(data.mesage);
+      alert(data.message);
     }
   });
 }
