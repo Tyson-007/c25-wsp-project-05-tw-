@@ -19,8 +19,10 @@ const dbClient = new pg.Client({
 dbClient.connect();
 
 const app = express();
+
 export const USER_JSON_PATH = path.join(__dirname, "data", "users.json");
 // const PARTYROOM_JSON_PATH = path.join(__dirname, "data", "partyrooms.json");
+const PARTYROOM_JSON_PATH = path.join(__dirname, "data", "partyrooms.json");
 
 interface User {
   name: string;
