@@ -1,7 +1,7 @@
 import express from "express";
 import expressSession from "express-session";
 import { Request, Response, NextFunction } from "express";
-import jsonfile from "jsonfile";
+// import jsonfile from "jsonfile";
 import path from "path";
 import fs from "fs";
 import formidable from "formidable";
@@ -20,7 +20,7 @@ dbClient.connect();
 
 const app = express();
 export const USER_JSON_PATH = path.join(__dirname, "data", "users.json");
-const PARTYROOM_JSON_PATH = path.join(__dirname, "data", "partyrooms.json");
+// const PARTYROOM_JSON_PATH = path.join(__dirname, "data", "partyrooms.json");
 
 interface User {
   name: string;
@@ -29,15 +29,14 @@ interface User {
 
 interface Partyroom {
   id: number;
-  name: string;
+  name?: string;
   price?: number;
   venue: string;
   style?: string;
-  equipment_id?: string;
   area?: number;
   capacity?: number;
   intro?: string;
-  image: string;
+  imagefilename?: string;
 }
 
 const uploadDir = "uploads";
@@ -127,12 +126,12 @@ app.post("/login", async (req, res, next) => {
 /////////////////////////
 
 // get all party rooms //
-app.get("/partyrooms", async (req, res, next) => {
-  const partyrooms: Array<Partyroom> = await jsonfile.readFile(
-    PARTYROOM_JSON_PATH
-  );
-  res.json(partyrooms);
-});
+// app.get("/partyrooms", async (req, res, next) => {
+//   const partyrooms: Array<Partyroom> = await jsonfile.readFile(
+//     PARTYROOM_JSON_PATH
+//   );
+//   res.json(partyrooms);
+// });
 
 // upload a party room //
 app.post("/upload", async (req, res, next) => {
@@ -142,25 +141,15 @@ app.post("/upload", async (req, res, next) => {
   const price = parseInt(fields.price as string);
   const venue = fields.venue as string;
   const style = fields.style as string;
-  const equipment_id = fields.equipment_id as string;
   const area = parseInt(fields.area as string);
   const capacity = parseInt(fields.capacity as string);
   const intro = fields.intro as string;
-
-  // name: string;
-  // price?: number;
-  // venue: string;
-  // style?: string;
-  // area?: number;
-  // capacity?: number;
-  // intro?: string;
 
   if (
     !name ||
     !price ||
     !venue ||
     !style ||
-    !equipment_id ||
     !area ||
     !capacity ||
     !intro
@@ -169,18 +158,16 @@ app.post("/upload", async (req, res, next) => {
     return;
   }
 
-  const imageFilename = (files.image as formidable.File | undefined)
-    ?.newFilename;
+  const imageFilename = (files.image as formidable.File | undefined)?.newFilename;
 
   // change below from jsonfile technique to sql technique //
-  await dbClient.query(
-    /*SQL*/ `INSERT INTO partyrooms (name, price, venue, style, equipment_id,area,capacity,intro) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+  await dbClient.query<Partyroom>(
+    /*SQL*/ `INSERT INTO partyrooms (name, price, venue, style,area,capacity,intro, imagefilename) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
     [
       name,
       price,
       venue,
       style,
-      equipment_id,
       area,
       capacity,
       intro,
@@ -190,7 +177,13 @@ app.post("/upload", async (req, res, next) => {
 
   // no need to change below //
   res.json({ message: "party room uploaded" });
+  next()
 });
+
+app.get("/upload", async (_req, res) =>{
+  const queryResult = await dbClient.query<Partyroom>("SELECT * FROM memos ORDER BY id DESC");
+  res.json(queryResult.rows); // pass array into res.json()
+}) 
 
 // express.static //
 app.use(express.static("public"));
