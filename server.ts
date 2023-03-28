@@ -169,24 +169,24 @@ app.post("/upload", async (req, res, next) => {
     return;
   }
 
-  const imageFilename = (files.image as formidable.File)?.newFilename;
+  const imageFilename = (files.image as formidable.File | undefined)
+    ?.newFilename;
 
   // change below from jsonfile technique to sql technique //
-  const partyrooms: Array<Partyroom> =
-    jsonfile.readFileSync(PARTYROOM_JSON_PATH);
-  partyrooms.push({
-    id: partyrooms.length + 1,
-    name,
-    price,
-    venue,
-    style,
-    equipment_id,
-    area,
-    capacity,
-    intro,
-    image: imageFilename,
-  });
-  jsonfile.writeFileSync(PARTYROOM_JSON_PATH, partyrooms, { spaces: 2 });
+  await dbClient.query(
+    /*SQL*/ `INSERT INTO partyrooms (name, price, venue, style, equipment_id,area,capacity,intro) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+    [
+      name,
+      price,
+      venue,
+      style,
+      equipment_id,
+      area,
+      capacity,
+      intro,
+      imageFilename,
+    ]
+  );
 
   // no need to change below //
   res.json({ message: "party room uploaded" });
