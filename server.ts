@@ -174,6 +174,55 @@ app.get("/upload", async (_req, res) => {
   res.json(queryResult.rows); // pass array into res.json()
 });
 
+app.put("/upload/:pid", async (req, res) => {
+  const partyroomId = +req.params.pid;
+  const newName = req.body.name;
+  const newPhone_no = req.body.phone_no;
+  const newPrice = req.body.price;
+  const newVenue = req.body.venue;
+  const newStyle = req.body.style;
+  const newArea = req.body.area;
+  const newCapacity = req.body.capacity;
+  const newIntro = req.body.intro;
+  const newImageFileName = req.body.image;
+
+  if (isNaN(partyroomId)) {
+    res.status(400).json({ message: "invalid partyroom id" });
+    return;
+  }
+
+  await dbClient.query(
+    /*SQL*/ `UPDATE partyrooms SET name = $1, phone_no = $2, price = $3, venue = $4, style = $5, area = $6, capacity = $7, intro = $8, imagefilename = $9 WHERE id = $10`,
+    [
+      newName,
+      newPhone_no,
+      newPrice,
+      newVenue,
+      newStyle,
+      newArea,
+      newCapacity,
+      newIntro,
+      newImageFileName,
+      partyroomId,
+    ]
+  );
+  res.json({ message: "success" });
+});
+
+app.delete("/upload/:pid", async (req, res) => {
+  const partyroomId = +req.params.pid;
+  if (isNaN(partyroomId)) {
+    // httpStatusCodes.BAD_REQUEST
+    res.status(400).json({ message: "invalid partyrooms id" });
+    return;
+  }
+
+  await dbClient.query(/*SQL*/ `DELETE FROM partyrooms WHERE id = $1`, [
+    partyroomId,
+  ]);
+  res.json({ message: "success" });
+});
+
 // express.static //
 app.use(express.static("public"));
 const guardMiddleware = (req: Request, res: Response, next: NextFunction) => {
