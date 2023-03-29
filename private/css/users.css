@@ -68,9 +68,12 @@
 }
 
 /* -------------------------------------------------------party room 名同相------------------------------------------------------------------------------------- */
-.roomInfo-photo {
+.roomInfo-and-photo {
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  /* flex-direction: row; */
+  /* justify-content: space-between; */
+  /* height: 100%; */
 }
 .roomInfo-photo-title {
   border: solid black;
@@ -78,4 +81,5 @@
   height: 200px;
   text-align: center;
   border-radius: 20px;
+  margin: 32px;
 }

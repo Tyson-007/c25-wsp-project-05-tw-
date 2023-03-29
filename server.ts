@@ -174,6 +174,7 @@ app.get("/upload", async (_req, res) => {
   res.json(queryResult.rows); // pass array into res.json()
 });
 
+// edit a party room info//
 app.put("/upload/:pid", async (req, res) => {
   const partyroomId = +req.params.pid;
   const newName = req.body.name;
@@ -209,6 +210,7 @@ app.put("/upload/:pid", async (req, res) => {
   res.json({ message: "success" });
 });
 
+// delete a party room //
 app.delete("/upload/:pid", async (req, res) => {
   const partyroomId = +req.params.pid;
   if (isNaN(partyroomId)) {
