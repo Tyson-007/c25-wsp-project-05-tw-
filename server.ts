@@ -135,7 +135,7 @@ app.post("/upload", async (req, res) => {
   const { fields, files } = await partyroomFormPromise(partyroomForm, req);
 
   const name = fields.name as string;
-  const phone_no = parseInt(fields.phone_no as string);
+  const phone_no = fields.phone_no as string;
   const price = parseInt(fields.price as string);
   const venue = fields.venue as string;
   const style = fields.style as string;
@@ -161,8 +161,8 @@ app.post("/upload", async (req, res) => {
     ?.newFilename;
 
   await dbClient.query<Partyroom>(
-    /*SQL*/ `INSERT INTO partyrooms (name, price, venue, style,area,capacity,intro, imagefilename) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
-    [name, price, venue, style, area, capacity, intro, imageFilename]
+    /*SQL*/ `INSERT INTO partyrooms (name, phone_no, price, venue, style,area,capacity,intro, imagefilename) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+    [name, phone_no, price, venue, style, area, capacity, intro, imageFilename]
   );
   res.json({ message: "party room uploaded" });
 });
