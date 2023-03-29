@@ -231,6 +231,9 @@ app.delete("/upload/:pid", async (req, res) => {
 
 // Get detalis from specific partyroom
 
+import { roomDetailsRoutes } from "./routers/roomDetailsRoutes";
+app.use("/roomDetails", roomDetailsRoutes);
+
 // express.static //
 app.use(express.static("public"));
 app.use("/images", express.static(path.join(__dirname, "uploads")));

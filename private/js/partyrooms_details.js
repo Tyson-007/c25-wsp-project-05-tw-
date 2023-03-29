@@ -1,16 +1,17 @@
 window.onload = async () => {
   const urlSearchParams = new URLSearchParams(window.location.search);
   if (!urlSearchParams.has("pid")) {
-    window.location = "/";
+    window.location = `/`;
     return;
   }
 
-  const resp = await fetch(`/upload/${urlSearchParams.get("pid")}`);
+  const resp = await fetch(`/roomDetails/${urlSearchParams.get("pid")}`);
   const partyroom_details = await resp.json();
   console.log(partyroom_details);
 
   // const loginBtn = `<button onClick="login()">Login</button>`;
   // const addPokemon = `<button onClick="addPokemon(${pokemon.id})">Add Pokemon</button>`;
+  const image = `<img src="/images/${partyroom_details.imagefilename}" width = "20" alt=""/>`;
 
   let htmlStr = `
   <div class="banner">
@@ -26,7 +27,7 @@ window.onload = async () => {
     <p class="equipments">設備: ${partyroom_details.intro}</p>
   </div>
   <div class="right-part">
-    <p class="room-image">我要圖: ${partyroom_details.imagefilename}</p>
+    <p class="room-image">我要圖: ${image}</p>
   </div>
 </div>
     `;
