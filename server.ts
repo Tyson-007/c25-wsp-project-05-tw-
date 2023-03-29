@@ -183,6 +183,7 @@ const guardMiddleware = (req: Request, res: Response, next: NextFunction) => {
     res.redirect("/");
   }
 };
+app.use("/images", express.static(path.join(__dirname, "uploads")));
 app.use(guardMiddleware, express.static("private"));
 
 // Section xxx: Error Handling
