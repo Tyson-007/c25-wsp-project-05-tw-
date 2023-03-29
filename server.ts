@@ -7,7 +7,7 @@ import fs from "fs";
 import formidable from "formidable";
 import IncomingForm from "formidable/Formidable";
 import pg from "pg";
-
+import { hashPassword } from "./hash";
 // import { checkPassword } from "./hash";
 
 import dotenv from "dotenv";
@@ -38,6 +38,9 @@ export const PARTYROOM_JSON_PATH = path.join(
 interface User {
   name: string;
   password: string;
+  phone_no?: number;
+  date_of_birth?: Date;
+  email?: string;
 }
 
 interface Partyroom {
@@ -71,7 +74,6 @@ const partyroomForm = formidable({
     return `${fieldName}-${timestamp}.${ext}`;
   },
 });
-
 export function partyroomFormPromise(form: IncomingForm, req: express.Request) {
   return new Promise<{ fields: formidable.Fields; files: formidable.Files }>(
     (resolve, reject) => {
@@ -105,8 +107,33 @@ declare module "express-session" {
 // import { userRoutes } from "./routers/memoRoutes";
 
 /////////////////////////
-// login route handler //
+// auth route handlers //
 /////////////////////////
+
+// signup // TO BE TESTED
+app.post("/signup", async (req, res) => {
+  const name: string = req.body.name;
+  const password: string = await hashPassword(req.body.password);
+  const phone_no: number = req.body.phone_no;
+  const date_of_birth: Date = req.body.date_of_birth;
+  const email: string = req.body.email;
+
+  if (!name || !password || !phone_no || !email) {
+    res.status(400).json({ missing: "missing required fields" });
+    return;
+  }
+
+  const queryResult = await dbClient.query<User>(
+    /*SQL*/ `INSERT INTO users (name, password, phone_no, date_of_birth, email) VALUES ($1, $2, $3, $4, $5) RETURNING id`,
+    [name, password, phone_no, date_of_birth, email]
+  );
+  console.log(queryResult.rows[0]);
+
+  req.session.isLoggedIn = true;
+  res.status(200).json({ message: "signup successful" });
+});
+
+// login //
 app.post("/login", async (req, res) => {
   const name: string = req.body.name;
   const password: string = req.body.password;

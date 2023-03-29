@@ -1,4 +1,4 @@
-.signup-form-button {
+.auth-form-button {
   display: flex;
   justify-content: center;
 }
@@ -7,6 +7,17 @@
   justify-content: center;
   width: 100%;
   flex-shrink: 0;
+  padding-bottom: 0;
+}
+
+.oauth-icons {
+  display: flex;
+  justify-content: center !important;
+}
+
+i {
+  padding-left: 3vh;
+  padding-right: 3vh;
 }
 
 .header {

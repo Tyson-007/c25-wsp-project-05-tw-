@@ -1,3 +1,4 @@
+<!--pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{5,12}"-->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -38,34 +39,85 @@
             <h5 class="modal-title">註冊</h5>
           </div>
           <div class="modal-body">
-            <form>
-              <div class="mb-3">
+            <form action="signup" method="POST" id="signup-form">
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-default"
+                  >用戶名</span
+                >
                 <input
                   type="text"
+                  name="name"
                   class="form-control"
-                  name="number"
-                  placeholder="電話號碼"
+                  aria-label="Sizing example input"
+                  aria-describedby="inputGroup-sizing-default"
                 />
               </div>
-              <div class="mb-3">
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-default"
+                  >密碼</span
+                >
                 <input
                   type="password"
-                  class="form-control"
                   name="password"
-                  placeholder="密碼"
+                  minlength="4"
+                  autocomplete="new-password"
+                  class="form-control"
+                  aria-label="Sizing example input"
+                  aria-describedby="inputGroup-sizing-default"
                 />
               </div>
-              <div class="signup-form-button mb-3">
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-default"
+                  >電話號碼</span
+                >
+                <input
+                  type="tel"
+                  name="phone_no"
+                  class="form-control"
+                  aria-label="Sizing example input"
+                  aria-describedby="inputGroup-sizing-default"
+                />
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-default"
+                  >出生日期</span
+                >
+                <input
+                  type="date"
+                  name="date_of_birth"
+                  class="form-control"
+                  aria-label="Sizing example input"
+                  aria-describedby="inputGroup-sizing-default"
+                />
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text" id="inputGroup-sizing-default"
+                  >Email</span
+                >
+                <input
+                  type="email"
+                  name="email"
+                  class="form-control"
+                  aria-label="Sizing example input"
+                  aria-describedby="inputGroup-sizing-default"
+                />
+              </div>
+              <div class="auth-form-button mb-3">
                 <button type="submit" class="btn btn-primary">提交</button>
               </div>
-            </form>
-            <div class="row">
-              <div class="col-md-12 signup-form-button">signup with google</div>
-              <div class="col-md-12 signup-form-button">
-                signup with facebook
+              <div class="modal-footer">
+                <div class="row justify-content-center mb-3">
+                  -- or signup with --
+                </div>
+                <div class="row justify-content-center">
+                  <div class="col-md-6 oauth-icons">
+                    <i class="fa-brands fa-2x fa-google"></i>
+                    <i class="fa-brands fa-2x fa-facebook"></i>
+                    <i class="fa-brands fa-2x fa-apple"></i>
+                  </div>
+                </div>
               </div>
-              <div class="col-md-12 signup-form-button">signup with apple</div>
-            </div>
+            </form>
           </div>
         </div>
       </div>
@@ -92,20 +144,26 @@
                   type="password"
                   class="form-control"
                   name="password"
+                  autocomplete="current-password"
                   placeholder="密碼"
                 />
               </div>
-              <div class="signup-form-button mb-3">
+              <div class="auth-form-button mb-3">
                 <button type="submit" class="btn btn-primary">提交</button>
               </div>
-            </form>
-            <div class="row">
-              <div class="col-md-12 signup-form-button">signup with google</div>
-              <div class="col-md-12 signup-form-button">
-                signup with facebook
+              <div class="modal-footer">
+                <div class="row justify-content-center mb-3">
+                  -- or login with --
+                </div>
+                <div class="row justify-content-center">
+                  <div class="col-md-6 oauth-icons">
+                    <i class="fa-brands fa-2x fa-google"></i>
+                    <i class="fa-brands fa-2x fa-facebook"></i>
+                    <i class="fa-brands fa-2x fa-apple"></i>
+                  </div>
+                </div>
               </div>
-              <div class="col-md-12 signup-form-button">signup with apple</div>
-            </div>
+            </form>
           </div>
         </div>
       </div>
@@ -170,3 +228,5 @@
     <script src="./index.js"></script>
   </body>
 </html>
+
+<!--date_of_birth, email-->
