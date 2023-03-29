@@ -16,7 +16,8 @@ async function getAllRooms() {
     partyroomCardsHtml += `
     <div class="roomInfo-photo-title" data-id="${partyroom.id}">
       <div class="room-card-photo">
-        ${image}
+       <a href= "/partyrooms_details.html"> ${image} </a>
+        
       </div>
       <div class="room-card-copy">
         ${partyroom.name} @ ${partyroom.venue}
