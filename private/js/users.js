@@ -42,3 +42,27 @@ function uploadRoomData() {
       }
     });
 }
+
+/* 
+ div class & id names TBC
+*/
+export async function getAllRooms() {
+  const res = await fetch("/upload");
+  const partyrooms = await res.json();
+  let partyroomCardsHtml = "";
+  document.querySelector(".some-div").innerHTML = "";
+  for (let partyroom of partyrooms) {
+    const image = `<img src="/images/${partyroom.image}" width = "20" alt=""/>`;
+    partyroomCardsHtml = `
+    <div class="room-card-area" data-id="${partyroom.id}">
+      <div class="room-card-photo">
+        ${image}
+      </div>
+      <div class="room-card-copy">
+        ${partyroom.name} @ ${partyroom.venue}
+      </div>
+    </div>
+    `;
+  }
+  document.querySelector(".some-div").innerHTML += partyroomCardsHtml;
+}
