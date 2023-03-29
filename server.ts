@@ -176,6 +176,7 @@ app.get("/upload", async (_req, res) => {
 
 // express.static //
 app.use(express.static("public"));
+app.use("/images", express.static(path.join(__dirname, "uploads")));
 const guardMiddleware = (req: Request, res: Response, next: NextFunction) => {
   if (req.session.isLoggedIn) {
     next();
