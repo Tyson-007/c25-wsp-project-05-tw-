@@ -13,7 +13,7 @@ import pg from "pg";
 import dotenv from "dotenv";
 dotenv.config();
 
-const dbClient = new pg.Client({
+export const dbClient = new pg.Client({
   database: process.env.DB_NAME,
   user: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
@@ -172,6 +172,7 @@ app.post("/upload", async (req, res) => {
 });
 
 // show party room data from database
+
 app.get("/upload", async (_req, res) => {
   const queryResult = await dbClient.query<Partyroom>(
     "SELECT * FROM partyrooms"
@@ -229,25 +230,6 @@ app.delete("/upload/:pid", async (req, res) => {
 });
 
 // Get detalis from specific partyroom
-app.get("/:pid", getRoomDetails);
-
-async function getRoomDetails(req: Request, res: Response) {
-  try {
-    const roomId = +req.params.pid;
-    if (isNaN(roomId)) {
-      res.status(400).json({ message: "invalid room id" });
-      return;
-    }
-    const resultQuery = await dbClient.query(
-      /*SQL*/ `SELECT * FROM partyrooms WHERE id = $1`,
-      [roomId]
-    );
-    res.json(resultQuery.rows[0]);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: "internal server error" });
-  }
-}
 
 // express.static //
 app.use(express.static("public"));
