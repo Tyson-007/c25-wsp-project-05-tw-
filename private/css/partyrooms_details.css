@@ -7,6 +7,15 @@
   width: 100%;
 }
 
+/* booking modal (aka popup) css */
+
+.modal-footer {
+  justify-content: center;
+  width: 100%;
+  flex-shrink: 0;
+  padding-bottom: 0;
+}
+
 .banner {
   /* background-color: ; */
   width: 100%;
@@ -31,33 +40,33 @@
   font-size: 40px;
 }
 
-.details-main-container{
+.details-main-container {
   display: flex;
   justify-content: space-around;
   border: 1px solid black;
   width: 100%;
 }
 
-.room-details{
+.room-details {
   width: 50vh;
   height: 10vh;
   border: 1px solid black;
 }
 
-.equipments{
+.equipments {
   width: 50vh;
   height: 10vh;
   border: 1px solid black;
   margin-top: 30px;
 }
 
-.room-image{
+.room-image {
   width: 50vh;
   height: 10vh;
   border: 1px solid black;
 }
 
-.room-owner{
+.room-owner {
   width: 50vh;
   height: 10vh;
   border: 1px solid black;
@@ -65,8 +74,8 @@
 }
 
 .footer {
-    display: flex;
-    position: fixed;
-    bottom: 0px;
-    justify-content: center;
+  display: flex;
+  position: fixed;
+  bottom: 0px;
+  justify-content: center;
 }
