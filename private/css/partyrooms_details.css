@@ -15,6 +15,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 50px;
 }
 
 .pr-booking-div {
@@ -30,8 +31,37 @@
   font-size: 40px;
 }
 
-.booking-now {
+.details-main-container{
+  display: flex;
+  justify-content: space-around;
+  border: 1px solid black;
+  width: 100%;
+}
 
+.room-details{
+  width: 50vh;
+  height: 10vh;
+  border: 1px solid black;
+}
+
+.equipments{
+  width: 50vh;
+  height: 10vh;
+  border: 1px solid black;
+  margin-top: 30px;
+}
+
+.room-image{
+  width: 50vh;
+  height: 10vh;
+  border: 1px solid black;
+}
+
+.room-owner{
+  width: 50vh;
+  height: 10vh;
+  border: 1px solid black;
+  margin-top: 30px;
 }
 
 .footer {
