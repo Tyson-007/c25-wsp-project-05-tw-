@@ -21,7 +21,7 @@ window.onload = async () => {
 </div>
 <!-- Details-Area-->
 <div class="details-main-container">
-  <div class="lelf-part">
+  <div class="left-part">
     <p class="room-details">場地資訊: ${partyroom_details.price}</p>
     <p class="equipments">設備: ${partyroom_details.intro}</p>
   </div>
