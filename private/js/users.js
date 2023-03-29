@@ -1,5 +1,6 @@
 window.onload = () => {
   uploadRoomData();
+  getAllRooms();
 };
 
 function uploadRoomData() {
@@ -50,11 +51,11 @@ export async function getAllRooms() {
   const res = await fetch("/upload");
   const partyrooms = await res.json();
   let partyroomCardsHtml = "";
-  document.querySelector(".some-div").innerHTML = "";
+  document.querySelector(".roomInfo-photo").innerHTML = "";
   for (let partyroom of partyrooms) {
     const image = `<img src="/images/${partyroom.image}" width = "20" alt=""/>`;
     partyroomCardsHtml = `
-    <div class="room-card-area" data-id="${partyroom.id}">
+    <div class="roomInfo-photo-title" data-id="${partyroom.id}">
       <div class="room-card-photo">
         ${image}
       </div>
@@ -64,5 +65,5 @@ export async function getAllRooms() {
     </div>
     `;
   }
-  document.querySelector(".some-div").innerHTML += partyroomCardsHtml;
+  document.querySelector(".roomInfo-photo").innerHTML += partyroomCardsHtml;
 }
