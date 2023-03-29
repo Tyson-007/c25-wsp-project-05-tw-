@@ -11,6 +11,7 @@ function uploadRoomData() {
 
       const form = e.target;
       const name = form.name.value;
+      const phone_no = form.phone_no.value;
       const price = form.price.value;
       const venue = form.venue.value;
       const style = form.style.value;
@@ -21,6 +22,7 @@ function uploadRoomData() {
 
       const formData = new FormData();
       formData.append("name", name);
+      formData.append("phone_no", phone_no);
       formData.append("price", price);
       formData.append("venue", venue);
       formData.append("style", style);

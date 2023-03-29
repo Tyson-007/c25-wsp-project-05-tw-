@@ -41,6 +41,7 @@ interface User {
 interface Partyroom {
   id: number;
   name?: string;
+  phone_no?: number;
   price?: number;
   venue: string;
   style?: string;
@@ -134,6 +135,7 @@ app.post("/upload", async (req, res) => {
   const { fields, files } = await partyroomFormPromise(partyroomForm, req);
 
   const name = fields.name as string;
+  const phone_no = parseInt(fields.phone_no as string);
   const price = parseInt(fields.price as string);
   const venue = fields.venue as string;
   const style = fields.style as string;
@@ -141,7 +143,16 @@ app.post("/upload", async (req, res) => {
   const capacity = parseInt(fields.capacity as string);
   const intro = fields.intro as string;
 
-  if (!name || !price || !venue || !style || !area || !capacity || !intro) {
+  if (
+    !name ||
+    !phone_no ||
+    !price ||
+    !venue ||
+    !style ||
+    !area ||
+    !capacity ||
+    !intro
+  ) {
     res.status(400).json({ message: "missing content" });
     return;
   }
