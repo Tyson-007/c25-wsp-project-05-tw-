@@ -12,13 +12,26 @@
   width: 100%;
   height: 200px;
   border: solid black;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.filter-title {
+.pr-booking-div {
+  width: 40%;
+  display: flex;
+  justify-content: space-between;
+  border: solid black;
+  padding: 20px;
+}
+
+.partyroom-name {
   /* background-color: brown; */
-  margin-top: 6%;
   font-size: 40px;
+}
+
+.booking-now {
+
 }
 
 .footer {
