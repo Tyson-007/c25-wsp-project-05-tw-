@@ -7,6 +7,7 @@ import fs from "fs";
 import formidable from "formidable";
 import IncomingForm from "formidable/Formidable";
 import pg from "pg";
+
 // import { checkPassword } from "./hash";
 
 import dotenv from "dotenv";
@@ -27,12 +28,9 @@ const app = express();
 
 export const USER_JSON_PATH = path.join(__dirname, "data", "users.json");
 // const PARTYROOM_JSON_PATH = path.join(__dirname, "data", "partyrooms.json");
-export const PARTYROOM_JSON_PATH = path.join(
-  __dirname,
-  "data",
-  "partyrooms.json"
-);
+export const PARTYROOM_JSON_PATH = path.join(__dirname, "data", "partyrooms.json");
 
+// Data type
 interface User {
   name: string;
   password: string;
@@ -51,9 +49,11 @@ interface Partyroom {
   imagefilename?: string;
 }
 
+// save uploaded image
 const uploadDir = "uploads";
 fs.mkdirSync(uploadDir, { recursive: true });
 
+//formidable related setup
 const partyroomForm = formidable({
   uploadDir,
   keepExtensions: false,
@@ -69,17 +69,15 @@ const partyroomForm = formidable({
 });
 
 export function partyroomFormPromise(form: IncomingForm, req: express.Request) {
-  return new Promise<{ fields: formidable.Fields; files: formidable.Files }>(
-    (resolve, reject) => {
-      form.parse(req, (err, fields, files) => {
-        if (err) reject(err);
-        else resolve({ fields, files });
-      });
-    }
-  );
+  return new Promise<{ fields: formidable.Fields; files: formidable.Files }>((resolve, reject) => {
+    form.parse(req, (err, fields, files) => {
+      if (err) reject(err);
+      else resolve({ fields, files });
+    });
+  });
 }
 
-// Section xxx: Basic Middleware //
+// Basic Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(
@@ -143,22 +141,12 @@ app.post("/upload", async (req, res) => {
   const capacity = parseInt(fields.capacity as string);
   const intro = fields.intro as string;
 
-  if (
-    !name ||
-    !phone_no ||
-    !price ||
-    !venue ||
-    !style ||
-    !area ||
-    !capacity ||
-    !intro
-  ) {
+  if (!name || !phone_no || !price || !venue || !style || !area || !capacity || !intro) {
     res.status(400).json({ message: "missing content" });
     return;
   }
 
-  const imageFilename = (files.image as formidable.File | undefined)
-    ?.newFilename;
+  const imageFilename = (files.image as formidable.File | undefined)?.newFilename;
 
   await dbClient.query<Partyroom>(
     /*SQL*/ `INSERT INTO partyrooms (name, phone_no, price, venue, style,area,capacity,intro, imagefilename) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
@@ -167,13 +155,13 @@ app.post("/upload", async (req, res) => {
   res.json({ message: "party room uploaded" });
 });
 
+// show party room data from database
 app.get("/upload", async (_req, res) => {
-  const queryResult = await dbClient.query<Partyroom>(
-    "SELECT * FROM partyrooms"
-  );
+  const queryResult = await dbClient.query<Partyroom>("SELECT * FROM partyrooms");
   res.json(queryResult.rows); // pass array into res.json()
 });
 
+// update party room information
 app.put("/upload/:pid", async (req, res) => {
   const partyroomId = +req.params.pid;
   const newName = req.body.name;
@@ -193,22 +181,12 @@ app.put("/upload/:pid", async (req, res) => {
 
   await dbClient.query(
     /*SQL*/ `UPDATE partyrooms SET name = $1, phone_no = $2, price = $3, venue = $4, style = $5, area = $6, capacity = $7, intro = $8, imagefilename = $9 WHERE id = $10`,
-    [
-      newName,
-      newPhone_no,
-      newPrice,
-      newVenue,
-      newStyle,
-      newArea,
-      newCapacity,
-      newIntro,
-      newImageFileName,
-      partyroomId,
-    ]
+    [newName, newPhone_no, newPrice, newVenue, newStyle, newArea, newCapacity, newIntro, newImageFileName, partyroomId]
   );
   res.json({ message: "success" });
 });
 
+//omit a party room information
 app.delete("/upload/:pid", async (req, res) => {
   const partyroomId = +req.params.pid;
   if (isNaN(partyroomId)) {
@@ -217,11 +195,27 @@ app.delete("/upload/:pid", async (req, res) => {
     return;
   }
 
-  await dbClient.query(/*SQL*/ `DELETE FROM partyrooms WHERE id = $1`, [
-    partyroomId,
-  ]);
+  await dbClient.query(/*SQL*/ `DELETE FROM partyrooms WHERE id = $1`, [partyroomId]);
   res.json({ message: "success" });
 });
+
+// Get detalis from specific partyroom
+app.get("/:pid", getRoomDetails);
+
+async function getRoomDetails(req: Request, res: Response) {
+  try {
+    const roomId = +req.params.pid;
+    if (isNaN(roomId)) {
+      res.status(400).json({ message: "invalid room id" });
+      return;
+    }
+    const resultQuery = await dbClient.query(/*SQL*/ `SELECT * FROM partyrooms WHERE id = $1`, [roomId]);
+    res.json(resultQuery.rows[0]);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: "internal server error" });
+  }
+}
 
 // express.static //
 app.use(express.static("public"));
@@ -235,7 +229,7 @@ const guardMiddleware = (req: Request, res: Response, next: NextFunction) => {
 app.use("/images", express.static(path.join(__dirname, "uploads")));
 app.use(guardMiddleware, express.static("private"));
 
-// Section xxx: Error Handling
+// Error Handling
 app.use((_req: Request, res: Response) => {
   res.sendFile(path.join(__dirname, "public", "404.html"));
 });
