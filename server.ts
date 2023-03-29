@@ -161,7 +161,6 @@ app.get("/upload", async (_req, res) => {
   res.json(queryResult.rows); // pass array into res.json()
 });
 
-// update party room information
 app.put("/upload/:pid", async (req, res) => {
   const partyroomId = +req.params.pid;
   const newName = req.body.name;
@@ -186,7 +185,6 @@ app.put("/upload/:pid", async (req, res) => {
   res.json({ message: "success" });
 });
 
-//omit a party room information
 app.delete("/upload/:pid", async (req, res) => {
   const partyroomId = +req.params.pid;
   if (isNaN(partyroomId)) {
@@ -219,6 +217,7 @@ async function getRoomDetails(req: Request, res: Response) {
 
 // express.static //
 app.use(express.static("public"));
+app.use("/images", express.static(path.join(__dirname, "uploads")));
 const guardMiddleware = (req: Request, res: Response, next: NextFunction) => {
   if (req.session.isLoggedIn) {
     next();
