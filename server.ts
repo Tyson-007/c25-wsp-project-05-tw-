@@ -28,7 +28,11 @@ const app = express();
 
 export const USER_JSON_PATH = path.join(__dirname, "data", "users.json");
 // const PARTYROOM_JSON_PATH = path.join(__dirname, "data", "partyrooms.json");
-export const PARTYROOM_JSON_PATH = path.join(__dirname, "data", "partyrooms.json");
+export const PARTYROOM_JSON_PATH = path.join(
+  __dirname,
+  "data",
+  "partyrooms.json"
+);
 
 // Data type
 interface User {
@@ -69,12 +73,14 @@ const partyroomForm = formidable({
 });
 
 export function partyroomFormPromise(form: IncomingForm, req: express.Request) {
-  return new Promise<{ fields: formidable.Fields; files: formidable.Files }>((resolve, reject) => {
-    form.parse(req, (err, fields, files) => {
-      if (err) reject(err);
-      else resolve({ fields, files });
-    });
-  });
+  return new Promise<{ fields: formidable.Fields; files: formidable.Files }>(
+    (resolve, reject) => {
+      form.parse(req, (err, fields, files) => {
+        if (err) reject(err);
+        else resolve({ fields, files });
+      });
+    }
+  );
 }
 
 // Basic Middleware
@@ -141,12 +147,22 @@ app.post("/upload", async (req, res) => {
   const capacity = parseInt(fields.capacity as string);
   const intro = fields.intro as string;
 
-  if (!name || !phone_no || !price || !venue || !style || !area || !capacity || !intro) {
+  if (
+    !name ||
+    !phone_no ||
+    !price ||
+    !venue ||
+    !style ||
+    !area ||
+    !capacity ||
+    !intro
+  ) {
     res.status(400).json({ message: "missing content" });
     return;
   }
 
-  const imageFilename = (files.image as formidable.File | undefined)?.newFilename;
+  const imageFilename = (files.image as formidable.File | undefined)
+    ?.newFilename;
 
   await dbClient.query<Partyroom>(
     /*SQL*/ `INSERT INTO partyrooms (name, phone_no, price, venue, style,area,capacity,intro, imagefilename) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
@@ -158,7 +174,9 @@ app.post("/upload", async (req, res) => {
 // show party room data from database
 
 app.get("/upload", async (_req, res) => {
-  const queryResult = await dbClient.query<Partyroom>("SELECT * FROM partyrooms");
+  const queryResult = await dbClient.query<Partyroom>(
+    "SELECT * FROM partyrooms"
+  );
   res.json(queryResult.rows); // pass array into res.json()
 });
 
@@ -181,7 +199,18 @@ app.put("/upload/:pid", async (req, res) => {
 
   await dbClient.query(
     /*SQL*/ `UPDATE partyrooms SET name = $1, phone_no = $2, price = $3, venue = $4, style = $5, area = $6, capacity = $7, intro = $8, imagefilename = $9 WHERE id = $10`,
-    [newName, newPhone_no, newPrice, newVenue, newStyle, newArea, newCapacity, newIntro, newImageFileName, partyroomId]
+    [
+      newName,
+      newPhone_no,
+      newPrice,
+      newVenue,
+      newStyle,
+      newArea,
+      newCapacity,
+      newIntro,
+      newImageFileName,
+      partyroomId,
+    ]
   );
   res.json({ message: "success" });
 });
@@ -194,7 +223,9 @@ app.delete("/upload/:pid", async (req, res) => {
     return;
   }
 
-  await dbClient.query(/*SQL*/ `DELETE FROM partyrooms WHERE id = $1`, [partyroomId]);
+  await dbClient.query(/*SQL*/ `DELETE FROM partyrooms WHERE id = $1`, [
+    partyroomId,
+  ]);
   res.json({ message: "success" });
 });
 
