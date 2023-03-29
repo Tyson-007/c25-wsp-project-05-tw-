@@ -1,0 +1,29 @@
+/* partyrooms_details.css */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  background-color: aqua;
+  width: 100%;
+}
+
+.banner {
+  /* background-color: ; */
+  width: 100%;
+  height: 200px;
+  border: solid black;
+  text-align: center;
+}
+
+.filter-title {
+  /* background-color: brown; */
+  margin-top: 6%;
+  font-size: 40px;
+}
+
+.footer {
+    display: flex;
+    position: fixed;
+    bottom: 0px;
+    justify-content: center;
+}
