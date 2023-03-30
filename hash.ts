@@ -11,19 +11,19 @@ export async function hashPassword(plainPassword: string) {
   return hash;
 }
 
-// /**
-//  * @params plainPassword: supplied when login
-//  * @params hashedPassword: looked up from database
-//  */
+/**
+ * @params plainPassword: supplied when login
+ * @params hashedPassword: looked up from database
+ */
 
-// export async function checkPassword(
-//   plainPassword: string,
-//   hashedPassword: string
-// ) {
-//   const isMatched: boolean = await bcrypt.compare(
-//     plainPassword,
-//     hashedPassword
-//   );
+export async function checkPassword(
+  plainPassword: string,
+  hashedPassword: string
+) {
+  const isMatched: boolean = await bcrypt.compare(
+    plainPassword,
+    hashedPassword
+  );
 
-//   return isMatched;
-// }
+  return isMatched;
+}
