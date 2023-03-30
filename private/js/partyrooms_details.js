@@ -7,10 +7,7 @@ window.onload = async () => {
 
   const resp = await fetch(`/roomDetails/${urlSearchParams.get("pid")}`);
   const partyroom_details = await resp.json();
-    const resp_eq = await fetch(`/roomDetails/${urlSearchParams.get("pid")}`);
-    const eq_details = await resp_eq.json();
   console.log(partyroom_details);
-  console.log(eq_details);
 
   // const loginBtn = `<button onClick="login()">Login</button>`;
   // const addPokemon = `<button onClick="addPokemon(${pokemon.id})">Add Pokemon</button>`;
@@ -27,7 +24,7 @@ window.onload = async () => {
   <div class="details-main-container">
     <div class="left-part">
       <p class="room-details">場地資訊: ${partyroom_details.price}</p>
-      <p class="equipments">設備: ${eq_details.equipment_in_service}</p>
+      <p class="equipments">設備: ${partyroom_details.equipment_in_service}<br>Switch: ${partyroom_details.switch_game}<br>卓上遊戲: ${partyroom_details.board_game}</p>
     </div>
     <div class="right-part">
       <p class="room-image">我要圖: ${image}</p>
