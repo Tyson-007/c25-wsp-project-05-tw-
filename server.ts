@@ -43,6 +43,13 @@ interface User {
   email?: string;
 }
 
+interface Booking {
+  start_at?: Date;
+  finish_at?: Date;
+  participants?: number;
+  special_req?: string;
+}
+
 interface Partyroom {
   id: number;
   name?: string;
@@ -216,6 +223,24 @@ app.post("/upload", async (req, res) => {
   );
 
   res.json({ message: "party room uploaded" });
+});
+
+// booking
+app.post("/booking", async (req, res) => {
+  const start_at = req.body.start_at
+  const finish_at = req.body.finish_at;
+  const participants = req.body.participants
+  const special_req= req.body.special_req
+
+  if (!participants) {
+    res.status(400).json({ missing: "missing required fields" });
+    return;
+  }
+
+  const queryResult = /*SQL*/ `INSERT INTO bookings (start_at, finish_at, participants, special_req) VALUES ($1, $2, $3, $4) RETURNING id`;
+  await dbClient.query<Booking>(queryResult, [start_at, finish_at, participants, special_req]);
+  // console.log(queryResult.rows[0]);
+  res.status(200).json({ message: "booking successful" });
 });
 
 // show party room data from database
