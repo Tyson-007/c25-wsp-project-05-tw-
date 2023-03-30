@@ -16,9 +16,8 @@ function uploadRoomData() {
       const style = form.style.value;
       const area = form.area.value;
       const capacity = form.capacity.value;
-      const equipment_in_service = form.equipment_in_service.value;
-      const switch_game = form.switch_game.value;
-      const board_game = form.board_game.value;
+      const equipment_name = form.equipment_name.value;
+      const type = form.type.value;
       const intro = form.intro.value;
       const image = form.image.files[0];
 
@@ -30,9 +29,8 @@ function uploadRoomData() {
       formData.append("style", style);
       formData.append("area", area);
       formData.append("capacity", capacity);
-      formData.append("equipment_in_service", equipment_in_service);
-      formData.append("switch_game", switch_game);
-      formData.append("board_game", board_game);
+      formData.append("equipment_name", equipment_name);
+      formData.append("type", type);
       formData.append("intro", intro);
       formData.append("image", image);
 

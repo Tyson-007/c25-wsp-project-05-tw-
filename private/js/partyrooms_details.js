@@ -24,7 +24,7 @@ window.onload = async () => {
   <div class="details-main-container">
     <div class="left-part">
       <p class="room-details">場地資訊: ${partyroom_details.price}</p>
-      <p class="equipments">設備: ${partyroom_details.equipment_in_service}<br>Switch: ${partyroom_details.switch_game}<br>卓上遊戲: ${partyroom_details.board_game}</p>
+      <p class="equipments">Names: ${partyroom_details.equipment_name}<br>Types: ${partyroom_details.type}</p>
     </div>
     <div class="right-part">
       <p class="room-image">我要圖: ${image}</p>

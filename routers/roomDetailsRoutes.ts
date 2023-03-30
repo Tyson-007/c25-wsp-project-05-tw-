@@ -24,7 +24,8 @@ async function getRoomDetails(req: Request, res: Response) {
 
     const resultQuery = partyroomQuery.rows[0];
     const equipment = equipmentQuery.rows[0];
-    delete equipment.id;
+
+    Object.assign(equipment, { equipment_name: equipment.name })["name"];
     Object.assign(resultQuery, equipment);
 
     res.json(resultQuery);

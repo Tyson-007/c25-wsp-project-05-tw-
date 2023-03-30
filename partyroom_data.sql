@@ -45,7 +45,6 @@ CREATE TABLE bookings (
 	updated_at TIMESTAMP DEFAULT NOW(),
     start_at TIMESTAMP,
     finish_at TIMESTAMP,
-    date DATE
 );
 
 DROP TABLE IF EXISTS ratings;
@@ -74,10 +73,8 @@ CREATE TABLE equipments (
 
 -- select from joining multiple tables.
 -- SELECT * FROM partyrooms
--- 	INNER JOIN eq_rm_relation
--- 		ON partyrooms.id = eq_rm_relation.partyroom_id
 -- 	INNER JOIN equipments
--- 		ON eq_rm_relation.equipment_id = equipments.id;
+-- 		ON partyrooms.id = equipments.partyroom_id;
 
 -- Drop eq_rm_relation;
 DROP TABLE IF EXISTS eq_rm_relation;
