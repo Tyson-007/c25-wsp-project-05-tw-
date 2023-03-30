@@ -8,7 +8,7 @@ import formidable from "formidable";
 import IncomingForm from "formidable/Formidable";
 import pg from "pg";
 import { hashPassword } from "./hash";
-// import { checkPassword } from "./hash";
+import { checkPassword } from "./hash";
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -119,7 +119,7 @@ declare module "express-session" {
 // signup // TO BE TESTED
 app.post("/signup", async (req, res) => {
   const name: string = req.body.name;
-  const password: string = await hashPassword(req.body.password);
+  const password: string = req.body.password;
   const phone_no: number = req.body.phone_no;
   const date_of_birth: Date = req.body.date_of_birth;
   const email: string = req.body.email;
@@ -129,14 +129,12 @@ app.post("/signup", async (req, res) => {
     return;
   }
 
-  const queryResult = await dbClient.query<User>(
-    /*SQL*/ `INSERT INTO users (name, password, phone_no, date_of_birth, email) VALUES ($1, $2, $3, $4, $5) RETURNING id`,
-    [name, password, phone_no, date_of_birth, email]
-  );
-  console.log(queryResult.rows[0]);
-
-  req.session.isLoggedIn = true;
+  const queryResult = /*SQL*/ `INSERT INTO users (name, password, phone_no, date_of_birth, email) VALUES ($1, $2, $3, $4, $5) RETURNING id`;
+    const hashed = await hashPassword(password);
+    await dbClient.query<User>(queryResult, [name, hashed, phone_no, date_of_birth, email]);
+  // console.log(queryResult.rows[0]);
   res.status(200).json({ message: "signup successful" });
+  alert("signup successful");
 });
 
 // login //
@@ -149,14 +147,18 @@ app.post("/login", async (req, res) => {
   }
 
   const queryResult = await dbClient.query<User>(
-    /*SQL*/ `SELECT id, name, password, phone_no, date_of_birth, email FROM users WHERE name = $1 AND password = $2`,
-    [name, password]
+    /*SQL*/ `SELECT id, name, password, phone_no, date_of_birth, email FROM users WHERE name = $1`,
+    [name]
   );
   const foundUser = queryResult.rows[0];
 
   if (!foundUser) {
     res.status(400).json({ message: "invalid username or password" });
     return;
+  }
+
+  if(!(await checkPassword(password, foundUser.password))) {
+    res.status(400).json({message:"invalid username or password"})
   }
 
   req.session.isLoggedIn = true;

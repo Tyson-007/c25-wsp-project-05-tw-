@@ -44,7 +44,7 @@ async function initSignup() {
     const data = await res.json();
 
     if (res.status === 200) {
-      window.location = "/users.html";
+      window.location = "/";
     } else {
       const data = await res.json();
       alert(data.message);
