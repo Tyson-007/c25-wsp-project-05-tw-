@@ -183,10 +183,6 @@ app.post("/upload", async (req, res) => {
   const board_game = fields.board_game as string;
   const intro = fields.intro as string;
 
-  console.log("equipment: " + equipment_in_service);
-  console.log("switch game: " + switch_game);
-  console.log("board game: " + board_game);
-
   if (
     !name ||
     !phone_no ||
