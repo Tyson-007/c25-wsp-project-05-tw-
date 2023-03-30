@@ -56,6 +56,15 @@ interface Partyroom {
   imagefilename?: string;
 }
 
+<<<<<<< HEAD
+=======
+interface Equipment {
+  equipment_in_service: string;
+  switch_game?: string;
+  board_game?: string;
+}
+
+>>>>>>> 2271ebb56868511df3a53a28d73c95608177694e
 // save uploaded image
 const uploadDir = "uploads";
 fs.mkdirSync(uploadDir, { recursive: true });
@@ -172,7 +181,14 @@ app.post("/upload", async (req, res) => {
   const style = fields.style as string;
   const area = parseInt(fields.area as string);
   const capacity = parseInt(fields.capacity as string);
+  const equipment_in_service = fields.equipment_in_service as string;
+  const switch_game = fields.switch_game as string;
+  const board_game = fields.board_game as string;
   const intro = fields.intro as string;
+
+  console.log("equipment: " + equipment_in_service);
+  console.log("switch game: " + switch_game);
+  console.log("board game: " + board_game);
 
   if (
     !name ||
@@ -195,6 +211,12 @@ app.post("/upload", async (req, res) => {
     /*SQL*/ `INSERT INTO partyrooms (name, phone_no, price, venue, style,area,capacity,intro, imagefilename) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
     [name, phone_no, price, venue, style, area, capacity, intro, imageFilename]
   );
+
+  await dbClient.query<Equipment>(
+    /*SQL*/ `INSERT INTO equipments (equipment_in_service, switch_game, board_game) VALUES ($1, $2, $3)`,
+    [equipment_in_service, switch_game, board_game]
+  );
+
   res.json({ message: "party room uploaded" });
 });
 
