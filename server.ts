@@ -56,15 +56,12 @@ interface Partyroom {
   imagefilename?: string;
 }
 
-<<<<<<< HEAD
-=======
 interface Equipment {
   equipment_in_service: string;
   switch_game?: string;
   board_game?: string;
 }
 
->>>>>>> 2271ebb56868511df3a53a28d73c95608177694e
 // save uploaded image
 const uploadDir = "uploads";
 fs.mkdirSync(uploadDir, { recursive: true });
@@ -198,6 +195,7 @@ app.post("/upload", async (req, res) => {
     !style ||
     !area ||
     !capacity ||
+    !equipment_in_service ||
     !intro
   ) {
     res.status(400).json({ message: "missing content" });
@@ -278,7 +276,7 @@ app.delete("/upload/:pid", async (req, res) => {
   res.json({ message: "success" });
 });
 
-// Get detalis from specific partyroom
+// Get details from specific partyroom
 
 import { roomDetailsRoutes } from "./routers/roomDetailsRoutes";
 app.use("/roomDetails", roomDetailsRoutes);
