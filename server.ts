@@ -196,7 +196,6 @@ app.post("/upload", async (req, res) => {
     !style ||
     !area ||
     !capacity ||
-    !equipment_in_service ||
     !intro
   ) {
     res.status(400).json({ message: "missing content" });
