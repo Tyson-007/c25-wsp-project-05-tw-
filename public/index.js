@@ -18,7 +18,7 @@ async function initLogin() {
 
     if (res.status === 200) {
       // res.json({ message: "success" });
-      window.location = "/users.html";
+      window.location = `/users.html`;
     } else {
       const data = await res.json();
       alert(data.message);
