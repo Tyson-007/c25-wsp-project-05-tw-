@@ -57,9 +57,8 @@ interface Partyroom {
 }
 
 interface Equipment {
-  equipment_in_service: string;
-  switch_game?: string;
-  board_game?: string;
+  name: string;
+  type: string;
 }
 
 // save uploaded image
@@ -178,9 +177,8 @@ app.post("/upload", async (req, res) => {
   const style = fields.style as string;
   const area = parseInt(fields.area as string);
   const capacity = parseInt(fields.capacity as string);
-  const equipment_in_service = fields.equipment_in_service as string;
-  const switch_game = fields.switch_game as string;
-  const board_game = fields.board_game as string;
+  const equipment_name = fields.equipment_name as string;
+  const type = fields.type as string;
   const intro = fields.intro as string;
 
   if (
@@ -206,8 +204,8 @@ app.post("/upload", async (req, res) => {
   );
 
   await dbClient.query<Equipment>(
-    /*SQL*/ `INSERT INTO equipments (equipment_in_service, switch_game, board_game) VALUES ($1, $2, $3)`,
-    [equipment_in_service, switch_game, board_game]
+    /*SQL*/ `INSERT INTO equipments (partyroom_id, name, type) VALUES ($1, $2)`,
+    [equipment_name, type]
   );
 
   res.json({ message: "party room uploaded" });
