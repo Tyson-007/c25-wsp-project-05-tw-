@@ -19,6 +19,7 @@ async function initLogin() {
     if (res.status === 200) {
       // res.json({ message: "success" });
       window.location = "/users.html";
+      alert("Login successful")
     } else {
       const data = await res.json();
       alert(data.message);
@@ -45,6 +46,7 @@ async function initSignup() {
 
     if (res.status === 200) {
       window.location = "/";
+      alert("Signup successful")
     } else {
       const data = await res.json();
       alert(data.message);

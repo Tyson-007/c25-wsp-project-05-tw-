@@ -134,7 +134,7 @@ app.post("/signup", async (req, res) => {
     await dbClient.query<User>(queryResult, [name, hashed, phone_no, date_of_birth, email]);
   // console.log(queryResult.rows[0]);
   res.status(200).json({ message: "signup successful" });
-  alert("signup successful");
+  
 });
 
 // login //
