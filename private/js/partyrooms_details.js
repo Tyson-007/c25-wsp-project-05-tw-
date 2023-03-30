@@ -29,9 +29,45 @@ window.onload = async () => {
     <div class="right-part">
       <p class="room-image">我要圖: ${image}</p>
     </div>
+
+
+  </div>
+
+  <div class="edit-and-del">
+    <button class="edit-button">
+      更改
+    </button>
+    <button class="del-button">
+      刪除
+    </button>
   </div>
     `;
   //   <p>場地主人: ${partyroom_details.name}</p>
   //   ${(await checkLogin()) ? addPokemon : loginBtn}
   document.querySelector(".banner").innerHTML = htmlStr;
+
+  const editBtn = document.querySelector(".edit-button");
+
+  editBtn.addEventListener("click", async (e) => {
+    // const memoDiv = e.currentTarget.parentElement;
+    const roomDiv = editBtn.parentElement;
+    const roomId = roomDiv.dataset.id;
+    const newContent = roomDiv.querySelector(".banner").textContent.trim();
+
+    const resp = await fetch(`/roomDetails/${memoId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ content: newContent }),
+    });
+
+    // if (resp.status == 200) {
+    //   const result = await resp.json();
+    //   alert(result.message);
+    // } else {
+    //   const result = await resp.json();
+    //   alert(result.message);
+    // }
+    const result = await resp.json();
+    alert(result.message);
+  });
 };

@@ -196,6 +196,7 @@ app.post("/upload", async (req, res) => {
     !style ||
     !area ||
     !capacity ||
+    !equipment_in_service ||
     !intro
   ) {
     res.status(400).json({ message: "missing content" });
@@ -276,6 +277,22 @@ app.delete("/upload/:pid", async (req, res) => {
     partyroomId,
   ]);
   res.json({ message: "success" });
+});
+
+//upload equipment//
+app.post("/uploadEquipments", async (req, res) => {
+  const switchGame: string = req.body.switchGame;
+  const psGame: string = req.body.psGame;
+  const otherEquipments: string = req.body.otherEquipments;
+
+  if (!switchGame || !psGame || !otherEquipments) {
+    res.status(400).json({ missing: "missing equipments" });
+    return;
+  }
+  const queryResult = await dbClient.query<Equipment>(
+    /*SQL*/ `INSERT INTO equipments`
+  );
+  console.log(queryResult.rows[0]);
 });
 
 // Get detalis from specific partyroom

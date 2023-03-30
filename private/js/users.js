@@ -22,8 +22,30 @@ async function getAllRooms() {
       <div class="room-card-copy">
         ${partyroom.name} @ ${partyroom.venue}
       </div>
+      <div class="del-button memo-button">
+      <i class="fa-solid fa-trash"></i>
+    </div>
     </div>
     `;
   }
   document.querySelector(".roomInfo-and-photo").innerHTML += partyroomCardsHtml;
+
+  document.querySelectorAll(".del-button").forEach((delBtn) =>
+    delBtn.addEventListener("click", async (e) => {
+      const roomDiv = e.currentTarget.parentElement;
+      const roomId = roomDiv.dataset.id;
+
+      // /memos/3
+      const resp = await fetch(`/upload/${roomId}`, {
+        method: "DELETE",
+      });
+
+      const result = await resp.json();
+      alert(result.message);
+
+      if (resp.status === 200) {
+        getAllRooms();
+      }
+    })
+  );
 }
