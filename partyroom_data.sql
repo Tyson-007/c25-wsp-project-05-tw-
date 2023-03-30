@@ -63,10 +63,14 @@ CREATE TABLE ratings (
 DROP TABLE IF EXISTS equipments;
 CREATE TABLE equipments (
 	id SERIAL PRIMARY KEY,
+    partyroom_id INT,
 	FOREIGN KEY (partyroom_id) REFERENCES partyrooms(id),
     name VARCHAR (255),
     type VARCHAR (255)
 );
+
+-- manual linking
+UPDATE equipments SET partyroom_id=1 WHERE equipments.id=1;
 
 -- insert into equipments (equipment_in_service, switch_game, board_game) values ('air-condition', 'mario', 'monopoly');
 -- insert into equipments (equipment_in_service, switch_game, board_game) values ('TV', '', 'card);
