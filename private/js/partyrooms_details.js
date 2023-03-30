@@ -33,7 +33,7 @@ window.onload = async () => {
     `;
   //   <p>場地主人: ${partyroom_details.name}</p>
   //   ${(await checkLogin()) ? addPokemon : loginBtn}
-  document.querySelector(".all-details").innerHTML = htmlStr;
+  document.querySelector(".banner").innerHTML = htmlStr;
 };
 
 //   let htmlStr = `
