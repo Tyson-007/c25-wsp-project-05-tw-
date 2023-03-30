@@ -4,8 +4,8 @@ import type { Request, Response } from "express";
 
 export const roomDetailsRoutes = express.Router();
 
-roomDetailsRoutes.get("/:pid", getRoomDetails);
-roomDetailsRoutes.get("/:pid", geteqDetails);
+roomDetailsRoutes.get("/:pid", getRoomDetails, geteqDetails);
+
 async function getRoomDetails(req: Request, res: Response) {
   try {
     const roomId = +req.params.pid;
@@ -28,7 +28,7 @@ async function geteqDetails(req: Request, res: Response) {
   try {
     const equipmentId = +req.params.pid;
     if (isNaN(equipmentId)) {
-      res.status(400).json({ message: "invalid equipment id" });
+      res.status(400).json({ message: "invalid room id" });
       return;
     }
     const resultQuery = await dbClient.query(

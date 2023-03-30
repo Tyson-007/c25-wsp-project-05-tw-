@@ -64,26 +64,20 @@ CREATE TABLE ratings (
 DROP TABLE IF EXISTS equipments;
 CREATE TABLE equipments (
 	id SERIAL PRIMARY KEY,
-	equipment_in_service VARCHAR(255),
-	switch_game VARCHAR(255),
-    board_game VARCHAR(255)
+	partyroom_id INT,
+    name VARCHAR (255),
+    type VARCHAR (255)
 );
 
 -- insert into equipments (equipment_in_service, switch_game, board_game) values ('air-condition', 'mario', 'monopoly');
 -- insert into equipments (equipment_in_service, switch_game, board_game) values ('TV', '', 'card);
+
+-- select from joining multiple tables.
+-- SELECT * FROM partyrooms
+-- 	INNER JOIN eq_rm_relation
+-- 		ON partyrooms.id = eq_rm_relation.partyroom_id
+-- 	INNER JOIN equipments
+-- 		ON eq_rm_relation.equipment_id = equipments.id;
+
+-- Drop eq_rm_relation;
 DROP TABLE IF EXISTS eq_rm_relation;
-CREATE TABLE eq_rm_relation (
-	id SERIAL PRIMARY KEY,
-    partyroom_id INT,
-	FOREIGN KEY (partyroom_id) REFERENCES partyrooms(id),
-    equipment_id INT,
-    FOREIGN KEY (equipment_id) REFERENCES equipments(id)
-);
--- insert into eq_rm_relation (partyroom_id, equipment_id) values (1,1);
-
-SELECT * FROM partyrooms
-	INNER JOIN eq_rm_relation
-		ON partyrooms.id = eq_rm_relation.partyroom_id
-	INNER JOIN equipments
-		ON eq_rm_relation.equipment_id = equipments.id;
-

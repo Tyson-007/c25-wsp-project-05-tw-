@@ -223,6 +223,7 @@ app.get("/upload", async (_req, res) => {
   res.json(queryResult.rows); // pass array into res.json()
 });
 
+//edit party room
 app.put("/upload/:pid", async (req, res) => {
   const partyroomId = +req.params.pid;
   const newName = req.body.name;
@@ -258,6 +259,7 @@ app.put("/upload/:pid", async (req, res) => {
   res.json({ message: "success" });
 });
 
+// delete party room
 app.delete("/upload/:pid", async (req, res) => {
   const partyroomId = +req.params.pid;
   if (isNaN(partyroomId)) {
@@ -272,7 +274,23 @@ app.delete("/upload/:pid", async (req, res) => {
   res.json({ message: "success" });
 });
 
-// Get details from specific partyroom
+//upload equipment//
+app.post("/uploadEquipments", async (req, res) => {
+  const switchGame: string = req.body.switchGame;
+  const psGame: string = req.body.psGame;
+  const otherEquipments: string = req.body.otherEquipments;
+
+  if (!switchGame || !psGame || !otherEquipments) {
+    res.status(400).json({ missing: "missing equipments" });
+    return;
+  }
+  const queryResult = await dbClient.query<Equipment>(
+    /*SQL*/ `INSERT INTO equipments`
+  );
+  console.log(queryResult.rows[0]);
+});
+
+// Get detalis from specific partyroom
 
 import { roomDetailsRoutes } from "./routers/roomDetailsRoutes";
 app.use("/roomDetails", roomDetailsRoutes);
