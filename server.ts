@@ -56,6 +56,13 @@ interface Partyroom {
   imagefilename?: string;
 }
 
+interface Equipment {
+  id: number;
+  switchGame: string;
+  psGame: string;
+  otherEquipment: string;
+}
+
 // save uploaded image
 const uploadDir = "uploads";
 fs.mkdirSync(uploadDir, { recursive: true });
@@ -254,6 +261,22 @@ app.delete("/upload/:pid", async (req, res) => {
     partyroomId,
   ]);
   res.json({ message: "success" });
+});
+
+//upload equipment//
+app.post("/uploadEquipments", async (req, res) => {
+  const switchGame: string = req.body.switchGame;
+  const psGame: string = req.body.psGame;
+  const otherEquipments: string = req.body.otherEquipments;
+
+  if (!switchGame || !psGame || !otherEquipments) {
+    res.status(400).json({ missing: "missing equipments" });
+    return;
+  }
+  const queryResult = await dbClient.query<Equipment>(
+    /*SQL*/ `INSERT INTO equipments`
+  );
+  console.log(queryResult.rows[0]);
 });
 
 // Get detalis from specific partyroom
