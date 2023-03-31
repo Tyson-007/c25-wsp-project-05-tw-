@@ -3,6 +3,7 @@ import { User } from "../model";
 import { hashPassword } from "../hash";
 import { dbClient } from "../server";
 import { Request, Response } from "express";
+import { checkPassword } from "../hash";
 // import { log } from "console";
 
 export const authRoutes = express.Router();
@@ -20,13 +21,14 @@ async function login(req: Request, res: Response) {
       return;
     }
     const foundUser = (
-      await dbClient.query<User>(
-        /*sql*/ `SELECT id, name, password FROM users WHERE name = $1`,
-        [name]
-      )
+      await dbClient.query<User>(/*sql*/ `SELECT id, name, password FROM users WHERE name = $1`, [name])
     ).rows[0];
     if (!foundUser) {
       res.status(400).json({ message: "invalid username or password" });
+      return;
+    }
+    if (!(await checkPassword(password, foundUser.password))) {
+      res.status(400).json({ message: "invalid password" });
       return;
     }
 
@@ -49,13 +51,7 @@ async function signup(req: Request, res: Response) {
     }
     const queryResult = /*SQL*/ `INSERT INTO users (name, password, phone_no, date_of_birth, email) VALUES ($1, $2, $3, $4, $5) RETURNING id`;
     const hashed = await hashPassword(password);
-    await dbClient.query<User>(queryResult, [
-      name,
-      hashed,
-      phone_no,
-      date_of_birth,
-      email,
-    ]);
+    await dbClient.query<User>(queryResult, [name, hashed, phone_no, date_of_birth, email]);
     // console.log(queryResult.rows[0]);
     res.status(200).json({ message: "signup successful" });
   } catch (err) {
