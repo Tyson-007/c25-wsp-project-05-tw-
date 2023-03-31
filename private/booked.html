@@ -1,15 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    <div class="append-here">
-
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+      integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="./css/booked.css" />
+  </head>
+  <body>
+    <div class="whole">
+      <div class="top">
+        <!-- top left side -->
+        <div class="top-left">
+          <div class="booked-info">
+            <h1 class="booked-info-title main-title">場地資料</h1>
+            <div class="booked-info-details sub-title">
+              <div class="roomName-div">
+                <h2 class="room-position main-title">場地名稱</h2>
+                <p class="room-position sub-title">全港獨家PS5 Party Room</p>
+              </div>
+              <div class="bookTime-div">
+                <h2 class="room-position main-title">預約時間</h2>
+                <p class="room-position sub-title">
+                  2023年4月7日 12:00PM - 11:30PM
+                </p>
+              </div>
+              <div class="capacity-div">
+                <h2 class="room-position main-title">活動人數</h2>
+                <p class="room-position sub-title">15人</p>
+              </div>
+              <div class="special-require">
+                <h2 class="room-position main-title">特別要求</h2>
+                <p class="room-position sub-title">無</p>
+              </div>
+              <div class="BTN">
+                <button>更改預約</button>
+                <button>取消預約</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- top right side -->
+        <div class="top-right">
+          <div class="image-info">
+            <p>coming soon</p>
+          </div>
+          <div class="owner-info">
+            <p>場地負責人</p>
+            <i class="fa-brands fa-whatsapp"></i>
+            <p>91234567</p>
+            <i class="fa-solid fa-phone-volume"></i>
+            <p>29876541</p>
+          </div>
+        </div>
+      </div>
     </div>
-</body>
-<script src="./js/get_booking_info.js"></script>
+  </body>
+  <script src="./js/get_booking_info.js"></script>
 </html>

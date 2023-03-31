@@ -1,0 +1,52 @@
+.top {
+  display: flex;
+  justify-content: space-around;
+  font-family: Content;
+  font-style: normal;
+}
+
+/* top-left */
+.booked-info {
+  width: 200%;
+  color: #733e00;
+}
+.booked-info-title {
+  text-align: center;
+}
+.booked-info-details {
+  background-color: #fff2df;
+  box-shadow: 4px 4px 20px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 30px;
+}
+.room-position {
+  padding-left: 5%;
+  padding-top: 5%;
+}
+
+.main-title {
+  margin-top: 0%;
+  margin-bottom: 0%;
+}
+.sub-title {
+  margin-bottom: 5%;
+  margin-top: 0%;
+}
+/* top right */
+.image-info {
+  background-color: brown;
+}
+.owner-info {
+  background-color: coral;
+}
+
+.top-right {
+  margin-top: 2%;
+}
+.image-info {
+  width: 200%;
+  height: 30%;
+}
+.owner-info {
+  width: 200%;
+  height: 63%;
+}

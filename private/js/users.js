@@ -9,7 +9,7 @@ window.onload = () => {
 async function getAllRooms() {
   const res_user = await fetch("/user/self");
   const user = await res_user.json();
-  console.log(user);
+  // console.log(user);
 
   /////////////////////////////////////
   const res = await fetch("/user/upload");
@@ -19,7 +19,7 @@ async function getAllRooms() {
   document.querySelector(".roomInfo-and-photo").innerHTML = "";
 
   for (let partyroom of partyrooms) {
-    console.log(partyroom.user_id);
+    // console.log(partyroom.user_id);
     // console.log(typeof partyroom.phone_no);
     const image = `<img src="/images/${partyroom.imagefilename}" width = "20" alt=""/>`;
     const deleteBtn = `<div class="del-button memo-button"><i class="fa-solid fa-trash"></i></div>`;
