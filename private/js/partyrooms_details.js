@@ -17,7 +17,7 @@ window.onload = async () => {
   <div class="result">
     <div class="pr-booking-div">
       <h1>場地名稱: ${partyroom_details.name}</h1>
-      <button class="booking-now">立場預約</button>
+      <button class="booking-now data-bs-toggle="modal" data-bs-target="#booking-modal">立場預約</button>
     </div>
   </div>
   <!-- Details-Area-->
@@ -45,7 +45,7 @@ window.onload = async () => {
   //   <p>場地主人: ${partyroom_details.name}</p>
   //   ${(await checkLogin()) ? addPokemon : loginBtn}
   document.querySelector(".result").innerHTML = htmlStr;
-  
+
   // const editBtn = document.querySelector(".edit-button");
 
   // editBtn.addEventListener("click", async (e) => {

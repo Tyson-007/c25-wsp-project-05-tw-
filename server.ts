@@ -1,7 +1,6 @@
 import express from "express";
 import expressSession from "express-session";
 import { Request, Response, NextFunction } from "express";
-// import jsonfile from "jsonfile";
 import path from "path";
 import fs from "fs";
 import formidable from "formidable";
@@ -21,13 +20,7 @@ export const dbClient = new pg.Client({
 dbClient.connect();
 
 const app = express();
-
-// const USER_JSON_PATH = path.join(__dirname, "data", "users.json");
-
-// export const USER_JSON_PATH = path.join(__dirname, "data", "users.json");
-
 export const USER_JSON_PATH = path.join(__dirname, "data", "users.json");
-// const PARTYROOM_JSON_PATH = path.join(__dirname, "data", "partyrooms.json");
 export const PARTYROOM_JSON_PATH = path.join(
   __dirname,
   "data",
@@ -36,6 +29,7 @@ export const PARTYROOM_JSON_PATH = path.join(
 
 // Data type
 interface User {
+  // add this // id: number;
   name: string;
   password: string;
   phone_no?: number;
@@ -107,10 +101,10 @@ app.use(
     resave: true,
   })
 );
-
 declare module "express-session" {
   interface SessionData {
     isLoggedIn?: boolean;
+    // add this // userId: number;
   }
 }
 
@@ -122,7 +116,7 @@ declare module "express-session" {
 // auth route handlers //
 /////////////////////////
 
-// signup // TO BE TESTED
+// signup //
 app.post("/signup", async (req, res) => {
   const name: string = req.body.name;
   const password: string = req.body.password;
@@ -173,6 +167,7 @@ app.post("/login", async (req, res) => {
   }
 
   req.session.isLoggedIn = true;
+  // add this // req.session.userId = foundUser.id;
   res.status(200).json({ message: "logged in" });
 });
 
@@ -225,12 +220,12 @@ app.post("/upload", async (req, res) => {
   res.json({ message: "party room uploaded" });
 });
 
-// booking
+// booking //
 app.post("/booking", async (req, res) => {
-  const start_at = req.body.start_at
+  const start_at = req.body.start_at;
   const finish_at = req.body.finish_at;
-  const participants = req.body.participants
-  const special_req= req.body.special_req
+  const participants = req.body.participants;
+  const special_req = req.body.special_req;
 
   if (!participants) {
     res.status(400).json({ missing: "missing required fields" });
@@ -238,13 +233,17 @@ app.post("/booking", async (req, res) => {
   }
 
   const queryResult = /*SQL*/ `INSERT INTO bookings (start_at, finish_at, participants, special_req) VALUES ($1, $2, $3, $4) RETURNING id`;
-  await dbClient.query<Booking>(queryResult, [start_at, finish_at, participants, special_req]);
+  await dbClient.query<Booking>(queryResult, [
+    start_at,
+    finish_at,
+    participants,
+    special_req,
+  ]);
   // console.log(queryResult.rows[0]);
   res.status(200).json({ message: "booking successful" });
 });
 
-// show party room data from database
-
+// show party room data from database //
 app.get("/upload", async (_req, res) => {
   const queryResult = await dbClient.query<Partyroom>(
     "SELECT * FROM partyrooms"
@@ -294,7 +293,7 @@ app.put("/upload/:pid", async (req, res) => {
   res.json({ message: "success" });
 });
 
-// delete party room
+// delete party room //
 app.delete("/upload/:pid", async (req, res) => {
   const partyroomId = +req.params.pid;
   if (isNaN(partyroomId)) {
@@ -325,8 +324,7 @@ app.post("/uploadEquipments", async (req, res) => {
   console.log(queryResult.rows[0]);
 });
 
-// Get detalis from specific partyroom
-
+// Get detalis from specific partyroom //
 import { roomDetailsRoutes } from "./routers/roomDetailsRoutes";
 app.use("/roomDetails", roomDetailsRoutes);
 
