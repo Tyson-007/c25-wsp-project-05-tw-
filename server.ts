@@ -130,11 +130,16 @@ app.post("/signup", async (req, res) => {
   }
 
   const queryResult = /*SQL*/ `INSERT INTO users (name, password, phone_no, date_of_birth, email) VALUES ($1, $2, $3, $4, $5) RETURNING id`;
-    const hashed = await hashPassword(password);
-    await dbClient.query<User>(queryResult, [name, hashed, phone_no, date_of_birth, email]);
+  const hashed = await hashPassword(password);
+  await dbClient.query<User>(queryResult, [
+    name,
+    hashed,
+    phone_no,
+    date_of_birth,
+    email,
+  ]);
   // console.log(queryResult.rows[0]);
   res.status(200).json({ message: "signup successful" });
-  
 });
 
 // login //
@@ -157,8 +162,8 @@ app.post("/login", async (req, res) => {
     return;
   }
 
-  if(!(await checkPassword(password, foundUser.password))) {
-    res.status(400).json({message:"invalid username or password"})
+  if (!(await checkPassword(password, foundUser.password))) {
+    res.status(400).json({ message: "invalid username or password" });
   }
 
   req.session.isLoggedIn = true;
@@ -223,6 +228,12 @@ app.get("/upload", async (_req, res) => {
     "SELECT * FROM partyrooms"
   );
   res.json(queryResult.rows); // pass array into res.json()
+});
+
+//try get user info
+app.get("/login", async (req, res) => {
+  const queryResult = await dbClient.query<User>("SELECT * FROM users");
+  res.json(queryResult.rows);
 });
 
 //edit party room
