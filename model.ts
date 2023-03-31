@@ -26,6 +26,7 @@ export interface Partyroom {
   capacity?: number;
   intro?: string;
   imagefilename?: string;
+  user_id?: number;
 }
 
 export interface Equipment {
