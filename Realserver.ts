@@ -36,7 +36,6 @@ export const PARTYROOM_JSON_PATH = path.join(
 
 // Data type
 interface User {
-  id: number;
   name: string;
   password: string;
   phone_no?: number;
@@ -62,7 +61,6 @@ interface Partyroom {
   capacity?: number;
   intro?: string;
   imagefilename?: string;
-  users_id?: number;
 }
 
 interface Equipment {
@@ -113,7 +111,6 @@ app.use(
 declare module "express-session" {
   interface SessionData {
     isLoggedIn?: boolean;
-    users_id: number;
   }
 }
 
@@ -197,7 +194,6 @@ app.post("/upload", async (req, res) => {
   const equipment_name = fields.equipment_name as string;
   const type = fields.type as string;
   const intro = fields.intro as string;
-  const users_id = parseInt(fields.users_id as string);
 
   if (
     !name ||
@@ -207,8 +203,7 @@ app.post("/upload", async (req, res) => {
     !style ||
     !area ||
     !capacity ||
-    !intro ||
-    !users_id
+    !intro
   ) {
     res.status(400).json({ message: "missing content" });
     return;
@@ -218,19 +213,8 @@ app.post("/upload", async (req, res) => {
     ?.newFilename;
 
   await dbClient.query<Partyroom>(
-    /*SQL*/ `INSERT INTO partyrooms (name, phone_no, price, venue, style,area,capacity,intro, imagefilename, users_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
-    [
-      name,
-      phone_no,
-      price,
-      venue,
-      style,
-      area,
-      capacity,
-      intro,
-      imageFilename,
-      users_id,
-    ]
+    /*SQL*/ `INSERT INTO partyrooms (name, phone_no, price, venue, style,area,capacity,intro, imagefilename) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+    [name, phone_no, price, venue, style, area, capacity, intro, imageFilename]
   );
 
   await dbClient.query<Equipment>(
