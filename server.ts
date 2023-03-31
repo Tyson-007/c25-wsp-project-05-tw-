@@ -43,6 +43,13 @@ interface User {
   email?: string;
 }
 
+interface Booking {
+  start_at?: Date;
+  finish_at?: Date;
+  participants?: number;
+  special_req?: string;
+}
+
 interface Partyroom {
   id: number;
   name?: string;
@@ -57,9 +64,8 @@ interface Partyroom {
 }
 
 interface Equipment {
-  equipment_in_service: string;
-  switch_game?: string;
-  board_game?: string;
+  name: string;
+  type: string;
 }
 
 // save uploaded image
@@ -185,9 +191,8 @@ app.post("/upload", async (req, res) => {
   const style = fields.style as string;
   const area = parseInt(fields.area as string);
   const capacity = parseInt(fields.capacity as string);
-  const equipment_in_service = fields.equipment_in_service as string;
-  const switch_game = fields.switch_game as string;
-  const board_game = fields.board_game as string;
+  const equipment_name = fields.equipment_name as string;
+  const type = fields.type as string;
   const intro = fields.intro as string;
 
   if (
@@ -198,7 +203,6 @@ app.post("/upload", async (req, res) => {
     !style ||
     !area ||
     !capacity ||
-    !equipment_in_service ||
     !intro
   ) {
     res.status(400).json({ message: "missing content" });
@@ -214,11 +218,29 @@ app.post("/upload", async (req, res) => {
   );
 
   await dbClient.query<Equipment>(
-    /*SQL*/ `INSERT INTO equipments (equipment_in_service, switch_game, board_game) VALUES ($1, $2, $3)`,
-    [equipment_in_service, switch_game, board_game]
+    /*SQL*/ `INSERT INTO equipments (name, type) VALUES ($1, $2)`,
+    [equipment_name, type]
   );
 
   res.json({ message: "party room uploaded" });
+});
+
+// booking
+app.post("/booking", async (req, res) => {
+  const start_at = req.body.start_at
+  const finish_at = req.body.finish_at;
+  const participants = req.body.participants
+  const special_req= req.body.special_req
+
+  if (!participants) {
+    res.status(400).json({ missing: "missing required fields" });
+    return;
+  }
+
+  const queryResult = /*SQL*/ `INSERT INTO bookings (start_at, finish_at, participants, special_req) VALUES ($1, $2, $3, $4) RETURNING id`;
+  await dbClient.query<Booking>(queryResult, [start_at, finish_at, participants, special_req]);
+  // console.log(queryResult.rows[0]);
+  res.status(200).json({ message: "booking successful" });
 });
 
 // show party room data from database

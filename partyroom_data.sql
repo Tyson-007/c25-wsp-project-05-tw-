@@ -44,8 +44,7 @@ CREATE TABLE bookings (
 	created_at TIMESTAMP DEFAULT NOW(),
 	updated_at TIMESTAMP DEFAULT NOW(),
     start_at TIMESTAMP,
-    finish_at TIMESTAMP,
-    date DATE
+    finish_at TIMESTAMP
 );
 
 DROP TABLE IF EXISTS ratings;
@@ -64,21 +63,22 @@ CREATE TABLE ratings (
 DROP TABLE IF EXISTS equipments;
 CREATE TABLE equipments (
 	id SERIAL PRIMARY KEY,
-    partyroom_id,
+    partyroom_id INT,
 	FOREIGN KEY (partyroom_id) REFERENCES partyrooms(id),
     name VARCHAR (255),
     type VARCHAR (255)
 );
+
+-- manual linking
+UPDATE equipments SET partyroom_id=1 WHERE equipments.id=1;
 
 -- insert into equipments (equipment_in_service, switch_game, board_game) values ('air-condition', 'mario', 'monopoly');
 -- insert into equipments (equipment_in_service, switch_game, board_game) values ('TV', '', 'card);
 
 -- select from joining multiple tables.
 -- SELECT * FROM partyrooms
--- 	INNER JOIN eq_rm_relation
--- 		ON partyrooms.id = eq_rm_relation.partyroom_id
 -- 	INNER JOIN equipments
--- 		ON eq_rm_relation.equipment_id = equipments.id;
+-- 		ON partyrooms.id = equipments.partyroom_id;
 
 -- Drop eq_rm_relation;
 DROP TABLE IF EXISTS eq_rm_relation;

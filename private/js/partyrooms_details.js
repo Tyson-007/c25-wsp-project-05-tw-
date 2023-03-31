@@ -14,7 +14,7 @@ window.onload = async () => {
   const image = `<img src="/images/${partyroom_details.imagefilename}" width = "20" alt=""/>`;
 
   let htmlStr = `
-  <div class="banner">
+  <div class="result">
     <div class="pr-booking-div">
       <h1>場地名稱: ${partyroom_details.name}</h1>
       <button class="booking-now">立場預約</button>
@@ -24,7 +24,7 @@ window.onload = async () => {
   <div class="details-main-container">
     <div class="left-part">
       <p class="room-details">場地資訊: ${partyroom_details.price}</p>
-      <p class="equipments">設備: ${partyroom_details.equipment_in_service}<br>Switch: ${partyroom_details.switch_game}<br>卓上遊戲: ${partyroom_details.board_game}</p>
+      <p class="equipments">Names: ${partyroom_details.equipment_name}<br>Types: ${partyroom_details.type}</p>
     </div>
     <div class="right-part">
       <p class="room-image">我要圖: ${image}</p>
@@ -44,30 +44,30 @@ window.onload = async () => {
     `;
   //   <p>場地主人: ${partyroom_details.name}</p>
   //   ${(await checkLogin()) ? addPokemon : loginBtn}
-  document.querySelector(".banner").innerHTML = htmlStr;
+  document.querySelector(".result").innerHTML = htmlStr;
+  
+  // const editBtn = document.querySelector(".edit-button");
 
-  const editBtn = document.querySelector(".edit-button");
+  // editBtn.addEventListener("click", async (e) => {
+  //   // const memoDiv = e.currentTarget.parentElement;
+  //   const roomDiv = editBtn.parentElement;
+  //   const roomId = roomDiv.dataset.id;
+  //   const newContent = roomDiv.querySelector(".banner").textContent.trim();
 
-  editBtn.addEventListener("click", async (e) => {
-    // const memoDiv = e.currentTarget.parentElement;
-    const roomDiv = editBtn.parentElement;
-    const roomId = roomDiv.dataset.id;
-    const newContent = roomDiv.querySelector(".banner").textContent.trim();
+  //   const resp = await fetch(`/roomDetails/${memoId}`, {
+  //     method: "PUT",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify({ content: newContent }),
+  //   });
 
-    const resp = await fetch(`/roomDetails/${memoId}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ content: newContent }),
-    });
-
-    // if (resp.status == 200) {
-    //   const result = await resp.json();
-    //   alert(result.message);
-    // } else {
-    //   const result = await resp.json();
-    //   alert(result.message);
-    // }
-    const result = await resp.json();
-    alert(result.message);
-  });
+  //   // if (resp.status == 200) {
+  //   //   const result = await resp.json();
+  //   //   alert(result.message);
+  //   // } else {
+  //   //   const result = await resp.json();
+  //   //   alert(result.message);
+  //   // }
+  //   const result = await resp.json();
+  //   alert(result.message);
+  // });
 };

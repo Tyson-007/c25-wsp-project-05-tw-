@@ -37,7 +37,7 @@
           <h5 class="modal-title">立即預約</h5>
         </div>
         <div class="modal-body">
-          <form>
+          <form id="booking-from">
             <div class="input-group mb-3">
               <span class="input-group-text" id="inputGroup-sizing-default"
                 >姓名</span
@@ -64,24 +64,24 @@
             </div>
             <div class="input-group mb-3">
               <span class="input-group-text" id="inputGroup-sizing-default"
-                >日期</span
+                >開始時間</span
               >
               <input
-                type="date"
+                type="datetime-local"
                 class="form-control"
-                name="date"
+                name="start_at"
                 aria-label="Sizing example input"
                 aria-describedby="inputGroup-sizing-default"
               />
             </div>
             <div class="input-group mb-3">
               <span class="input-group-text" id="inputGroup-sizing-default"
-                >時間</span
+                >結束時間</span
               >
               <input
-                type="time"
+                type="datetime-local"
                 class="form-control"
-                name="time"
+                name="finish_at"
                 aria-label="Sizing example input"
                 aria-describedby="inputGroup-sizing-default"
               />
@@ -95,7 +95,7 @@
                 value="4"
                 min="4"
                 class="form-control"
-                name="capacity"
+                name="participants"
                 aria-label="Sizing example input"
                 aria-describedby="inputGroup-sizing-default"
               />
@@ -106,7 +106,7 @@
               >
               <textarea
                 class="form-control"
-                name="special-request"
+                name="special_req"
                 rows="3"
               ></textarea>
             </div>
@@ -145,6 +145,9 @@
         </div>
       </div>
       <!-- Banner-Area -->
+      <div class="result">
+
+      </div>
       <div class="banner">
         <div class="pr-booking-div">
           <div class="partyroom-name">場地名稱</div>
@@ -174,4 +177,5 @@
     </div>
   </body>
   <script src="./js/partyrooms_details.js"></script>
+  <script src="./js/booked.js"></script>
 </html>
