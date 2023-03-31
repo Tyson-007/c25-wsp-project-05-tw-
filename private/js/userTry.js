@@ -1,5 +1,4 @@
 window.onload = () => {
-  // getUserInfo();
   getAllRooms();
 };
 
@@ -7,53 +6,32 @@ window.onload = () => {
    div class & id names TBC
   */
 
-// async function getUserInfo() {
-//   const res_user = await fetch("/login");
-//   const users = await res_user.json();
-//   //上面兩句加左
-//   for (let user of users) {
-//     console.log(user.phone_no);
-//   }
-// }
-
 async function getAllRooms() {
   const res_user = await fetch("/login");
   const users = await res_user.json();
   console.log(users);
-  // console.log(users[2].phone_no);
   const user_phone_no = users.map((user) => user.phone_no);
-  console.log("after map: " + user_phone_no);
+
+  //string
   /////////////////////////////////////
   const res = await fetch("/upload");
   const partyrooms = await res.json();
-  console.log(partyrooms);
-
-  for (let user of users) {
-    console.log(user.phone_no);
-    for (let u in user) {
-      // console.log(u);
-      // if (u === "phone_no") {
-      //   console.log(u.phone_no);
-      // }
-    }
-  }
 
   let partyroomCardsHtml = "";
   document.querySelector(".roomInfo-and-photo").innerHTML = "";
-  console.log(parseInt(user_phone_no));
-  for (let partyroom of partyrooms) {
-    const image = `<img src="/images/${partyroom.imagefilename}" width = "20" alt=""/>`;
-    console.log(partyroom.phone_no);
 
-    if (partyroom.phone_no == parseInt(user_phone_no)) {
-      partyroomCardsHtml += `
+  for (let partyroom of partyrooms) {
+    console.log(typeof partyroom.phone_no);
+    const image = `<img src="/images/${partyroom.imagefilename}" width = "20" alt=""/>`;
+
+    partyroomCardsHtml += `
         <div class="roomInfo-photo-title" data-id="${partyroom.id}">
           <div class="room-card-photo">
            <a href= "/partyrooms_details.html?pid=${partyroom.id}"> ${image} </a>
             
           </div>
           <div class="room-card-copy">
-            ${partyroom.name} @ ${partyroom.venue}
+            ${partyroom.name} @ ${partyroom.venue} @ ${partyroom.phone_no}
           </div>
         
           <div class="del-button memo-button">
@@ -61,24 +39,9 @@ async function getAllRooms() {
         </div>
         </div>
         `;
-
-      document.querySelector(".roomInfo-and-photo").innerHTML +=
-        partyroomCardsHtml;
-    } else {
-      partyroomCardsHtml += `
-        <div class="roomInfo-photo-title" data-id="${partyroom.id}">
-          <div class="room-card-photo">
-           <a href= "/partyrooms_details.html?pid=${partyroom.id}"> ${image} </a>
-            
-          </div>
-          <div class="room-card-copy">
-            ${partyroom.name} @ ${partyroom.venue}
-          </div>`;
-
-      document.querySelector(".roomInfo-and-photo").innerHTML +=
-        partyroomCardsHtml;
-    }
   }
+  document.querySelector(".roomInfo-and-photo").innerHTML += partyroomCardsHtml;
+
   // try del
   // document.querySelectorAll(".del-button").forEach((delBtn) =>
   //   delBtn.addEventListener("click", async (e) => {
@@ -104,27 +67,21 @@ async function getAllRooms() {
 
   //real del
   document.querySelectorAll(".del-button").forEach((delBtn) =>
-    delBtn.addEventListener(
-      "click",
-      async (e) => {
-        const roomDiv = e.currentTarget.parentElement;
-        const roomId = roomDiv.dataset.id;
+    delBtn.addEventListener("click", async (e) => {
+      const roomDiv = e.currentTarget.parentElement;
+      const roomId = roomDiv.dataset.id;
 
-        // /memos/3
+      const resp = await fetch(`/upload/${roomId}`, {
+        method: "DELETE",
+      });
 
-        const resp = await fetch(`/upload/${roomId}`, {
-          method: "DELETE",
-        });
+      const result = await resp.json();
+      alert(result.message);
 
-        const result = await resp.json();
-        alert(result.message);
-      },
-
-      // if (resp.status === 200) {
-      getAllRooms()
-      // }
-      // }
-    )
+      if (resp.status === 200) {
+        getAllRooms();
+      }
+    })
   );
 }
 // server.ts加左個get method
