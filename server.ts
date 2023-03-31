@@ -8,6 +8,7 @@ import formidable from "formidable";
 import IncomingForm from "formidable/Formidable";
 import pg from "pg";
 import dotenv from "dotenv";
+import { Us } from "./model";
 dotenv.config();
 
 export const dbClient = new pg.Client({
