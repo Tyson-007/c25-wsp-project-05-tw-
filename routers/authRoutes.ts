@@ -8,7 +8,9 @@ import { Request, Response } from "express";
 export const authRoutes = express.Router();
 authRoutes.post("/login", login);
 authRoutes.post("/signup", signup);
+authRoutes.get("/login", getAllUsers);
 
+// login //
 async function login(req: Request, res: Response) {
   try {
     const { name, password } = req.body;
@@ -37,7 +39,7 @@ async function login(req: Request, res: Response) {
   }
 }
 
-// signup
+// signup //
 async function signup(req: Request, res: Response) {
   try {
     const { name, password, phone_no, date_of_birth, email } = req.body;
@@ -60,4 +62,10 @@ async function signup(req: Request, res: Response) {
     console.log(err.message);
     res.status(500).json({ message: "internal server error" });
   }
+}
+
+//try get user info
+async function getAllUsers(req: Request, res: Response) {
+  const queryResult = await dbClient.query<User>("SELECT * FROM users");
+  res.json(queryResult.rows);
 }

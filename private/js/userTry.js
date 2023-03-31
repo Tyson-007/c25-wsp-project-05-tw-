@@ -3,7 +3,7 @@ window.onload = () => {
   getAllRooms();
 };
 
-/* 
+/*
    div class & id names TBC
   */
 
@@ -17,14 +17,14 @@ window.onload = () => {
 // }
 
 async function getAllRooms() {
-  const res_user = await fetch("/login");
+  const res_user = await fetch("/user/login");
   const users = await res_user.json();
   console.log(users);
   // console.log(users[2].phone_no);
   const user_phone_no = users.map((user) => user.phone_no);
   console.log("after map: " + user_phone_no);
   /////////////////////////////////////
-  const res = await fetch("/upload");
+  const res = await fetch("/user/upload");
   const partyrooms = await res.json();
   console.log(partyrooms);
 
@@ -50,12 +50,12 @@ async function getAllRooms() {
         <div class="roomInfo-photo-title" data-id="${partyroom.id}">
           <div class="room-card-photo">
            <a href= "/partyrooms_details.html?pid=${partyroom.id}"> ${image} </a>
-            
+
           </div>
           <div class="room-card-copy">
             ${partyroom.name} @ ${partyroom.venue}
           </div>
-        
+
           <div class="del-button memo-button">
           <i class="fa-solid fa-trash"></i>
         </div>
@@ -69,7 +69,7 @@ async function getAllRooms() {
         <div class="roomInfo-photo-title" data-id="${partyroom.id}">
           <div class="room-card-photo">
            <a href= "/partyrooms_details.html?pid=${partyroom.id}"> ${image} </a>
-            
+
           </div>
           <div class="room-card-copy">
             ${partyroom.name} @ ${partyroom.venue}
@@ -112,7 +112,7 @@ async function getAllRooms() {
 
         // /memos/3
 
-        const resp = await fetch(`/upload/${roomId}`, {
+        const resp = await fetch(`/user/upload/${roomId}`, {
           method: "DELETE",
         });
 

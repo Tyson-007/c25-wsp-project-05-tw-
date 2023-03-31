@@ -1,6 +1,6 @@
 // Data type
 export interface User {
-  id:number
+  id: number;
   name: string;
   password: string;
   phone_no?: number;
@@ -8,3 +8,27 @@ export interface User {
   email?: string;
 }
 
+export interface Booking {
+  start_at?: Date;
+  finish_at?: Date;
+  participants?: number;
+  special_req?: string;
+}
+
+export interface Partyroom {
+  id: number;
+  name?: string;
+  phone_no?: number;
+  price?: number;
+  venue: string;
+  style?: string;
+  area?: number;
+  capacity?: number;
+  intro?: string;
+  imagefilename?: string;
+}
+
+export interface Equipment {
+  name: string;
+  type: string;
+}

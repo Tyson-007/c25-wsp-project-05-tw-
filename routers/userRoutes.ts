@@ -1,117 +1,163 @@
-/* 
-1. 要開多個新HTML for入users data (done)
-2. formidable link to new HTML page 
-3. only for party room information
- */
 import express from "express";
-import path from "path";
-import jsonfile from "jsonfile";
 import formidable from "formidable";
+import { partyroomForm, partyroomFormPromise } from "../formidable";
+import type { Request, Response } from "express";
+import { dbClient } from "../server";
+import { Booking } from "../model";
+import { Partyroom } from "../model";
+import { Equipment } from "../model";
 
-userRoutes.post("/users", uploadInfo); //upload owners data
-// userRoutes.get("/users", getAllInfo); //users get party room info
-// userRoutes.put("/users:mid", updateInfo); //change room info
-// userRoutes.delete("/users:mid", deleteInfo); //del room info
+export const userRoutes = express.Router();
 
-/* ---------------------------upload room information ---------------------------------------------- */
-//以下內容都要再改
-async function uploadInfo(req: Request, res: Response) {
-  const { fields, files } = await formParsePromise(form, req);
-  //係formidable要加番formParsePromise呢個function
+userRoutes.put("/upload/:pid", editRoom);
+userRoutes.delete("/upload/:pid", deleteRoom);
+userRoutes.post("/booking", bookRoom);
+userRoutes.post("/upload", uploadRoom);
+userRoutes.get("/upload", allRooms);
+userRoutes.post("/uploadEquipments", uploadEquipments);
 
-  //upload info
-  const ownerName = fields.ownerName as string;
-  if (!ownerName) {
-    res.status(400).json({ message: "missing ownerName" });
-    return;
-  }
+// upload a party room //
+async function uploadRoom(req: Request, res: Response) {
+  const { fields, files } = await partyroomFormPromise(partyroomForm, req);
 
-  const phoneNum = fields.phoneNum as number;
-  if (!phoneNum) {
-    res.status(400).json({ message: "missing phoneNum" });
-    return;
-  }
-
-  const price = fields.price as number;
-  if (!price) {
-    res.status(400).json({ message: "missing price" });
-    return;
-  }
-
-  const area = fields.area as number;
-  if (!area) {
-    res.status(400).json({ message: "missing area" });
-    return;
-  }
-
-  const price = fields.price as number;
-  if (!price) {
-    res.status(400).json({ message: "missing price" });
-    return;
-  }
-
-  const capacity = fields.capacity as number;
-  if (!capacity) {
-    res.status(400).json({ message: "missing capacity" });
-    return;
-  }
-
+  const name = fields.name as string;
+  const phone_no = fields.phone_no as string;
+  const price = parseInt(fields.price as string);
+  const venue = fields.venue as string;
   const style = fields.style as string;
-  if (!style) {
-    res.status(400).json({ message: "missing style" });
-    return;
-  }
-
-  const venue = fields.venue as number;
-  if (!venue) {
-    res.status(400).json({ message: "missing venue" });
-    return;
-  }
-
+  const area = parseInt(fields.area as string);
+  const capacity = parseInt(fields.capacity as string);
+  const equipment_name = fields.equipment_name as string;
+  const type = fields.type as string;
   const intro = fields.intro as string;
-  if (!intro) {
-    res.status(400).json({ message: "missing intro" });
+
+  if (
+    !name ||
+    !phone_no ||
+    !price ||
+    !venue ||
+    !style ||
+    !area ||
+    !capacity ||
+    !intro
+  ) {
+    res.status(400).json({ message: "missing content" });
     return;
   }
 
-  const equipment = fields.equipment as string;
-  if (!equipment) {
-    res.status(400).json({ message: "missing equipment" });
-    return;
-  }
+  const imageFilename = (files.image as formidable.File | undefined)
+    ?.newFilename;
 
-  //upload photo
-  // const imageFilename = (files.image as formidable.File | undefined)
-  //   ?.newFilename;
+  await dbClient.query<Partyroom>(
+    /*SQL*/ `INSERT INTO partyrooms (name, phone_no, price, venue, style,area,capacity,intro, imagefilename) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+    [name, phone_no, price, venue, style, area, capacity, intro, imageFilename]
+  );
 
-  // const memos: Memo[] = jsonfile.readFileSync(MEMO_JSON_PATH);
-  // memos.push({
-  //   id: memos.length + 1,
-  //   content,
-  //   image: imageFilename,
-  //   is_active: true,
-  // });
-  // jsonfile.writeFileSync(MEMO_JSON_PATH, memos, { spaces: 2 });
+  await dbClient.query<Equipment>(
+    /*SQL*/ `INSERT INTO equipments (name, type) VALUES ($1, $2)`,
+    [equipment_name, type]
+  );
 
-  // res.json({ message: "success" });
+  res.json({ message: "party room uploaded" });
 }
 
 /* ---------------------------users get room information ---------------------------------------------- */
+// some function here //
 
-/* ---------------------------update room information ---------------------------------------------- */
+// show party room data from database //
+async function allRooms(_req: Request, res: Response) {
+  const queryResult = await dbClient.query<Partyroom>(
+    "SELECT * FROM partyrooms"
+  );
+  res.json(queryResult.rows); // pass array into res.json()
+}
 
-/* ---------------------------delete room information ---------------------------------------------- */
+//upload equipment//
+async function uploadEquipments(req: Request, res: Response) {
+  const switchGame: string = req.body.switchGame;
+  const psGame: string = req.body.psGame;
+  const otherEquipments: string = req.body.otherEquipments;
 
-// const app = express();
+  if (!switchGame || !psGame || !otherEquipments) {
+    res.status(400).json({ missing: "missing equipments" });
+    return;
+  }
+  const queryResult = await dbClient.query<Equipment>(
+    /*SQL*/ `INSERT INTO equipments`
+  );
+  console.log(queryResult.rows[0]);
+}
 
-// const PORT = 8080;
+// make a booking //
+async function bookRoom(req: Request, res: Response) {
+  const start_at = req.body.start_at;
+  const finish_at = req.body.finish_at;
+  const participants = req.body.participants;
+  const special_req = req.body.special_req;
 
-// app.get("/", (_req, res) => {
-//   res.json({ message: "hello" });
-// });
+  if (!participants) {
+    res.status(400).json({ missing: "missing required fields" });
+    return;
+  }
 
-// app.use(express.static(path.join(__dirname, "private")));
+  const queryResult = /*SQL*/ `INSERT INTO bookings (start_at, finish_at, participants, special_req) VALUES ($1, $2, $3, $4) RETURNING id`;
+  await dbClient.query<Booking>(queryResult, [
+    start_at,
+    finish_at,
+    participants,
+    special_req,
+  ]);
+  // console.log(queryResult.rows[0]);
+  res.status(200).json({ message: "booking successful" });
+}
 
-// app.listen(PORT, () => {
-//   console.log(`listening to http://localhost:${PORT}`);
-// });
+//edit party room
+async function editRoom(req: Request, res: Response) {
+  const partyroomId = +req.params.pid;
+  const newName = req.body.name;
+  const newPhone_no = req.body.phone_no;
+  const newPrice = req.body.price;
+  const newVenue = req.body.venue;
+  const newStyle = req.body.style;
+  const newArea = req.body.area;
+  const newCapacity = req.body.capacity;
+  const newIntro = req.body.intro;
+  const newImageFileName = req.body.image;
+
+  if (isNaN(partyroomId)) {
+    res.status(400).json({ message: "invalid partyroom id" });
+    return;
+  }
+
+  await dbClient.query(
+    /*SQL*/ `UPDATE partyrooms SET name = $1, phone_no = $2, price = $3, venue = $4, style = $5, area = $6, capacity = $7, intro = $8, imagefilename = $9 WHERE id = $10`,
+    [
+      newName,
+      newPhone_no,
+      newPrice,
+      newVenue,
+      newStyle,
+      newArea,
+      newCapacity,
+      newIntro,
+      newImageFileName,
+      partyroomId,
+    ]
+  );
+  res.json({ message: "success" });
+}
+
+// delete party room //
+async function deleteRoom(req: Request, res: Response) {
+  const partyroomId = +req.params.pid;
+  if (isNaN(partyroomId)) {
+    // httpStatusCodes.BAD_REQUEST
+    res.status(400).json({ message: "invalid partyrooms id" });
+    return;
+  }
+
+  await dbClient.query(/*SQL*/ `DELETE FROM partyrooms WHERE id = $1`, [
+    partyroomId,
+  ]);
+  res.json({ message: "success" });
+}

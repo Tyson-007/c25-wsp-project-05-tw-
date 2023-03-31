@@ -17,11 +17,7 @@ window.onload = () => {
 // }
 
 async function getAllRooms() {
-  const res_user = await fetch("/login");
-  const users = await res_user.json();
-  console.log(users);
-  /////////////////////////////////////
-  const res = await fetch("/upload");
+  const res = await fetch("/user/upload");
   const partyrooms = await res.json();
   let partyroomCardsHtml = "";
   document.querySelector(".roomInfo-and-photo").innerHTML = "";
@@ -79,7 +75,7 @@ async function getAllRooms() {
       const roomId = roomDiv.dataset.id;
 
       // /memos/3
-      const resp = await fetch(`/upload/${roomId}`, {
+      const resp = await fetch(`/user/upload/${roomId}`, {
         method: "DELETE",
       });
 
