@@ -4,7 +4,6 @@ window.onload = () => {
 
 function uploadBookInfo(){
     const form = document.querySelector("#booking-form");
-    if(form) {
          form.addEventListener("submit", async (event) => {
            event.preventDefault();
            const form = event.target;
@@ -23,11 +22,10 @@ function uploadBookInfo(){
 
            if (res.status === 200) {
              window.location = "/booked.html";
+              alert('success');
            } else {
              const data = await res.json();
              alert(data.message);
            }
          });
     }
-   
-}
