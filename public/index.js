@@ -28,7 +28,6 @@ async function initLogin() {
   });
 }
 
-// need to test!!! //
 async function initSignup() {
   const signupForm = document.querySelector("#signup-form");
   signupForm.addEventListener("submit", async (event) => {
@@ -46,7 +45,7 @@ async function initSignup() {
     const data = await res.json();
 
     if (res.status === 200) {
-      window.location = "/";
+      window.location = "/users.html";
       alert("Signup successful");
     } else {
       const data = await res.json();
