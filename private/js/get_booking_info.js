@@ -4,8 +4,8 @@ window.onload = () => {
 };
 
 async function getAllBookings() {
-  const res = await fetch("/user/booking");
-  const bookings = await res.json();
+  const res_bookings = await fetch("/user/booking");
+  const bookings = await res_bookings.json();
   let bookinghtmlstr = "";
   document.querySelector(".append-here").innerHTML = "";
   // for (let user of users) {

@@ -12,18 +12,21 @@ export const userRoutes = express.Router();
 userRoutes.put("/upload/:pid", editRoom);
 userRoutes.delete("/upload/:pid", deleteRoom);
 userRoutes.post("/booking", bookRoom);
-userRoutes.get("/booking", getAllBookings)
+userRoutes.get("/booking", getAllBookings);
 userRoutes.post("/upload", uploadRoom);
 userRoutes.get("/upload", allRooms);
 userRoutes.post("/uploadEquipments", uploadEquipments);
-userRoutes.get("/self", async (req, res) => {
+userRoutes.get("/self", getUserID);
+
+// get user id //
+async function getUserID(req: Request, res: Response) {
   const user = (
     await dbClient.query("SELECT id, name FROM users WHERE id = $1", [
       req.session.user_id,
     ])
   ).rows[0];
   res.json(user);
-});
+}
 
 // upload a party room //
 async function uploadRoom(req: Request, res: Response) {
@@ -122,8 +125,10 @@ async function bookRoom(req: Request, res: Response) {
     return;
   }
 
-  const queryResult = /*SQL*/ `INSERT INTO bookings (start_at, finish_at, participants, special_req) VALUES ($1, $2, $3, $4) RETURNING id`;
+  const queryResult = /*SQL*/ `INSERT INTO bookings (user_id, partyroom_id, start_at, finish_at, participants, special_req) VALUES ($1, $2, $3, $4) RETURNING id`;
   await dbClient.query<Booking>(queryResult, [
+    req.session.user_id,
+    req.session.partyroom_id,
     start_at,
     finish_at,
     participants,
@@ -133,11 +138,9 @@ async function bookRoom(req: Request, res: Response) {
   res.status(200).json({ message: "booking successful" });
 }
 
-async function getAllBookings(req: Request, res:Response) {
-  const queryResult = await dbClient.query<Booking>(
-    "SELECT * FROM bookings"
-  );
-  res.json(queryResult.rows)
+async function getAllBookings(req: Request, res: Response) {
+  const queryResult = await dbClient.query<Booking>("SELECT * FROM bookings");
+  res.json(queryResult.rows);
 }
 //edit party room
 async function editRoom(req: Request, res: Response) {
@@ -187,5 +190,5 @@ async function deleteRoom(req: Request, res: Response) {
   await dbClient.query(/*SQL*/ `DELETE FROM partyrooms WHERE id = $1`, [
     partyroomId,
   ]);
-  res.json({ message: "success" });
+  res.json({ message: "party room deleted" });
 }

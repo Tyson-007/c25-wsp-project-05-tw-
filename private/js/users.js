@@ -9,9 +9,7 @@ window.onload = () => {
 async function getAllRooms() {
   const res_user = await fetch("/user/self");
   const user = await res_user.json();
-  // console.log(user);
 
-  /////////////////////////////////////
   const res = await fetch("/user/upload");
   const partyrooms = await res.json();
 
@@ -21,8 +19,9 @@ async function getAllRooms() {
   for (let partyroom of partyrooms) {
     // console.log(partyroom.user_id);
     // console.log(typeof partyroom.phone_no);
-    const image = `<img src="/images/${partyroom.imagefilename}" width = "20" alt=""/>`;
-    const deleteBtn = `<div class="del-button memo-button"><i class="fa-solid fa-trash"></i></div>`;
+    const image = `<img src="/images/${partyroom.imagefilename}" width = "80%" alt=""/>`;
+    const deleteBtn = `<div class="del-button"><a href="#"><i class="fa-solid fa-trash"></i></a></div>`;
+    const editBtn = `<div class="edit-button"><a href="#"><i class="fa-solid fa-pen-to-square"></i></a></div>`;
 
     partyroomCardsHtml += `
             <div class="roomInfo-photo-title" data-id="${partyroom.id}">
@@ -32,9 +31,10 @@ async function getAllRooms() {
                }"> ${image} </a>
               </div>
               <div class="room-card-copy">
-                ${partyroom.name} @ ${partyroom.venue} @ ${partyroom.user_id}
+                ${partyroom.name} @ ${partyroom.venue}
               </div>  
               ${user.id === partyroom.user_id ? deleteBtn : ""}
+              ${user.id === partyroom.user_id ? editBtn : ""}
             </div>
             `;
   }

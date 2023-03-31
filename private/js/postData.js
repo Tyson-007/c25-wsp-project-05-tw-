@@ -44,6 +44,7 @@ function uploadRoomData() {
       if (resp.status === 200) {
         alert("Success");
         form.reset();
+        window.location = "/users.html";
         // loadMemoData();
       } else {
         alert(result.message);
