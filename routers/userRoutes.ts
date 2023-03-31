@@ -125,8 +125,10 @@ async function bookRoom(req: Request, res: Response) {
     return;
   }
 
-  const queryResult = /*SQL*/ `INSERT INTO bookings (start_at, finish_at, participants, special_req) VALUES ($1, $2, $3, $4) RETURNING id`;
+  const queryResult = /*SQL*/ `INSERT INTO bookings (user_id, partyroom_id, start_at, finish_at, participants, special_req) VALUES ($1, $2, $3, $4) RETURNING id`;
   await dbClient.query<Booking>(queryResult, [
+    req.session.user_id,
+    req.session.partyroom_id,
     start_at,
     finish_at,
     participants,
