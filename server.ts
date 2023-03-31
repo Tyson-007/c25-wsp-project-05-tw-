@@ -22,9 +22,6 @@ declare module "express-session" {
 
 const app = express();
 
-//////////////////////
-// Basic Middleware //
-//////////////////////
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(
@@ -35,12 +32,9 @@ app.use(
   })
 );
 
-////////////////////
-// Route Handlers //
-////////////////////
-import { authRoutes } from "./routers/authRoutes";
-import { userRoutes } from "./routers/userRoutes";
 import { roomDetailsRoutes } from "./routers/roomDetailsRoutes";
+import { userRoutes } from "./routers/userRoutes";
+import { authRoutes } from "./routers/authRoutes";
 
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);

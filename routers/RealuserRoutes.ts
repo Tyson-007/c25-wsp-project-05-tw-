@@ -12,7 +12,6 @@ export const userRoutes = express.Router();
 userRoutes.put("/upload/:pid", editRoom);
 userRoutes.delete("/upload/:pid", deleteRoom);
 userRoutes.post("/booking", bookRoom);
-userRoutes.get("/booking", getAllBookings)
 userRoutes.post("/upload", uploadRoom);
 userRoutes.get("/upload", allRooms);
 userRoutes.post("/uploadEquipments", uploadEquipments);
@@ -31,7 +30,6 @@ async function uploadRoom(req: Request, res: Response) {
   const equipment_name = fields.equipment_name as string;
   const type = fields.type as string;
   const intro = fields.intro as string;
-  // const user_id = parseInt(fields.user_id as string);
 
   if (
     !name ||
@@ -42,7 +40,6 @@ async function uploadRoom(req: Request, res: Response) {
     !area ||
     !capacity ||
     !intro
-    // !user_id
   ) {
     res.status(400).json({ message: "missing content" });
     return;
@@ -52,19 +49,8 @@ async function uploadRoom(req: Request, res: Response) {
     ?.newFilename;
 
   await dbClient.query<Partyroom>(
-    /*SQL*/ `INSERT INTO partyrooms (name, phone_no, price, venue, style,area,capacity,intro, imagefilename, user_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
-    [
-      name,
-      phone_no,
-      price,
-      venue,
-      style,
-      area,
-      capacity,
-      intro,
-      imageFilename,
-      req.session.user_id,
-    ]
+    /*SQL*/ `INSERT INTO partyrooms (name, phone_no, price, venue, style,area,capacity,intro, imagefilename) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
+    [name, phone_no, price, venue, style, area, capacity, intro, imageFilename]
   );
 
   await dbClient.query<Equipment>(
@@ -125,12 +111,6 @@ async function bookRoom(req: Request, res: Response) {
   res.status(200).json({ message: "booking successful" });
 }
 
-async function getAllBookings(req: Request, res:Response) {
-  const queryResult = await dbClient.query<Booking>(
-    "SELECT * FROM bookings"
-  );
-  res.json(queryResult.rows)
-}
 //edit party room
 async function editRoom(req: Request, res: Response) {
   const partyroomId = +req.params.pid;
