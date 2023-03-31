@@ -28,7 +28,9 @@ CREATE TABLE partyrooms (
     intro TEXT,
     imagefilename VARCHAR(255),
 	created_at TIMESTAMP DEFAULT NOW(),
-	updated_at TIMESTAMP DEFAULT NOW()
+	updated_at TIMESTAMP DEFAULT NOW(),
+    user_id INT,
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 DROP TABLE IF EXISTS bookings;
