@@ -2,44 +2,46 @@ window.onload = () => {
   getAllRooms();
 };
 
-/* 
+/*
    div class & id names TBC
   */
 
 async function getAllRooms() {
-  const res_user = await fetch("/login");
+  const res_user = await fetch("/auth/login");
   const users = await res_user.json();
-  console.log(users);
-  const user_phone_no = users.map((user) => user.phone_no);
-
+  console.log(users.id);
+  //   const user_phone_no = users.map((user) => user.phone_no);
+  //   console.log(users);
   //string
   /////////////////////////////////////
-  const res = await fetch("/upload");
+  const res = await fetch("/user/upload");
   const partyrooms = await res.json();
 
   let partyroomCardsHtml = "";
   document.querySelector(".roomInfo-and-photo").innerHTML = "";
 
   for (let partyroom of partyrooms) {
-    console.log(typeof partyroom.phone_no);
+    console.log(partyroom.id);
+    // console.log(typeof partyroom.phone_no);
     const image = `<img src="/images/${partyroom.imagefilename}" width = "20" alt=""/>`;
 
     partyroomCardsHtml += `
-        <div class="roomInfo-photo-title" data-id="${partyroom.id}">
-          <div class="room-card-photo">
-           <a href= "/partyrooms_details.html?pid=${partyroom.id}"> ${image} </a>
-            
-          </div>
-          <div class="room-card-copy">
-            ${partyroom.name} @ ${partyroom.venue} @ ${partyroom.phone_no}
-          </div>
-        
-          <div class="del-button memo-button">
-          <i class="fa-solid fa-trash"></i>
-        </div>
-        </div>
-        `;
+            <div class="roomInfo-photo-title" data-id="${partyroom.id}">
+              <div class="room-card-photo">
+               <a href= "/partyrooms_details.html?pid=${partyroom.id}"> ${image} </a>
+    
+              </div>
+              <div class="room-card-copy">
+                ${partyroom.name} @ ${partyroom.venue} @ ${partyroom.phone_no}
+              </div>
+    
+              <div class="del-button memo-button">
+              <i class="fa-solid fa-trash"></i>
+            </div>
+            </div>
+            `;
   }
+
   document.querySelector(".roomInfo-and-photo").innerHTML += partyroomCardsHtml;
 
   // try del
@@ -71,7 +73,7 @@ async function getAllRooms() {
       const roomDiv = e.currentTarget.parentElement;
       const roomId = roomDiv.dataset.id;
 
-      const resp = await fetch(`/upload/${roomId}`, {
+      const resp = await fetch(`/user/upload/${roomId}`, {
         method: "DELETE",
       });
 

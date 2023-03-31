@@ -1,33 +1,71 @@
-// import express from "express";
-// import jsonfile from "jsonfile";
-// import path from "path";
+import express from "express";
+import { User } from "../model";
+import { hashPassword } from "../hash";
+import { dbClient } from "../server";
+import { Request, Response } from "express";
+// import { log } from "console";
 
-// interface User {
-//   name: string;
-//   password: string;
-// }
+export const authRoutes = express.Router();
+authRoutes.post("/login", login);
+authRoutes.post("/signup", signup);
+authRoutes.get("/login", getAllUsers);
 
-// const app = express();
-// const USER_JSON_PATH = path.join(__dirname, "..", "data", "users.json");
+// login //
+async function login(req: Request, res: Response) {
+  try {
+    const { name, password } = req.body;
 
-// app.post("/login", async (req, res) => {
-//   const name: string = req.body.username;
-//   const password: string = req.body.password;
+    if (!name || !password) {
+      res.status(400).json({ message: "missing username or password" });
+      return;
+    }
+    const foundUser = (
+      await dbClient.query<User>(
+        /*sql*/ `SELECT id, name, password FROM users WHERE name = $1`,
+        [name]
+      )
+    ).rows[0];
+    if (!foundUser) {
+      res.status(400).json({ message: "invalid username or password" });
+      return;
+    }
 
-//   if (!name || !password) {
-//     res.status(400).json({ message: "missing username or password" });
-//     return;
-//   }
+    req.session.isLoggedIn = true;
+    req.session.user_id = foundUser.id;
+    res.json({ message: "login success" });
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).json({ message: "internal server error" });
+  }
+}
 
-//   const users: Array<User> = await jsonfile.readFile(USER_JSON_PATH);
-//   const foundUser = users.find(
-//     (u) => u.name === name && u.password === password
-//   );
-//   if (!foundUser) {
-//     res.status(400).json({ message: "invalid username or password" });
-//     return;
-//   }
+// signup //
+async function signup(req: Request, res: Response) {
+  try {
+    const { name, password, phone_no, date_of_birth, email } = req.body;
+    if (!name || !password || !phone_no || !email) {
+      res.status(400).json({ missing: "missing required fields" });
+      return;
+    }
+    const queryResult = /*SQL*/ `INSERT INTO users (name, password, phone_no, date_of_birth, email) VALUES ($1, $2, $3, $4, $5) RETURNING id`;
+    const hashed = await hashPassword(password);
+    await dbClient.query<User>(queryResult, [
+      name,
+      hashed,
+      phone_no,
+      date_of_birth,
+      email,
+    ]);
+    // console.log(queryResult.rows[0]);
+    res.status(200).json({ message: "signup successful" });
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).json({ message: "internal server error" });
+  }
+}
 
-//   req.session.isLoggedIn = true;
-//   res.json({ message: "login success" });
-// });
+//try get user info
+async function getAllUsers(req: Request, res: Response) {
+  const queryResult = await dbClient.query<User>("SELECT * FROM users");
+  res.json(queryResult.rows);
+}

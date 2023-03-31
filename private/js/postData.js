@@ -20,6 +20,7 @@ function uploadRoomData() {
       const type = form.type.value;
       const intro = form.intro.value;
       const image = form.image.files[0];
+      //   const user_id = form.user_id.value;
 
       const formData = new FormData();
       formData.append("name", name);
@@ -33,8 +34,9 @@ function uploadRoomData() {
       formData.append("type", type);
       formData.append("intro", intro);
       formData.append("image", image);
+      //   formData.append("user_id", user_id);
 
-      const resp = await fetch("/upload", {
+      const resp = await fetch("/user/upload", {
         method: "POST",
         body: formData,
       });
