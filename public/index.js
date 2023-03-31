@@ -9,7 +9,7 @@ async function initLogin() {
     event.preventDefault();
     const name = loginForm.name.value;
     const password = loginForm.password.value;
-    const res = await fetch("/login", {
+    const res = await fetch("/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, password }),
@@ -38,7 +38,7 @@ async function initSignup() {
     const phone_no = signupForm.phone_no.value;
     const date_of_birth = signupForm.date_of_birth.value;
     const email = signupForm.email.value;
-    const res = await fetch("/signup", {
+    const res = await fetch("/auth/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, password, phone_no, date_of_birth, email }),

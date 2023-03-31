@@ -6,10 +6,8 @@ import fs from "fs";
 import formidable from "formidable";
 import IncomingForm from "formidable/Formidable";
 import pg from "pg";
-import { hashPassword } from "./hash";
-import { checkPassword } from "./hash";
-
 import dotenv from "dotenv";
+import { Us } from "./model";
 dotenv.config();
 
 export const dbClient = new pg.Client({
@@ -18,25 +16,6 @@ export const dbClient = new pg.Client({
   password: process.env.DB_PASSWORD,
 });
 dbClient.connect();
-
-const app = express();
-export const USER_JSON_PATH = path.join(__dirname, "data", "users.json");
-export const PARTYROOM_JSON_PATH = path.join(
-  __dirname,
-  "data",
-  "partyrooms.json"
-);
-
-// Data type
-interface User {
-  // add this // id: number;
-  name: string;
-  password: string;
-  phone_no?: number;
-  date_of_birth?: Date;
-  email?: string;
-}
-
 interface Booking {
   start_at?: Date;
   finish_at?: Date;
@@ -61,6 +40,15 @@ interface Equipment {
   name: string;
   type: string;
 }
+const app = express();
+
+export const USER_JSON_PATH = path.join(__dirname, "data", "users.json");
+// const PARTYROOM_JSON_PATH = path.join(__dirname, "data", "partyrooms.json");
+export const PARTYROOM_JSON_PATH = path.join(
+  __dirname,
+  "data",
+  "partyrooms.json"
+);
 
 // save uploaded image
 const uploadDir = "uploads";
@@ -104,72 +92,18 @@ app.use(
 declare module "express-session" {
   interface SessionData {
     isLoggedIn?: boolean;
-    // add this // userId: number;
+    user_id: number;
   }
 }
 
 // Section xxx: Route Handlers
-// import { authRoutes } from "./routers/authRoutes";
+import { authRoutes } from "./routers/authRoutes";
 // import { userRoutes } from "./routers/memoRoutes";
 
 /////////////////////////
 // auth route handlers //
 /////////////////////////
-
-// signup //
-app.post("/signup", async (req, res) => {
-  const name: string = req.body.name;
-  const password: string = req.body.password;
-  const phone_no: number = req.body.phone_no;
-  const date_of_birth: Date = req.body.date_of_birth;
-  const email: string = req.body.email;
-
-  if (!name || !password || !phone_no || !email) {
-    res.status(400).json({ missing: "missing required fields" });
-    return;
-  }
-
-  const queryResult = /*SQL*/ `INSERT INTO users (name, password, phone_no, date_of_birth, email) VALUES ($1, $2, $3, $4, $5) RETURNING id`;
-  const hashed = await hashPassword(password);
-  await dbClient.query<User>(queryResult, [
-    name,
-    hashed,
-    phone_no,
-    date_of_birth,
-    email,
-  ]);
-  // console.log(queryResult.rows[0]);
-  res.status(200).json({ message: "signup successful" });
-});
-
-// login //
-app.post("/login", async (req, res) => {
-  const name: string = req.body.name;
-  const password: string = req.body.password;
-  if (!name || !password) {
-    res.status(400).json({ message: "missing username or password" });
-    return;
-  }
-
-  const queryResult = await dbClient.query<User>(
-    /*SQL*/ `SELECT id, name, password, phone_no, date_of_birth, email FROM users WHERE name = $1`,
-    [name]
-  );
-  const foundUser = queryResult.rows[0];
-
-  if (!foundUser) {
-    res.status(400).json({ message: "invalid username or password" });
-    return;
-  }
-
-  if (!(await checkPassword(password, foundUser.password))) {
-    res.status(400).json({ message: "invalid username or password" });
-  }
-
-  req.session.isLoggedIn = true;
-  // add this // req.session.userId = foundUser.id;
-  res.status(200).json({ message: "logged in" });
-});
+app.use("/auth", authRoutes);
 
 /////////////////////////
 // user route handlers //
