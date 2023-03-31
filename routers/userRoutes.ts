@@ -6,7 +6,6 @@ import { dbClient } from "../server";
 import { Booking } from "../model";
 import { Partyroom } from "../model";
 import { Equipment } from "../model";
-import { User } from "../model";
 
 export const userRoutes = express.Router();
 
@@ -17,14 +16,17 @@ userRoutes.get("/booking", getAllBookings);
 userRoutes.post("/upload", uploadRoom);
 userRoutes.get("/upload", allRooms);
 userRoutes.post("/uploadEquipments", uploadEquipments);
-userRoutes.get("/self", async (req, res) => {
+userRoutes.get("/self", getUserID);
+
+// get user id //
+async function getUserID(req: Request, res: Response) {
   const user = (
     await dbClient.query("SELECT id, name FROM users WHERE id = $1", [
       req.session.user_id,
     ])
   ).rows[0];
   res.json(user);
-});
+}
 
 // upload a party room //
 async function uploadRoom(req: Request, res: Response) {
@@ -186,16 +188,5 @@ async function deleteRoom(req: Request, res: Response) {
   await dbClient.query(/*SQL*/ `DELETE FROM partyrooms WHERE id = $1`, [
     partyroomId,
   ]);
-  res.json({ message: "success" });
-}
-
-async function getUserID(req: Request, res: Response) {
-  const myUserID = req.session.user_id;
-
-  const foundID = await dbClient.query<User>(
-    /*SQL*/ `SELECT id FROM users WHERE id = $1`,
-    [myUserID]
-  );
-
-  res.json(foundID.rows);
+  res.json({ message: "party room deleted" });
 }
