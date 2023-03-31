@@ -17,7 +17,7 @@ async function getAllRooms() {
   document.querySelector(".roomInfo-and-photo").innerHTML = "";
 
   for (let partyroom of partyrooms) {
-    console.log(partyroom.user_id);
+    // console.log(partyroom.user_id);
     // console.log(typeof partyroom.phone_no);
     const image = `<img src="/images/${partyroom.imagefilename}" width = "80%" alt=""/>`;
     const deleteBtn = `<div class="del-button"><a href="#"><i class="fa-solid fa-trash"></i></a></div>`;
