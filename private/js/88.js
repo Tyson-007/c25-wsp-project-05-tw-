@@ -9,13 +9,14 @@ window.onload = () => {
 async function getAllRooms() {
   const res_user = await fetch("/auth/login");
   const users = await res_user.json();
-  console.log(users[0].id);
-
+  console.log(users.id);
+  //   const user_phone_no = users.map((user) => user.phone_no);
+  //   console.log(users);
+  //string
+  /////////////////////////////////////
   const res = await fetch("/user/upload");
   const partyrooms = await res.json();
-  console.log(partyrooms[0]);
-  console.log(partyrooms[1]);
-  console.log(partyrooms[2]);
+
   let partyroomCardsHtml = "";
   document.querySelector(".roomInfo-and-photo").innerHTML = "";
 

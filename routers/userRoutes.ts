@@ -17,6 +17,14 @@ userRoutes.get("/booking", getAllBookings);
 userRoutes.post("/upload", uploadRoom);
 userRoutes.get("/upload", allRooms);
 userRoutes.post("/uploadEquipments", uploadEquipments);
+userRoutes.get("/self", async (req, res) => {
+  const user = (
+    await dbClient.query("SELECT id, name FROM users WHERE id = $1", [
+      req.session.user_id,
+    ])
+  ).rows[0];
+  res.json(user);
+});
 
 // upload a party room //
 async function uploadRoom(req: Request, res: Response) {
