@@ -12,6 +12,7 @@ export const userRoutes = express.Router();
 userRoutes.put("/upload/:pid", editRoom);
 userRoutes.delete("/upload/:pid", deleteRoom);
 userRoutes.post("/booking", bookRoom);
+userRoutes.get("/booking", getAllBookings)
 userRoutes.post("/upload", uploadRoom);
 userRoutes.get("/upload", allRooms);
 userRoutes.post("/uploadEquipments", uploadEquipments);
@@ -132,6 +133,12 @@ async function bookRoom(req: Request, res: Response) {
   res.status(200).json({ message: "booking successful" });
 }
 
+async function getAllBookings(req: Request, res:Response) {
+  const queryResult = await dbClient.query<Booking>(
+    "SELECT * FROM bookings"
+  );
+  res.json(queryResult.rows)
+}
 //edit party room
 async function editRoom(req: Request, res: Response) {
   const partyroomId = +req.params.pid;
