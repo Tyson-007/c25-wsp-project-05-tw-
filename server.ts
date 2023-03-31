@@ -188,6 +188,12 @@ app.get("/upload", async (_req, res) => {
   res.json(queryResult.rows); // pass array into res.json()
 });
 
+//try get user info
+app.get("/login", async (req, res) => {
+  const queryResult = await dbClient.query<User>("SELECT * FROM users");
+  res.json(queryResult.rows);
+});
+
 //edit party room
 app.put("/upload/:pid", async (req, res) => {
   const partyroomId = +req.params.pid;

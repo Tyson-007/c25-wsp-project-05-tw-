@@ -18,6 +18,7 @@ async function initLogin() {
 
     if (res.status === 200) {
       // res.json({ message: "success" });
+
       window.location = "/users.html";
       alert("Login successful");
     } else {
