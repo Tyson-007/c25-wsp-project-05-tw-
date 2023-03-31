@@ -21,7 +21,7 @@ async function getAllRooms() {
     // console.log(typeof partyroom.phone_no);
     const image = `<img src="/images/${partyroom.imagefilename}" width = "80%" alt=""/>`;
     const deleteBtn = `<div class="del-button"><a href="#"><i class="fa-solid fa-trash"></i></a></div>`;
-    const editBtn = `<div class="edit-button"><a href="#"><i class="fa-solid fa-pen-to-square"></i></a></div>`;
+    const editBtn = `<div class="edit-button"><a href="/partyrooms_edit.html?pid=${partyroom.id}"><i class="fa-solid fa-pen-to-square"></i></a></div>`;
 
     partyroomCardsHtml += `
             <div class="roomInfo-photo-title" data-id="${partyroom.id}">
