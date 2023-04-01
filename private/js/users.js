@@ -19,24 +19,31 @@ async function getAllRooms() {
   for (let partyroom of partyrooms) {
     // console.log(partyroom.user_id);
     // console.log(typeof partyroom.phone_no);
-    const image = `<img src="/images/${partyroom.imagefilename}" width = "80%" alt=""/>`;
-    const deleteBtn = `<div class="del-button"><a href="#"><i class="fa-solid fa-trash"></i></a></div>`;
-    const editBtn = `<div class="edit-button"><a href="/partyrooms_edit.html?pid=${partyroom.id}"><i class="fa-solid fa-pen-to-square"></i></a></div>`;
+    const card_image = `<img src="/images/${partyroom.imagefilename}" class="card-img-top" alt="${partyroom.name}">`;
+    const deleteBtn = `<div class="del-button"><a href="#"><i class="fa-solid fa-trash fa-lg"></i></a></div>`;
+    const editBtn = `<div class="edit-button"><a href="/partyrooms_edit.html?pid=${partyroom.id}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a></div>`;
 
     partyroomCardsHtml += `
-            <div class="roomInfo-photo-title" data-id="${partyroom.id}">
-              <div class="room-card-photo">
-               <a href= "/partyrooms_details.html?pid=${
-                 partyroom.id
-               }"> ${image} </a>
-              </div>
-              <div class="room-card-copy">
-                ${partyroom.name} @ ${partyroom.venue}
-              </div>  
-              ${user.id === partyroom.user_id ? deleteBtn : ""}
-              ${user.id === partyroom.user_id ? editBtn : ""}
+      <div class="col-md-3 d-flex justify-content-center text-center">
+        <div class="card w-75 partyroom-card mb-3" data-id="${partyroom.id}">
+          <a href= "/partyrooms_details.html?pid=${partyroom.id}">${card_image}</a>
+          <div class="card-body">
+            <h5 class="card-title">${partyroom.name}</h5>
+            <p class="card-text">${partyroom.venue}</p>
+          </div>
+          <div class="card-footer d-flex justify-content-around">
+            <div class="edit-button">
+              <a href="/partyrooms_edit.html?pid=${partyroom.id}"
+                ><i class="fa-solid fa-pen-to-square"></i
+              ></a>
             </div>
-            `;
+            <div class="del-button">
+              <a href="#"><i class="fa-solid fa-trash"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      `;
   }
 
   document.querySelector(".roomInfo-and-photo").innerHTML += partyroomCardsHtml;
