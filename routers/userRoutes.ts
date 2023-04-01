@@ -9,7 +9,6 @@ import { Equipment } from "../model";
 
 export const userRoutes = express.Router();
 
-userRoutes.put("/upload/:pid", editRoom);
 userRoutes.delete("/upload/:pid", deleteRoom);
 userRoutes.post("/booking", bookRoom);
 userRoutes.get("/booking", getAllBookings);
@@ -142,41 +141,6 @@ async function getAllBookings(req: Request, res: Response) {
   const queryResult = await dbClient.query<Booking>("SELECT * FROM bookings");
   res.json(queryResult.rows);
 }
-//edit party room
-async function editRoom(req: Request, res: Response) {
-  const partyroomId = +req.params.pid;
-  const newName = req.body.name;
-  const newPhone_no = req.body.phone_no;
-  const newPrice = req.body.price;
-  const newVenue = req.body.venue;
-  const newStyle = req.body.style;
-  const newArea = req.body.area;
-  const newCapacity = req.body.capacity;
-  const newIntro = req.body.intro;
-  const newImageFileName = req.body.image;
-
-  if (isNaN(partyroomId)) {
-    res.status(400).json({ message: "invalid partyroom id" });
-    return;
-  }
-
-  await dbClient.query(
-    /*SQL*/ `UPDATE partyrooms SET name = $1, phone_no = $2, price = $3, venue = $4, style = $5, area = $6, capacity = $7, intro = $8, imagefilename = $9 WHERE id = $10`,
-    [
-      newName,
-      newPhone_no,
-      newPrice,
-      newVenue,
-      newStyle,
-      newArea,
-      newCapacity,
-      newIntro,
-      newImageFileName,
-      partyroomId,
-    ]
-  );
-  res.json({ message: "success" });
-}
 
 // delete party room //
 async function deleteRoom(req: Request, res: Response) {
@@ -190,5 +154,11 @@ async function deleteRoom(req: Request, res: Response) {
   await dbClient.query(/*SQL*/ `DELETE FROM partyrooms WHERE id = $1`, [
     partyroomId,
   ]);
+
+  // need to fix
+  await dbClient.query(/*SQL*/ `DELETE FROM equipments where id = $1`, [
+    partyroomId,
+  ]);
+
   res.json({ message: "party room deleted" });
 }
