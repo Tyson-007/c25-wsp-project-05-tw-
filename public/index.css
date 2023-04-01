@@ -29,6 +29,8 @@ i {
   --bs-btn-border-color: #ff8a00;
   --bs-btn-hover-bg: #ec7e00;
   --bs-btn-hover-border-color: #ec7e00;
+  --bs-btn-active-bg: #ec7e00;
+  --bs-btn-active-border-color: #ec7e00;
 }
 
 .container-fluid {

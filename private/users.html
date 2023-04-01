@@ -4,47 +4,97 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="./css/users.css">
+    <title>Welcome Back User</title>
+    <!--font awesome cdn-->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+      integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!--bootstrap cdn-->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
+      crossorigin="anonymous"
+    />
+    <!--bootstrap js-->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+      crossorigin="anonymous"
+    ></script>
+    <!--custom css-->
+    <link rel="stylesheet" href="./css/users.css" />
+  </head>
   <body>
-    <div class="whole">
-      <div class="header">
-        <i class="fa-solid fa-bars"></i>
-        
-        <h1>name</h1>
-        <div class="select">
-            <label for="cars">Welcome</label>
-            <select name="Welcome" id="">
-              <!-- <option value=""></option> -->
-            </select>
+    <div class="container-fluid">
+      <!--header-->
+      <div class="row header">
+        <div class="col-md-4" style="text-align: left">
+          <div class=".header-content">
+            <i class="fa-solid fa-bars fa-2x"></i>
           </div>
         </div>
-
-      <div class="banner">
-        <p class="filter-title">Filter party rooms()</p>
+        <div class="col-md-4" style="text-align: center">
+          <div class="header-text"><h1>The Party Room</h1></div>
+        </div>
+        <div class="col-md-4" style="text-align: right">
+          <div class="dropdown">
+            <button
+              class="btn btn-primary dropdown-toggle"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              歡迎
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">用戶資料</a></li>
+              <li>
+                <a class="dropdown-item" href="#" style="color: red">登出</a>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
-
+      <!--banner-->
+      <div
+        class="row banner justify-content-md-center"
+        style="text-align: center"
+      >
+        <div class="col-md-8 banner-text">全港Party Room就在這裡!</div>
+      </div>
+      <div class="row">
+        <div class="col-md-4 align-items-center align-middle test">test</div>
+        <div class="col-md-4 align-items-center align-middle test">test</div>
+        <div class="col-md-4 align-items-center align-middle test">test</div>
+      </div>
+      <div class="row align-items-center main-buttons">
+        <div class="col-md-4 main-button justify-content-center">
+          <div class="roomInfo-photo-add align-items-center align-middle">
+            <a href="./postData.html">上傳新Party Room</a>
+          </div>
+        </div>
+        <div class="col-md-4 main-button">
+          <div class="roomInfo-photo-add">
+            <a href="./postData.html">查看你的Party Room預約</a>
+          </div>
+        </div>
+        <div class="col-md-4 main-button">
+          <div class="roomInfo-photo-add">
+            <a href="./postData.html">你的Party Room已被預約</a>
+          </div>
+        </div>
+      </div>
       <div class="information">
-        <div class="venue-check-and-add">
-          <div class="roomInfo-photo-add-div">
-            <p class="roomInfo-photo-add"><a href="./postData.html">上傳新Party Room</a></p> 
-          </div>
-          
-          <div class="venue-check-title-div">
-            <p class="venue-check-title">你的預約: 3月29號 16:00 @ Party Room</p>
-            <p>了解更多</p>
-          </div>
-            
-          <div class="vote-div"><p class="vote">齊齊夾時間</p></div>
-        </div>
-        
-        <div class="roomInfo-and-photo">
-        </div>
+        <div class="roomInfo-and-photo"></div>
       </div>
     </div>
     <div class="footer">
-        <p>Footer</p>
+      <p>Footer</p>
     </div>
     <!-- <script src="./js/Realusers.js"></script> -->
     <script src="./js/users.js"></script>
