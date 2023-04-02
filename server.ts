@@ -36,10 +36,12 @@ app.use(
 import { roomDetailsRoutes } from "./routers/roomDetailsRoutes";
 import { userRoutes } from "./routers/userRoutes";
 import { authRoutes } from "./routers/authRoutes";
+import { bookingDetailsRoutes } from "./routers/bookingDetailsRoutes";
 
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
 app.use("/roomDetails", roomDetailsRoutes);
+app.use("/bookingDetails", bookingDetailsRoutes)
 
 ////////////////////
 // express.static //

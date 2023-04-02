@@ -1,7 +1,7 @@
 window.onload = () => {
   initLogin();
   initSignup();
-  getAllRooms();
+  // getAllRooms();
 };
 
 async function initLogin() {

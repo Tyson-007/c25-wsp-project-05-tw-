@@ -29,8 +29,8 @@ async function getUserID(req: Request, res: Response) {
 }
 
 async function getPartyroomID(req: Request, res: Response) {
-  const user = (await dbClient.query("SELECT id, name FROM partyrooms WHERE id = $1", [req.session.partyroom_id])).rows[0];
-  res.json(user);
+  const partyroom = (await dbClient.query("SELECT id, name FROM partyrooms WHERE id = $1", [req.session.partyroom_id])).rows[0];
+  res.json(partyroom);
 }
 
 // upload a party room //
@@ -85,11 +85,11 @@ async function uploadRoom(req: Request, res: Response) {
     const partyroomId = (
       await dbClient.query<Partyroom>(/*sql*/ `SELECT id, name FROM partyrooms WHERE name = $1`, [name])
     ).rows[0];
+    req.session.partyroom_id = partyroomId.id;
   await dbClient.query<Equipment>(
     /*SQL*/ `INSERT INTO equipments (name, type) VALUES ($1, $2)`,
     [equipment_name, type]
   );
-    req.session.partyroom_id = partyroomId.id
   res.json({ message: "party room uploaded" });
 }
 
