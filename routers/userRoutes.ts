@@ -16,6 +16,7 @@ userRoutes.post("/upload", uploadRoom);
 userRoutes.get("/upload", allRooms);
 userRoutes.post("/uploadEquipments", uploadEquipments);
 userRoutes.get("/self", getUserID);
+userRoutes.get("/partyroomself", getPartyroomID)
 
 // get user id //
 async function getUserID(req: Request, res: Response) {
@@ -24,6 +25,11 @@ async function getUserID(req: Request, res: Response) {
       req.session.user_id,
     ])
   ).rows[0];
+  res.json(user);
+}
+
+async function getPartyroomID(req: Request, res: Response) {
+  const user = (await dbClient.query("SELECT id, name FROM partyrooms WHERE id = $1", [req.session.partyroom_id])).rows[0];
   res.json(user);
 }
 
@@ -76,12 +82,14 @@ async function uploadRoom(req: Request, res: Response) {
       req.session.user_id,
     ]
   );
-
+    const partyroomId = (
+      await dbClient.query<Partyroom>(/*sql*/ `SELECT id, name FROM partyrooms WHERE name = $1`, [name])
+    ).rows[0];
   await dbClient.query<Equipment>(
     /*SQL*/ `INSERT INTO equipments (name, type) VALUES ($1, $2)`,
     [equipment_name, type]
   );
-
+    req.session.partyroom_id = partyroomId.id
   res.json({ message: "party room uploaded" });
 }
 
@@ -124,7 +132,7 @@ async function bookRoom(req: Request, res: Response) {
     return;
   }
 
-  const queryResult = /*SQL*/ `INSERT INTO bookings (user_id, partyroom_id, start_at, finish_at, participants, special_req) VALUES ($1, $2, $3, $4) RETURNING id`;
+  const queryResult = /*SQL*/ `INSERT INTO bookings (user_id, partyroom_id, start_at, finish_at, participants, special_req) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`;
   await dbClient.query<Booking>(queryResult, [
     req.session.user_id,
     req.session.partyroom_id,
