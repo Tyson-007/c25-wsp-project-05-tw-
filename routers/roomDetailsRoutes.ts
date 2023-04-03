@@ -11,7 +11,7 @@ export const roomDetailsRoutes = express.Router();
 roomDetailsRoutes.get("/:pid", getRoomDetails);
 roomDetailsRoutes.put("/:pid", editRoomDetails);
 
-// get details for one party room
+// get details for one party room, used in partyrooms_details.js
 async function getRoomDetails(req: Request, res: Response) {
   try {
     const roomId = +req.params.pid;
@@ -42,6 +42,7 @@ async function getRoomDetails(req: Request, res: Response) {
   }
 }
 
+// need to fix //
 //edit party room
 async function editRoomDetails(req: Request, res: Response) {
   const { fields, files } = await partyroomFormPromise(partyroomForm, req);

@@ -17,19 +17,19 @@ userRoutes.get("/upload", allRooms);
 userRoutes.post("/uploadEquipments", uploadEquipments);
 userRoutes.get("/self", getUserID);
 // userRoutes.get("/partyroomself", getPartyroomID)
-userRoutes.get("/bookingself", getBookingSelf);
+// userRoutes.get("/bookingself", getBookingSelf);
 
-async function getBookingSelf(req: Request, res: Response) {
-  const booking = (
-    await dbClient.query(
-      "SELECT * from bookings join users on bookings.user_id = users.id join partyrooms on bookings.partyroom_id = partyrooms.id where users.id = $1",
-      [req.session.user_id]
-    )
-  ).rows;
-  res.json(booking);
-}
+// async function getBookingSelf(req: Request, res: Response) {
+//   const booking = (
+//     await dbClient.query(
+//       "SELECT * from bookings join users on bookings.user_id = users.id join partyrooms on bookings.partyroom_id = partyrooms.id where users.id = $1",
+//       [req.session.user_id]
+//     )
+//   ).rows;
+//   res.json(booking);
+// }
 
-// get user id //
+// get user id, used in users.js //
 async function getUserID(req: Request, res: Response) {
   const user = (
     await dbClient.query("SELECT id, name, phone_no FROM users WHERE id = $1", [
@@ -44,7 +44,7 @@ async function getUserID(req: Request, res: Response) {
 //   res.json(partyroom);
 // }
 
-// upload a party room //
+// upload a party room, used in postData.js //
 async function uploadRoom(req: Request, res: Response) {
   const { fields, files } = await partyroomFormPromise(partyroomForm, req);
 
@@ -104,10 +104,7 @@ async function uploadRoom(req: Request, res: Response) {
   res.json({ message: "party room uploaded" });
 }
 
-/* ---------------------------users get room information ---------------------------------------------- */
-// some function here //
-
-// show party room data from database //
+// show party room data from database, used in users.js //
 async function allRooms(_req: Request, res: Response) {
   const queryResult = await dbClient.query<Partyroom>(
     "SELECT * FROM partyrooms"
@@ -131,7 +128,7 @@ async function uploadEquipments(req: Request, res: Response) {
   console.log(queryResult.rows[0]);
 }
 
-// make a booking //
+// make a booking, used in partyrooms_details.js //
 async function bookRoom(req: Request, res: Response) {
   const start_at = req.body.start_at;
   const finish_at = req.body.finish_at;
@@ -157,6 +154,7 @@ async function bookRoom(req: Request, res: Response) {
   res.status(200).json({ message: "booking successful" });
 }
 
+// get user's booking info, used in mybookings.js
 async function getAllBookings(req: Request, res: Response) {
   const queryResult = await dbClient.query<Booking>(
     `SELECT bookings.id AS id, name, venue, start_at, finish_at FROM bookings JOIN partyrooms ON bookings.partyroom_id = partyrooms.id WHERE bookings.user_id = $1;`,
@@ -165,7 +163,7 @@ async function getAllBookings(req: Request, res: Response) {
   res.json(queryResult.rows);
 }
 
-// delete party room //
+// delete party room, used in users.js //
 async function deleteRoom(req: Request, res: Response) {
   const partyroomId = +req.params.pid;
   if (isNaN(partyroomId)) {
