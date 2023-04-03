@@ -9,13 +9,13 @@ export interface User {
 }
 
 export interface Booking {
-  id:number;
+  id: number;
   start_at?: Date;
   finish_at?: Date;
   participants?: number;
   special_req?: string;
-  user_id:number;
-  partyroom_id:number;
+  user_id: number;
+  partyroom_id: number;
 }
 
 export interface Partyroom {
@@ -30,11 +30,12 @@ export interface Partyroom {
   intro?: string;
   imagefilename?: string;
   user_id?: number;
+  is_hidden?: boolean;
 }
 
 export interface Equipment {
-  id:number;
-  partyroom_id:number;
+  id: number;
+  partyroom_id: number;
   name: string;
   type: string;
 }
