@@ -97,7 +97,7 @@ async function uploadBookInfo() {
     });
     // const booking_details = await res.json();
     if (res.status === 200) {
-      window.location = "/booked.html";
+      window.location = `/users.html`;
       alert("success");
     } else {
       const data = await res.json();
