@@ -132,16 +132,35 @@
     </div>
   </div>
   <body>
-    <div class="whole">
-      <div class="header">
-        <i class="fa-solid fa-bars"></i>
-
-        <h1>name</h1>
-        <div class="select">
-          <label for="cars">Welcome</label>
-          <select name="Welcome" id="">
-            <!-- <option value=""></option> -->
-          </select>
+    <div class="container-fluid">
+      <div class="row header mb-4">
+        <div class="col-md-4" style="text-align: left">
+          <div class="header-content px-4">
+            <i class="fa-solid fa-bars fa-2x"></i>
+          </div>
+        </div>
+        <div class="col-md-4" style="text-align: center">
+          <div class="header-text">
+            <a href="/"><h1>The Party Room</h1></a>
+          </div>
+        </div>
+        <div class="col-md-4" style="text-align: right">
+          <div class="dropdown">
+            <button
+              class="btn btn-primary dropdown-toggle"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              歡迎
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">用戶資料</a></li>
+              <li>
+                <a class="dropdown-item" href="#" style="color: red">登出</a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
       <!-- Result-Area -->
