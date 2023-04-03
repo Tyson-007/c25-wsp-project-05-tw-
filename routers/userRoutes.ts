@@ -10,28 +10,35 @@ import { Equipment } from "../model";
 export const userRoutes = express.Router();
 
 userRoutes.delete("/upload/:pid", deleteRoom);
-userRoutes.post("/booking", bookRoom);
+userRoutes.post("/booking/:pid", bookRoom);
 userRoutes.get("/booking", getAllBookings);
 userRoutes.post("/upload", uploadRoom);
 userRoutes.get("/upload", allRooms);
 userRoutes.post("/uploadEquipments", uploadEquipments);
 userRoutes.get("/self", getUserID);
-userRoutes.get("/partyroomself", getPartyroomID)
+// userRoutes.get("/partyroomself", getPartyroomID)
+userRoutes.get("/bookingself", getBookingSelf)
+
+async function getBookingSelf(req: Request, res: Response) {
+  const booking = (await dbClient.query("SELECT start_at, finish_at from bookings WHERE user_id = $1", [req.session.user_id]))
+    .rows[0];
+  res.json(booking);
+}
 
 // get user id //
 async function getUserID(req: Request, res: Response) {
   const user = (
-    await dbClient.query("SELECT id, name FROM users WHERE id = $1", [
+    await dbClient.query("SELECT id, name, phone_no FROM users WHERE id = $1", [
       req.session.user_id,
     ])
   ).rows[0];
   res.json(user);
 }
 
-async function getPartyroomID(req: Request, res: Response) {
-  const partyroom = (await dbClient.query("SELECT id, name FROM partyrooms WHERE id = $1", [req.session.partyroom_id])).rows[0];
-  res.json(partyroom);
-}
+// async function getPartyroomID(req: Request, res: Response) {
+//   const partyroom = (await dbClient.query("SELECT id, name FROM partyrooms WHERE id = $1", [req.session.partyroom_id])).rows[0];
+//   res.json(partyroom);
+// }
 
 // upload a party room //
 async function uploadRoom(req: Request, res: Response) {
@@ -86,6 +93,8 @@ async function uploadRoom(req: Request, res: Response) {
       await dbClient.query<Partyroom>(/*sql*/ `SELECT id, name FROM partyrooms WHERE name = $1`, [name])
     ).rows[0];
     req.session.partyroom_id = partyroomId.id;
+    console.log(req.session.partyroom_id);
+    
   await dbClient.query<Equipment>(
     /*SQL*/ `INSERT INTO equipments (name, type) VALUES ($1, $2)`,
     [equipment_name, type]

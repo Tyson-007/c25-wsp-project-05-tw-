@@ -187,3 +187,5 @@ TEXT
 注意
 比錢過程
 商戶同 users 簡時間操作
+
+POST /booking/:pid
