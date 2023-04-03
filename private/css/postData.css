@@ -1,6 +1,40 @@
-body {
-  margin-left: 5%;
-  margin-right: 5%;
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.header {
+  display: flex;
+  background-color: #ffffff !important;
+  align-items: center;
+  line-height: 100%;
+  height: 8vh;
+  font-size: large;
+  border-bottom: solid 0.5px #999999;
+}
+
+.btn-primary {
+  --bs-btn-bg: #ff8a00;
+  --bs-btn-border-color: #ff8a00;
+  --bs-btn-hover-bg: #ec7e00;
+  --bs-btn-hover-border-color: #ec7e00;
+  --bs-btn-active-bg: #ec7e00;
+  --bs-btn-active-border-color: #ec7e00;
+}
+
+form {
+  margin-left: 7.5% !important;
+  margin-right: 7.5% !important;
+}
+
+input {
+  background-color: #eeeeee !important;
+  border: solid 0.5px #999999 !important;
+}
+
+textarea {
+  background-color: #eeeeee !important;
+  border: solid 0.5px #999999 !important;
 }
 
 /* top side information */
