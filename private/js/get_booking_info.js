@@ -10,8 +10,8 @@ async function getAllBookings() {
   const res_user = await fetch ("/user/self")
   const user = await res_user.json()
 
-    const res_partyroom= await fetch("/user/partyroomself");
-    const partyroom = await res_partyroom.json();
+    // const res_partyroom= await fetch("/user/partyroomself");
+    // const partyroom = await res_partyroom.json();
 
     const res_bookingself = await fetch("/user/bookingself");
     const bookingself = await res_bookingself.json();
@@ -26,7 +26,7 @@ async function getAllBookings() {
     bookinghtmlstr += `
     <p>${user.name}</p>
             <i class="fa-brands fa-whatsapp"></i>
-            <p>${user.phone_no}</p>
+            <p>${user.id}</p>
             <i class="fa-solid fa-phone-volume"></i>
             <p>${user.id}</p>
     `;
