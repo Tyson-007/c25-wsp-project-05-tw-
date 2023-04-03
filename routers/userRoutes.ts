@@ -20,8 +20,7 @@ userRoutes.get("/partyroomself", getPartyroomID)
 userRoutes.get("/bookingself", getBookingSelf)
 
 async function getBookingSelf(req: Request, res: Response) {
-  const booking = (await dbClient.query("SELECT start_at, finish_at from bookings WHERE user_id = $1", [req.session.user_id]))
-    .rows[0];
+  const booking = (await dbClient.query("SELECT * from bookings join users on bookings.user_id = users.id join partyrooms on bookings.partyroom_id = partyrooms.id where users.id = $1", [req.session.user_id])).rows;
   res.json(booking);
 }
 
@@ -29,14 +28,14 @@ async function getBookingSelf(req: Request, res: Response) {
 async function getUserID(req: Request, res: Response) {
   const user = (
     await dbClient.query("SELECT id, name, phone_no FROM users WHERE id = $1", [
-      req.session.user_id,
+      req.session.user_id
     ])
   ).rows[0];
   res.json(user);
 }
 
 async function getPartyroomID(req: Request, res: Response) {
-  const partyroom = (await dbClient.query("SELECT id, name FROM partyrooms WHERE id = $1", [req.session.partyroom_id])).rows[0];
+  const partyroom = (await dbClient.query("SELECT id, name FROM partyrooms")).rows;
   res.json(partyroom);
 }
 
