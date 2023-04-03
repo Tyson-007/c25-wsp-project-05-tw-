@@ -10,7 +10,7 @@ export const bookingDetailsRoutes = express.Router();
 
 bookingDetailsRoutes.get("/:bid", getBookingDetails);
 
-// get details for one booking
+// get details for one booking, used in booked.js
 async function getBookingDetails(req: Request, res: Response) {
   try {
     const bookingId = +req.params.bid;

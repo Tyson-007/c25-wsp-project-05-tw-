@@ -63,3 +63,18 @@ async function bookingDetails() {
     `;
   document.querySelector(".booking-details").innerHTML += bookinghtmlstr;
 }
+
+async function logout() {
+  document.querySelector(".logout").addEventListener("click", async (e) => {
+    const resp = await fetch(`/auth/logout`, {
+      method: "DELETE",
+    });
+
+    const result = await resp.json();
+    alert(result.message);
+
+    if (resp.status === 200) {
+      window.location = "/";
+    }
+  });
+}
