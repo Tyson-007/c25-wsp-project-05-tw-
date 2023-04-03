@@ -4,10 +4,166 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Upload Your Party Room</title>
+    <!--font awesome cdn-->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!--bootstrap cdn-->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
+      crossorigin="anonymous"
+    />
+    <!--bootstrap js-->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+      crossorigin="anonymous"
+    ></script>
+    <!--custom css-->
     <link rel="stylesheet" href="./css/postData.css" />
   </head>
   <body>
+    <div class="container-fluid">
+      <!--header-->
+      <div class="row header mb-4">
+        <div class="col-md-4" style="text-align: left">
+          <div class="header-content px-4">
+            <i class="fa-solid fa-bars fa-2x"></i>
+          </div>
+        </div>
+        <div class="col-md-4" style="text-align: center">
+          <div class="header-text">
+            <a href="/users.html"><h1>The Party Room</h1></a>
+          </div>
+        </div>
+        <div class="col-md-4" style="text-align: right">
+          <div class="dropdown">
+            <button
+              class="btn btn-primary dropdown-toggle"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              歡迎
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">用戶資料</a></li>
+              <li>
+                <a class="dropdown-item" href="#" style="color: red">登出</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!--upload room form-->
+      <div class="form-container">
+        <div class="row form-header justify-content-center text-center mb-3">
+          <h4>上傳新Party Room</h4>
+        </div>
+        <!--form-->
+        <form class="row mb-3" id="upload-info" enctype="multipart/form-data">
+          <!--name-->
+          <div class="col-md-4 name-div mb-3">
+            <label for="inputName" class="form-label">場地名稱</label>
+            <input type="text" name="name" class="form-control uploads" />
+          </div>
+          <!--phone no-->
+          <div class="col-md-4 phone-no-div mb-3">
+            <label for="inputPhoneNo" class="form-label">聯絡人電話</label>
+            <input type="tel" name="phone_no" class="form-control uploads" />
+          </div>
+          <!--price-->
+          <div class="col-md-4 price-div mb-3">
+            <label for="inputPrice" class="form-label">定價（時租）</label>
+            <input
+              type="number"
+              name="price"
+              class="form-control uploads"
+              value="100"
+              step="50"
+            />
+          </div>
+          <!--venue-->
+          <div class="col-md-12 venue-div mb-3">
+            <label for="inputVenue" class="venue-label">地址</label>
+            <input type="text" name="venue" class="form-control uploads" />
+          </div>
+          <div class="col-md-4 area-div mb-3">
+            <label for="inputArea" class="area-label">場地面積</label>
+            <input
+              type="number"
+              name="area"
+              class="form-control uploads"
+              value="100"
+            />
+          </div>
+          <!--capacity-->
+          <div class="col-md-4 capacity-div mb-3">
+            <label for="inputCapacity" class="capacity-label"
+              >最大容納人數</label
+            >
+            <input
+              type="number"
+              name="capacity"
+              class="form-control uploads"
+              value="16"
+            />
+          </div>
+          <!--style-->
+          <div class="col-md-4 style-div mb-3">
+            <label for="inputStyle" class="style-label">場地風格</label>
+            <input type="text" name="style" class="form-control uploads" />
+          </div>
+          <!--signature equipment-->
+          <div class="col-md-12 d-flex justify-content-center">
+            <h5>請輸入Party Room最有特色的設備 (Signature Item)</h5>
+          </div>
+          <div class="col-md-6 equipment-in-service-div mb-3">
+            <label for="inputEquipmentName" class="equipment-name-label"
+              >設備名</label
+            >
+            <input
+              type="text"
+              name="equipment_name"
+              class="form-control uploads"
+            />
+          </div>
+          <div class="col-md-6 equipment-type-div mb-3">
+            <label for="inputEquipmentType" class="equipment-type-label"
+              >設備種類</label
+            >
+            <input type="text" name="type" class="form-control uploads" />
+          </div>
+          <!--intro-->
+          <div class="col-md-12 intro-div mb-3">
+            <label for="inputIntro" class="intro-label">場地介紹</label>
+            <textarea
+              class="form-control uploads"
+              name="intro"
+              rows="4"
+            ></textarea>
+          </div>
+          <!--image-->
+          <div class="col-md-12 image-div mb-3">
+            <label for="inputImage" class="image-label">上傳圖片</label>
+            <input type="file" name="image" class="form-control uploads" />
+          </div>
+          <div class="col-md-12">
+            <button class="btn btn-primary" type="submit">
+              Submit Your Party Room
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <!-- old form
     <form id="upload-info" enctype="multipart/form-data">
       <div class="top-info">
         <div class="name-div">
@@ -58,7 +214,7 @@
         <input type="file" name="image" />
         <input type="submit" value="Submit Party Room Information" />
       </div>
-    </form>
+    </form> -->
   </body>
   <script src="./js/postData.js"></script>
 </html>

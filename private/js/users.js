@@ -20,26 +20,23 @@ async function getAllRooms() {
     // console.log(partyroom.user_id);
     // console.log(typeof partyroom.phone_no);
     const card_image = `<img src="/images/${partyroom.imagefilename}" class="card-img-top" alt="${partyroom.name}">`;
-    const deleteBtn = `<div class="del-button"><a href="#"><i class="fa-solid fa-trash fa-lg"></i></a></div>`;
-    const editBtn = `<div class="edit-button"><a href="/partyrooms_edit.html?pid=${partyroom.id}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a></div>`;
+    const editAndDeleteBtn = `
+    <div class="edit-button"><a href="/partyrooms_edit.html?pid=${partyroom.id}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a></div>
+    <div class="del-button"><a href="#"><i class="fa-solid fa-trash fa-lg"></i></a></div>`;
+    const bookButton = `<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#booking-modal">立即預約</button>`;
 
     partyroomCardsHtml += `
       <div class="col-md-3 d-flex justify-content-center text-center">
         <div class="card w-75 partyroom-card mb-3" data-id="${partyroom.id}">
-          <a href= "/partyrooms_details.html?pid=${partyroom.id}">${card_image}</a>
+          <a href= "/partyrooms_details.html?pid=${
+            partyroom.id
+          }">${card_image}</a>
           <div class="card-body">
             <h5 class="card-title">${partyroom.name}</h5>
             <p class="card-text">${partyroom.venue}</p>
           </div>
           <div class="card-footer d-flex justify-content-around">
-            <div class="edit-button">
-              <a href="/partyrooms_edit.html?pid=${partyroom.id}"
-                ><i class="fa-solid fa-pen-to-square"></i
-              ></a>
-            </div>
-            <div class="del-button">
-              <a href="#"><i class="fa-solid fa-trash"></i></a>
-            </div>
+            ${user.id === partyroom.user_id ? editAndDeleteBtn : bookButton}
           </div>
         </div>
       </div>
