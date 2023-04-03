@@ -76,3 +76,8 @@ async function inputRoomDetails() {
   //   alert(result.message);
   // });
 }
+
+/* Comment未做 */
+// async function comment(){
+
+// }
