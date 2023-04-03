@@ -16,12 +16,16 @@ userRoutes.post("/upload", uploadRoom);
 userRoutes.get("/upload", allRooms);
 userRoutes.post("/uploadEquipments", uploadEquipments);
 userRoutes.get("/self", getUserID);
-userRoutes.get("/partyroomself", getPartyroomID)
-userRoutes.get("/bookingself", getBookingSelf)
+// userRoutes.get("/partyroomself", getPartyroomID)
+userRoutes.get("/bookingself", getBookingSelf);
 
 async function getBookingSelf(req: Request, res: Response) {
-  const booking = (await dbClient.query("SELECT start_at, finish_at from bookings WHERE user_id = $1", [req.session.user_id]))
-    .rows[0];
+  const booking = (
+    await dbClient.query(
+      "SELECT start_at, finish_at from bookings WHERE user_id = $1",
+      [req.session.user_id]
+    )
+  ).rows[0];
   res.json(booking);
 }
 
@@ -35,10 +39,10 @@ async function getUserID(req: Request, res: Response) {
   res.json(user);
 }
 
-async function getPartyroomID(req: Request, res: Response) {
-  const partyroom = (await dbClient.query("SELECT id, name FROM partyrooms WHERE id = $1", [req.session.partyroom_id])).rows[0];
-  res.json(partyroom);
-}
+// async function getPartyroomID(req: Request, res: Response) {
+//   const partyroom = (await dbClient.query("SELECT id, name FROM partyrooms WHERE id = $1", [req.session.partyroom_id])).rows[0];
+//   res.json(partyroom);
+// }
 
 // upload a party room //
 async function uploadRoom(req: Request, res: Response) {
@@ -89,7 +93,15 @@ async function uploadRoom(req: Request, res: Response) {
       req.session.user_id,
     ]
   );
-    
+  const partyroomId = (
+    await dbClient.query<Partyroom>(
+      /*sql*/ `SELECT id, name FROM partyrooms WHERE name = $1`,
+      [name]
+    )
+  ).rows[0];
+  req.session.partyroom_id = partyroomId.id;
+  console.log(req.session.partyroom_id);
+
   await dbClient.query<Equipment>(
     /*SQL*/ `INSERT INTO equipments (name, type) VALUES ($1, $2)`,
     [equipment_name, type]
@@ -130,18 +142,16 @@ async function bookRoom(req: Request, res: Response) {
   const finish_at = req.body.finish_at;
   const participants = req.body.participants;
   const special_req = req.body.special_req;
-  const partyroom_id = +req.params.pid;
 
   if (!participants) {
     res.status(400).json({ missing: "missing required fields" });
     return;
   }
-console.log(partyroom_id);
 
   const queryResult = /*SQL*/ `INSERT INTO bookings (user_id, partyroom_id, start_at, finish_at, participants, special_req) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`;
   await dbClient.query<Booking>(queryResult, [
     req.session.user_id,
-    partyroom_id,
+    req.session.partyroom_id,
     start_at,
     finish_at,
     participants,
@@ -152,7 +162,10 @@ console.log(partyroom_id);
 }
 
 async function getAllBookings(req: Request, res: Response) {
-  const queryResult = await dbClient.query<Booking>("SELECT * FROM bookings");
+  const queryResult = await dbClient.query<Booking>(
+    `SELECT * FROM bookings JOIN partyrooms ON bookings.partyroom_id = partyrooms.id WHERE bookings.user_id = $1;`,
+    [req.session.user_id]
+  );
   res.json(queryResult.rows);
 }
 

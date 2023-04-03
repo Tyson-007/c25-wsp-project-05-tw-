@@ -18,7 +18,11 @@ async function getBookingDetails(req: Request, res: Response) {
       res.status(400).json({ message: "invalid room id" });
       return;
     }
-    let resultQuery = (await dbClient.query(/*SQL*/ `SELECT * FROM bookings WHERE id = $1`, [bookingId])).rows[0];
+    let resultQuery = (
+      await dbClient.query(/*SQL*/ `SELECT * FROM bookings WHERE id = $1`, [
+        bookingId,
+      ])
+    ).rows[0];
     res.json(resultQuery);
   } catch (err) {
     console.log(err);
