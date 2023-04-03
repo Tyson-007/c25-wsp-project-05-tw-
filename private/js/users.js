@@ -26,20 +26,16 @@ async function getAllRooms() {
     partyroomCardsHtml += `
       <div class="col-md-3 d-flex justify-content-center text-center">
         <div class="card w-75 partyroom-card mb-3" data-id="${partyroom.id}">
-          <a href= "/partyrooms_details.html?pid=${partyroom.id}">${card_image}</a>
+          <a href= "/partyrooms_details.html?pid=${
+            partyroom.id
+          }">${card_image}</a>
           <div class="card-body">
             <h5 class="card-title">${partyroom.name}</h5>
             <p class="card-text">${partyroom.venue}</p>
           </div>
           <div class="card-footer d-flex justify-content-around">
-            <div class="edit-button">
-              <a href="/partyrooms_edit.html?pid=${partyroom.id}"
-                ><i class="fa-solid fa-pen-to-square"></i
-              ></a>
-            </div>
-            <div class="del-button">
-              <a href="#"><i class="fa-solid fa-trash"></i></a>
-            </div>
+            ${user.id === partyroom.user_id ? editBtn : ""}
+            ${user.id === partyroom.user_id ? deleteBtn : ""}
           </div>
         </div>
       </div>
