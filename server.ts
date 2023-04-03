@@ -17,7 +17,6 @@ declare module "express-session" {
   interface SessionData {
     isLoggedIn?: boolean;
     user_id: number;
-    partyroom_id: number
   }
 }
 
