@@ -142,6 +142,7 @@ async function bookRoom(req: Request, res: Response) {
   const finish_at = req.body.finish_at;
   const participants = req.body.participants;
   const special_req = req.body.special_req;
+  const partyroom_id = req.params.pid;
 
   if (!participants) {
     res.status(400).json({ missing: "missing required fields" });
@@ -151,7 +152,7 @@ async function bookRoom(req: Request, res: Response) {
   const queryResult = /*SQL*/ `INSERT INTO bookings (user_id, partyroom_id, start_at, finish_at, participants, special_req) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`;
   await dbClient.query<Booking>(queryResult, [
     req.session.user_id,
-    req.session.partyroom_id,
+    partyroom_id,
     start_at,
     finish_at,
     participants,
@@ -163,7 +164,7 @@ async function bookRoom(req: Request, res: Response) {
 
 async function getAllBookings(req: Request, res: Response) {
   const queryResult = await dbClient.query<Booking>(
-    `SELECT * FROM bookings JOIN partyrooms ON bookings.partyroom_id = partyrooms.id WHERE bookings.user_id = $1;`,
+    `SELECT bookings.id AS id, name, venue, start_at, finish_at FROM bookings JOIN partyrooms ON bookings.partyroom_id = partyrooms.id WHERE bookings.user_id = $1;`,
     [req.session.user_id]
   );
   res.json(queryResult.rows);
