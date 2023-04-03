@@ -88,14 +88,6 @@ async function uploadRoom(req: Request, res: Response) {
       req.session.user_id,
     ]
   );
-  const partyroomId = (
-    await dbClient.query<Partyroom>(
-      /*sql*/ `SELECT id, name FROM partyrooms WHERE name = $1`,
-      [name]
-    )
-  ).rows[0];
-  req.session.partyroom_id = partyroomId.id;
-  console.log(req.session.partyroom_id);
 
   await dbClient.query<Equipment>(
     /*SQL*/ `INSERT INTO equipments (name, type) VALUES ($1, $2)`,
