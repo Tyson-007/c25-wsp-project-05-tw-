@@ -72,7 +72,7 @@ async function createUpdateForm() {
         </div>
    `;
 
-  document.querySelector(".form-container").innerHTML = formHTMLString;
+  document.querySelector(".update-form-append-here").innerHTML = formHTMLString;
 }
 async function updateRoomDetails() {
   document
