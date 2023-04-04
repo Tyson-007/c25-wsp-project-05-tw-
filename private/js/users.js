@@ -208,15 +208,24 @@ function instanceSearch() {
 
       for (partyroom of partyrooms) {
         for (key in partyroom) {
-          if (
-            (key != "imagefilename" &&
-              typeof partyroom[key] === "string" &&
-              partyroom[key].includes(searchQuery)) ||
-            (key != "imagefilename" &&
-              typeof partyroom[key] === "number" &&
-              partyroom[key] === numberQuery)
+          if (key === "phone_no") {
+            if (partyroom[key] === searchQuery) {
+              duplicatedResults.push(partyroom);
+            }
+          } else if (
+            key != "imagefilename" &&
+            key != "user_id" &&
+            key != "id"
           ) {
-            duplicatedResults.push(partyroom);
+            if (
+              (typeof partyroom[key] === "string" &&
+                partyroom[key].includes(searchQuery)) ||
+              (typeof partyroom[key] === "number" &&
+                partyroom[key] === numberQuery)
+            ) {
+              console.log("pushed " + partyroom[key]);
+              duplicatedResults.push(partyroom);
+            }
           }
         }
       }

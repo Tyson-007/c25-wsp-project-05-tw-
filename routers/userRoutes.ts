@@ -219,21 +219,21 @@ async function getMyRooms(req: Request, res: Response) {
 async function searchRooms(req: Request, res: Response) {
   if (req.session.user_viewmode === "own") {
     const queryResult = await dbClient.query(
-      /*SQL*/ `SELECT partyrooms.id AS id, partyrooms.name AS name, phone_no, price, venue, style, area, capacity, intro, equipments.name AS equipment_name, type, imagefilename FROM partyrooms JOIN equipments ON partyrooms.id = equipments.partyroom_id WHERE user_id = $1`,
+      /*SQL*/ `SELECT partyrooms.id AS id, partyrooms.name AS name, user_id, phone_no, price, venue, style, area, capacity, intro, equipments.name AS equipment_name, type, imagefilename FROM partyrooms JOIN equipments ON partyrooms.id = equipments.partyroom_id WHERE partyrooms.user_id = $1;`,
       [req.session.user_id]
     );
     res.json(queryResult.rows);
     // console.log("own partyrooms data scraped");
   } else if (req.session.user_viewmode === "others") {
     const queryResult = await dbClient.query(
-      /*SQL*/ `SELECT partyrooms.id AS id, partyrooms.name AS name, phone_no, price, venue, style, area, capacity, intro, equipments.name AS equipment_name, type, imagefilename FROM partyrooms JOIN equipments ON partyrooms.id = equipments.partyroom_id WHERE user_id <> $1`,
+      /*SQL*/ `SELECT partyrooms.id AS id, partyrooms.name AS name, user_id, phone_no, price, venue, style, area, capacity, intro, equipments.name AS equipment_name, type, imagefilename FROM partyrooms JOIN equipments ON partyrooms.id = equipments.partyroom_id WHERE partyrooms.user_id <> $1;`,
       [req.session.user_id]
     );
     res.json(queryResult.rows);
     // console.log("others partyrooms data scraped");
   } else if (req.session.user_viewmode === "all") {
     const queryResult = await dbClient.query(
-      /*SQL*/ `SELECT partyrooms.id AS id, partyrooms.name AS name, phone_no, price, venue, style, area, capacity, intro, equipments.name AS equipment_name, type, imagefilename FROM partyrooms JOIN equipments ON partyrooms.id = equipments.partyroom_id FROM partyrooms JOIN equipments ON partyrooms.id = equipments.partyroom_id`
+      /*SQL*/ `SELECT partyrooms.id AS id, partyrooms.name AS name, user_id, phone_no, price, venue, style, area, capacity, intro, equipments.name AS equipment_name, type, imagefilename FROM partyrooms JOIN equipments ON partyrooms.id = equipments.partyroom_id;`
     );
     res.json(queryResult.rows);
     // console.log("all partyrooms data scraped");
