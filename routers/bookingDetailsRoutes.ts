@@ -28,8 +28,6 @@ async function getBookingDetails(req: Request, res: Response) {
       )
     ).rows[0];
 
-    console.log(resultQuery);
-
     res.json(resultQuery);
   } catch (err) {
     console.log(err);
