@@ -209,9 +209,11 @@ function instanceSearch() {
       for (partyroom of partyrooms) {
         for (key in partyroom) {
           if (
-            (typeof partyroom[key] === "string" &&
+            (key != "imagefilename" &&
+              typeof partyroom[key] === "string" &&
               partyroom[key].includes(searchQuery)) ||
-            (typeof partyroom[key] === "number" &&
+            (key != "imagefilename" &&
+              typeof partyroom[key] === "number" &&
               partyroom[key] === numberQuery)
           ) {
             duplicatedResults.push(partyroom);
