@@ -31,14 +31,46 @@
     <link rel="stylesheet" href="./css/postData.css" />
   </head>
   <body>
-    <div class="container">
-      <div class="header">header</div>
+    <div class="container-fluid"></div>
+    <div class="row header mb-4">
+        <div class="col-md-4" style="text-align: left">
+          <div class="header-content px-4">
+            <i class="fa-solid fa-bars fa-2x"></i>
+          </div>
+        </div>
+        <div class="col-md-4" style="text-align: center">
+          <div class="header-text">
+            <a href="/users.html"><h1>The Party Room</h1></a>
+          </div>
+        </div>
+        <div class="col-md-4" style="text-align: right">
+          <div class="dropdown">
+            <button
+              class="btn btn-primary dropdown-toggle"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              歡迎
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">用戶資料</a></li>
+              <li>
+                <a class="dropdown-item logout" href="#" style="color: red"
+                  >登出</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
       <div class="form-container">
       <form id="upload-info" enctype="multipart/form-data">
       <div class="update-form-append-here"></div>
       </form>
       </div>
       <div class="footer">footer</div>
+    </div>
     </div>
   </body>
   <script src="./js/partyroom_edit.js"></script>

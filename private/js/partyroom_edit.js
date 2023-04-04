@@ -16,60 +16,101 @@ async function createUpdateForm() {
   const partyroom_details = await resp.json();
   console.log(partyroom_details);
 
-  const image = `<img src="/images/${partyroom_details.imagefilename}" width = "20" alt=""/>`;
+  const image = `<img src="/images/${partyroom_details.imagefilename}" width = "100" alt=""/>`;
 
   formHTMLString = `    
-        <div class="top-info">
-            <div class="name-div">
-                <p>Name:</p>
-                <textarea class="uploads" name="name">${partyroom_details.name}</textarea>
-            </div>
-            <div class="phone-no-div">
-                <p>Phone Number:</p>
-                <textarea class="uploads" name="phone_no">${partyroom_details.phone_no}</textarea>
-            </div>
-            <div class="price-div">
-                <p>Price (per hour):</p>
-                <textarea class="uploads" name="price">${partyroom_details.price}</textarea>
-            </div>
-            <div class="venue-div">
-                <p>Venue:</p>
-                <textarea class="uploads" name="venue">${partyroom_details.venue}</textarea>
-            </div>
-        </div>
-        <div class="mid-info">
-            <div class="area-div">
-                <p>Area:</p>
-                <textarea class="uploads" name="area">${partyroom_details.area}</textarea>
-            </div>
-            <div class="capacity-div">
-                <p>Capacity:</p>
-                <textarea class="uploads" name="capacity">${partyroom_details.capacity}</textarea>
-            </div>
-            <div class="style-div">
-                <p>Style:</p>
-                <textarea class="uploads" name="style">${partyroom_details.style}</textarea>
-            </div>
-        </div>
-        <div class="mid-info" style="justify-content: space-around">
-            <div class="equipment-heading" style="width: 100%">Equipment</div>
-            <div class="equipment-in-service-div">
-                <p>Name:</p>
-                <textarea class="uploads" name="equipment_name">${partyroom_details.equipment_name}</textarea>
-            </div>
-            <div class="switch-game-div">
-                <p>Type:</p>
-                <textarea class="uploads" name="type">${partyroom_details.type}</textarea>
-            </div>
-        </div>
-        <div class="bottom-info">
-            <p>Introduction of Party Room:</p>
-            <textarea class="uploads" name="intro" cols="153" rows="15">${partyroom_details.intro}</textarea>
-            <p>Current Image</p>
-            ${image}
-            <input type="file" name="image" />
-            <input type="submit" id="submit-button" "Submit Party Room Information" />
-        </div>
+        <!--name-->
+          <div class="col-md-4 name-div mb-3">
+            <label for="inputName" class="form-label">場地名稱</label>
+            <input type="text" name="name" class="form-control uploads" />
+          </div>
+          <!--phone no-->
+          <div class="col-md-4 phone-no-div mb-3">
+            <label for="inputPhoneNo" class="form-label">聯絡人電話</label>
+            <input type="tel" name="phone_no" class="form-control uploads" />
+          </div>
+          <!--price-->
+          <div class="col-md-4 price-div mb-3">
+            <label for="inputPrice" class="form-label">定價（時租）</label>
+            <input
+              type="number"
+              name="price"
+              class="form-control uploads"
+              value="100"
+              step="50"
+            />
+          </div>
+          <!--venue-->
+          <div class="col-md-12 venue-div mb-3">
+            <label for="inputVenue" class="venue-label">地址</label>
+            <input type="text" name="venue" class="form-control uploads" />
+          </div>
+          <div class="col-md-4 area-div mb-3">
+            <label for="inputArea" class="area-label">場地面積</label>
+            <input
+              type="number"
+              name="area"
+              class="form-control uploads"
+              value="100"
+            />
+          </div>
+          <!--capacity-->
+          <div class="col-md-4 capacity-div mb-3">
+            <label for="inputCapacity" class="capacity-label"
+              >最大容納人數</label
+            >
+            <input
+              type="number"
+              name="capacity"
+              class="form-control uploads"
+              value="16"
+            />
+          </div>
+          <!--style-->
+          <div class="col-md-4 style-div mb-3">
+            <label for="inputStyle" class="style-label">場地風格</label>
+            <input type="text" name="style" class="form-control uploads" />
+          </div>
+          <!--signature equipment-->
+          <div class="col-md-12 d-flex justify-content-center">
+            <h5>請輸入Party Room最有特色的設備 (Signature Item)</h5>
+          </div>
+          <div class="col-md-6 equipment-in-service-div mb-3">
+            <label for="inputEquipmentName" class="equipment-name-label"
+              >設備名</label
+            >
+            <input
+              type="text"
+              name="equipment_name"
+              class="form-control uploads"
+            />
+          </div>
+          <div class="col-md-6 equipment-type-div mb-3">
+            <label for="inputEquipmentType" class="equipment-type-label"
+              >設備種類</label
+            >
+            <input type="text" name="type" class="form-control uploads" />
+          </div>
+          <!--intro-->
+          <div class="col-md-12 intro-div mb-3">
+            <label for="inputIntro" class="intro-label">場地介紹</label>
+            <textarea
+              class="form-control uploads"
+              name="intro"
+              rows="4"
+            ></textarea>
+          </div>
+          <!--image-->
+          <div class="col-md-12 image-div mb-3">
+          <div>current image ${image} </div>
+            <label for="inputImage" class="image-label">上傳圖片</label>
+            <input type="file" name="image" class="form-control uploads" />
+          </div>
+          <div class="col-md-12">
+            <button class="btn btn-primary" type="submit">
+              Submit Your Party Room
+            </button>
+          </div>
    `;
 
   document.querySelector(".update-form-append-here").innerHTML = formHTMLString;
