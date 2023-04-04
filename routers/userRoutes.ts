@@ -21,6 +21,7 @@ userRoutes.get("/rooms_self", getMyRooms);
 userRoutes.post("/rating/:pid", postComment);
 userRoutes.get("/rating/:pid", getUserIDNoSession);
 userRoutes.get("/search", searchRooms);
+// userRoutes.post("rating/:pid", postRating)
 
 // get user id, used in users.js //
 async function getUserID(req: Request, res: Response) {
@@ -36,7 +37,7 @@ async function getUserIDNoSession(req: Request, res: Response) {
   // const partyroom_id = +req.params.pid;
   const user2 = (
     await dbClient.query(
-      "SELECT users.name, comments FROM users JOIN ratings ON users.id = ratings.user_id join partyrooms on partyrooms.id = ratings.partyroom_id"
+      "SELECT users.name, comments, ratings FROM users JOIN ratings ON users.id = ratings.user_id join partyrooms on partyrooms.id = ratings.partyroom_id"
     )
   ).rows;
   res.json(user2);
@@ -164,6 +165,7 @@ async function deleteRoom(req: Request, res: Response) {
   res.json({ message: "party room deleted" });
 }
 
+/* Comment, use in partyroom_details.js */
 async function postComment(req: Request, res: Response) {
   const ratings = req.body.ratings;
   const comments = req.body.comments;
@@ -181,11 +183,14 @@ async function postComment(req: Request, res: Response) {
     ratings,
     comments,
   ]);
-  console.log(req.session.user_id);
 
   // console.log(queryResult.rows[0]);
   res.status(200).json({ message: "submit rating successful" });
 }
+
+// async function postRating(req:Request, res: Response){
+
+// }
 
 // get other's party rooms, used in users.js //
 async function getOthersRooms(req: Request, res: Response) {
