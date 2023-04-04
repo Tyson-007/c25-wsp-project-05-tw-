@@ -6,7 +6,7 @@ import { dbClient } from "../server";
 import { Booking } from "../model";
 import { Partyroom } from "../model";
 import { Equipment } from "../model";
-// import { Rating } from "../model";
+import { Rating } from "../model";
 
 export const userRoutes = express.Router();
 
@@ -16,15 +16,8 @@ userRoutes.get("/booking", getAllBookings);
 userRoutes.post("/upload", uploadRoom);
 userRoutes.get("/upload", allRooms);
 userRoutes.get("/self", getUserID);
-// userRoutes.post("/upload/:pid", postComment);
-// userRoutes.get("/partyroomself", getPartyroomID)
-// userRoutes.get("/bookingself", getBookingSelf);
-// userRoutes.post("/uploadEquipments", uploadEquipments);
-
-// async function getBookingSelf(req: Request, res: Response) {
-//   const booking = (await dbClient.query("SELECT * from bookings join users on bookings.user_id = users.id join partyrooms on bookings.partyroom_id = partyrooms.id where users.id = $1", [req.session.user_id])).rows;
-//   res.json(booking);
-// }
+userRoutes.post("/rating/:pid", postComment);
+userRoutes.get("/rating/:pid", getUserIDNoSession);
 
 // get user id, used in users.js //
 async function getUserID(req: Request, res: Response) {
@@ -35,20 +28,16 @@ async function getUserID(req: Request, res: Response) {
   ).rows[0];
   res.json(user);
 }
-
-// async function getPartyroomID(req: Request, res: Response) {
-//   const partyroom = (
-//     await dbClient.query("SELECT id, name FROM partyrooms WHERE id = $1", [
-//       req.session.partyroom_id,
-//     ])
-//   ).rows[0];
-//   res.json(partyroom);
-// }
-
-// async function getPartyroomID(req: Request, res: Response) {
-//   const partyroom = (await dbClient.query("SELECT id, name FROM partyrooms WHERE id = $1", [req.session.partyroom_id])).rows[0];
-//   res.json(partyroom);
-// }
+//get user id no session
+async function getUserIDNoSession(req: Request, res: Response) {
+  // const partyroom_id = +req.params.pid;
+  const user2 = (
+    await dbClient.query(
+      "SELECT users.name, comments FROM users JOIN ratings ON users.id = ratings.user_id join partyrooms on partyrooms.id = ratings.partyroom_id"
+    )
+  ).rows;
+  res.json(user2);
+}
 
 // upload a party room, used in postData.js //
 async function uploadRoom(req: Request, res: Response) {
@@ -67,20 +56,20 @@ async function uploadRoom(req: Request, res: Response) {
   const is_hidden = false as boolean;
   // const user_id = parseInt(fields.user_id as string);
 
-  // if (
-  //   !name ||
-  //   !phone_no ||
-  //   !price ||
-  //   !venue ||
-  //   !style ||
-  //   !area ||
-  //   !capacity ||
-  //   !intro
-  //   // !user_id
-  // ) {
-  //   res.status(400).json({ message: "missing content" });
-  //   return;
-  // }
+  if (
+    !name ||
+    !phone_no ||
+    !price ||
+    !venue ||
+    !style ||
+    !area ||
+    !capacity ||
+    !intro
+    // !user_id
+  ) {
+    res.status(400).json({ message: "missing content" });
+    return;
+  }
 
   const imageFilename = (files.image as formidable.File | undefined)
     ?.newFilename;
@@ -116,22 +105,6 @@ async function allRooms(_req: Request, res: Response) {
   );
   res.json(queryResult.rows); // pass array into res.json()
 }
-
-//upload equipment//
-// async function uploadEquipments(req: Request, res: Response) {
-//   const switchGame: string = req.body.switchGame;
-//   const psGame: string = req.body.psGame;
-//   const otherEquipments: string = req.body.otherEquipments;
-
-//   if (!switchGame || !psGame || !otherEquipments) {
-//     res.status(400).json({ missing: "missing equipments" });
-//     return;
-//   }
-//   const queryResult = await dbClient.query<Equipment>(
-//     /*SQL*/ `INSERT INTO equipments`
-//   );
-//   console.log(queryResult.rows[0]);
-// }
 
 // make a booking, used in partyrooms_details.js //
 async function bookRoom(req: Request, res: Response) {
@@ -186,25 +159,25 @@ async function deleteRoom(req: Request, res: Response) {
   res.json({ message: "party room deleted" });
 }
 
-// async function postComment(req: Request, res: Response) {
-//   const ratings = req.body.ratings;
-//   const comments = req.body.comments;
-//   const partyroom_id = +req.params.pid;
+async function postComment(req: Request, res: Response) {
+  const ratings = req.body.ratings;
+  const comments = req.body.comments;
+  const partyroom_id = +req.params.pid;
 
-//   // if (!participants) {
-//   //   res.status(400).json({ missing: "missing required fields" });
-//   //   return;
-//   // }
+  // if (!participants) {
+  //   res.status(400).json({ missing: "missing required fields" });
+  //   return;
+  // }
 
-//   const queryResult = /*SQL*/ `INSERT INTO ratings (user_id, partyroom_id, ratings, comments) VALUES ($1, $2, $3, $4) RETURNING id`;
-//   await dbClient.query<Rating>(queryResult, [
-//     req.session.user_id,
-//     partyroom_id,
-//     ratings,
-//     comments,
-//   ]);
-//   console.log(req.session.user_id);
+  const queryResult = /*SQL*/ `INSERT INTO ratings (user_id, partyroom_id, ratings, comments) VALUES ($1, $2, $3, $4) RETURNING id`;
+  await dbClient.query<Rating>(queryResult, [
+    req.session.user_id,
+    partyroom_id,
+    ratings,
+    comments,
+  ]);
+  console.log(req.session.user_id);
 
-//   // console.log(queryResult.rows[0]);
-//   res.status(200).json({ message: "submit rating successful" });
-// }
+  // console.log(queryResult.rows[0]);
+  res.status(200).json({ message: "submit rating successful" });
+}

@@ -1,7 +1,6 @@
 import { dbClient } from "./../server";
 import express from "express";
 import type { Request, Response } from "express";
-// import formidable from "formidable";
 import { partyroomForm, partyroomFormPromise } from "../formidable";
 import { Partyroom } from "../model";
 import { Equipment } from "../model";
@@ -108,33 +107,3 @@ async function editRoomDetails(req: Request, res: Response) {
 
   res.json({ message: "party room updated" });
 }
-
-// async function getComment(req: Request, res: Response) {
-//   try {
-//     const roomId = +req.params.pid;
-//     if (isNaN(roomId)) {
-//       res.status(400).json({ message: "invalid room id" });
-//       return;
-//     }
-//     let partyroomQuery = await dbClient.query(
-//       /*SQL*/ `SELECT * FROM partyrooms WHERE id = $1`,
-//       [roomId]
-//     );
-//     let equipmentQuery = await dbClient.query(
-//       /*SQL*/ `SELECT * FROM equipments WHERE id = $1`,
-//       [roomId]
-//     );
-
-//     const resultQuery = partyroomQuery.rows[0];
-//     const equipment = equipmentQuery.rows[0];
-
-//     equipment["equipment_name"] = equipment["name"];
-//     delete equipment["name"];
-//     Object.assign(resultQuery, equipment);
-
-//     res.json(resultQuery);
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({ message: "internal server error" });
-//   }
-// }
