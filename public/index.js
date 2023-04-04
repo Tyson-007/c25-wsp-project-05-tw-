@@ -15,11 +15,9 @@ async function initLogin() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, password }),
     });
-    const data = await res.json();
 
     if (res.status === 200) {
       // res.json({ message: "success" });
-      console.log("success");
       window.location = "/users.html";
       alert("Login successful");
     } else {
@@ -35,15 +33,22 @@ async function initSignup() {
     event.preventDefault();
     const name = signupForm.name.value;
     const password = signupForm.password.value;
+    const password_check = signupForm.password_check.value;
     const phone_no = signupForm.phone_no.value;
     const date_of_birth = signupForm.date_of_birth.value;
     const email = signupForm.email.value;
     const res = await fetch("/auth/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, password, phone_no, date_of_birth, email }),
+      body: JSON.stringify({
+        name,
+        password,
+        password_check,
+        phone_no,
+        date_of_birth,
+        email,
+      }),
     });
-    const data = await res.json();
 
     if (res.status === 200) {
       window.location = "/users.html";

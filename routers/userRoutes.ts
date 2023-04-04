@@ -14,10 +14,10 @@ userRoutes.post("/booking/:pid", bookRoom);
 userRoutes.get("/booking", getAllBookings);
 userRoutes.post("/upload", uploadRoom);
 userRoutes.get("/upload", allRooms);
-userRoutes.post("/uploadEquipments", uploadEquipments);
 userRoutes.get("/self", getUserID);
 // userRoutes.get("/partyroomself", getPartyroomID)
 // userRoutes.get("/bookingself", getBookingSelf);
+// userRoutes.post("/uploadEquipments", uploadEquipments);
 
 // async function getBookingSelf(req: Request, res: Response) {
 //   const booking = (
@@ -69,8 +69,7 @@ async function uploadRoom(req: Request, res: Response) {
     !style ||
     !area ||
     !capacity ||
-    !intro ||
-    !is_hidden
+    !intro
     // !user_id
   ) {
     res.status(400).json({ message: "missing content" });
@@ -112,21 +111,21 @@ async function allRooms(_req: Request, res: Response) {
   res.json(queryResult.rows); // pass array into res.json()
 }
 
-//upload equipment//
-async function uploadEquipments(req: Request, res: Response) {
-  const switchGame: string = req.body.switchGame;
-  const psGame: string = req.body.psGame;
-  const otherEquipments: string = req.body.otherEquipments;
+// //upload equipment//
+// async function uploadEquipments(req: Request, res: Response) {
+//   const switchGame: string = req.body.switchGame;
+//   const psGame: string = req.body.psGame;
+//   const otherEquipments: string = req.body.otherEquipments;
 
-  if (!switchGame || !psGame || !otherEquipments) {
-    res.status(400).json({ missing: "missing equipments" });
-    return;
-  }
-  const queryResult = await dbClient.query<Equipment>(
-    /*SQL*/ `INSERT INTO equipments`
-  );
-  console.log(queryResult.rows[0]);
-}
+//   if (!switchGame || !psGame || !otherEquipments) {
+//     res.status(400).json({ missing: "missing equipments" });
+//     return;
+//   }
+//   const queryResult = await dbClient.query<Equipment>(
+//     /*SQL*/ `INSERT INTO equipments`
+//   );
+//   console.log(queryResult.rows[0]);
+// }
 
 // make a booking, used in partyrooms_details.js //
 async function bookRoom(req: Request, res: Response) {

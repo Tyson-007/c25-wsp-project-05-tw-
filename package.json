@@ -26,6 +26,7 @@
     "express-pg-session": "^1.1.0",
     "express-session": "^1.17.3",
     "formidable": "^2.1.1",
+    "grant": "^5.4.21",
     "jsonfile": "^6.1.0",
     "pg": "^8.10.0"
   },
