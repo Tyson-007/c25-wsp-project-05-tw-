@@ -174,11 +174,16 @@ function filterTable() {
 function selectorTabToggle() {
   const myRoomsButton = document.querySelector(".selector-button-own");
   const othersRoomsButton = document.querySelector(".selector-button-others");
+  const allRoomsbutton = document.querySelector(".selector-button-all");
 
   myRoomsButton.addEventListener("click", () => {
     getMyRooms();
   });
   othersRoomsButton.addEventListener("click", () => {
     getOthersRooms();
+  });
+
+  allRoomsbutton.addEventListener("click", () => {
+    getAllRooms();
   });
 }
