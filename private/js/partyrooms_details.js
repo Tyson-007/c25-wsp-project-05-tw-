@@ -14,10 +14,7 @@ async function check() {
 async function inputRoomDetails() {
   const resp = await fetch(`/roomDetails/${urlSearchParams.get("pid")}`);
   const partyroom_details = await resp.json();
-  console.log(partyroom_details);
 
-  // const loginBtn = `<button onClick="login()">Login</button>`;
-  // const addPokemon = `<button onClick="addPokemon(${pokemon.id})">Add Pokemon</button>`;
   const image = `<img src="/images/${partyroom_details.imagefilename}" width = "20" alt=""/>`;
 
   let htmlStr = `

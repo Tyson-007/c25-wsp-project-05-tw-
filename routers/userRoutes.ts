@@ -73,9 +73,7 @@ async function uploadRoom(req: Request, res: Response) {
     !style ||
     !area ||
     !capacity ||
-    !intro ||
-    !is_hidden
-    // !user_id
+    !intro
   ) {
     res.status(400).json({ message: "missing content" });
     return;
