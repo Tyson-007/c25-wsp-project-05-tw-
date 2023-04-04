@@ -6,6 +6,7 @@ import { dbClient } from "../server";
 import { Booking } from "../model";
 import { Partyroom } from "../model";
 import { Equipment } from "../model";
+// import { Rating } from "../model";
 
 export const userRoutes = express.Router();
 
@@ -15,6 +16,7 @@ userRoutes.get("/booking", getAllBookings);
 userRoutes.post("/upload", uploadRoom);
 userRoutes.get("/upload", allRooms);
 userRoutes.get("/self", getUserID);
+// userRoutes.post("/upload/:pid", postComment);
 // userRoutes.get("/partyroomself", getPartyroomID)
 // userRoutes.get("/bookingself", getBookingSelf);
 // userRoutes.post("/uploadEquipments", uploadEquipments);
@@ -65,20 +67,20 @@ async function uploadRoom(req: Request, res: Response) {
   const is_hidden = false as boolean;
   // const user_id = parseInt(fields.user_id as string);
 
-  if (
-    !name ||
-    !phone_no ||
-    !price ||
-    !venue ||
-    !style ||
-    !area ||
-    !capacity ||
-    !intro
-    // !user_id
-  ) {
-    res.status(400).json({ message: "missing content" });
-    return;
-  }
+  // if (
+  //   !name ||
+  //   !phone_no ||
+  //   !price ||
+  //   !venue ||
+  //   !style ||
+  //   !area ||
+  //   !capacity ||
+  //   !intro
+  //   // !user_id
+  // ) {
+  //   res.status(400).json({ message: "missing content" });
+  //   return;
+  // }
 
   const imageFilename = (files.image as formidable.File | undefined)
     ?.newFilename;
@@ -139,10 +141,10 @@ async function bookRoom(req: Request, res: Response) {
   const special_req = req.body.special_req;
   const partyroom_id = req.params.pid;
 
-  if (!participants) {
-    res.status(400).json({ missing: "missing required fields" });
-    return;
-  }
+  // if (!participants) {
+  //   res.status(400).json({ missing: "missing required fields" });
+  //   return;
+  // }
 
   const queryResult = /*SQL*/ `INSERT INTO bookings (user_id, partyroom_id, start_at, finish_at, participants, special_req) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`;
   await dbClient.query<Booking>(queryResult, [
@@ -154,6 +156,8 @@ async function bookRoom(req: Request, res: Response) {
     special_req,
   ]);
   // console.log(queryResult.rows[0]);
+  console.log(req.session.user_id);
+
   res.status(200).json({ message: "booking successful" });
 }
 
@@ -181,3 +185,26 @@ async function deleteRoom(req: Request, res: Response) {
 
   res.json({ message: "party room deleted" });
 }
+
+// async function postComment(req: Request, res: Response) {
+//   const ratings = req.body.ratings;
+//   const comments = req.body.comments;
+//   const partyroom_id = +req.params.pid;
+
+//   // if (!participants) {
+//   //   res.status(400).json({ missing: "missing required fields" });
+//   //   return;
+//   // }
+
+//   const queryResult = /*SQL*/ `INSERT INTO ratings (user_id, partyroom_id, ratings, comments) VALUES ($1, $2, $3, $4) RETURNING id`;
+//   await dbClient.query<Rating>(queryResult, [
+//     req.session.user_id,
+//     partyroom_id,
+//     ratings,
+//     comments,
+//   ]);
+//   console.log(req.session.user_id);
+
+//   // console.log(queryResult.rows[0]);
+//   res.status(200).json({ message: "submit rating successful" });
+// }

@@ -20,8 +20,14 @@ async function getRoomDetails(req: Request, res: Response) {
       res.status(400).json({ message: "invalid room id" });
       return;
     }
-    let partyroomQuery = await dbClient.query(/*SQL*/ `SELECT * FROM partyrooms WHERE id = $1`, [roomId]);
-    let equipmentQuery = await dbClient.query(/*SQL*/ `SELECT * FROM equipments WHERE id = $1`, [roomId]);
+    let partyroomQuery = await dbClient.query(
+      /*SQL*/ `SELECT * FROM partyrooms WHERE id = $1`,
+      [roomId]
+    );
+    let equipmentQuery = await dbClient.query(
+      /*SQL*/ `SELECT * FROM equipments WHERE id = $1`,
+      [roomId]
+    );
 
     const resultQuery = partyroomQuery.rows[0];
     const equipment = equipmentQuery.rows[0];
@@ -58,9 +64,10 @@ async function editRoomDetails(req: Request, res: Response) {
     return;
   }
 
-  let newImageFilename = (files.image as formidable.File | undefined)?.newFilename;
+  let newImageFilename = (files.image as formidable.File | undefined)
+    ?.newFilename;
 
-  if (!newImageFilename){
+  if (!newImageFilename) {
     await dbClient.query<Partyroom>(
       /*SQL*/ `UPDATE partyrooms SET name = $1, phone_no = $2, price = $3, venue = $4, style = $5, area = $6, capacity = $7, intro = $8 WHERE id = $9`,
       [
@@ -93,13 +100,41 @@ async function editRoomDetails(req: Request, res: Response) {
     );
   }
 
-  
   // need to fix //
-  await dbClient.query<Equipment>(/*SQL*/ `UPDATE equipments SET name = $1, type = $2 WHERE id = $3`, [
-    new_equipment_name,
-    newType,
-    partyroomId,
-  ]);
+  await dbClient.query<Equipment>(
+    /*SQL*/ `UPDATE equipments SET name = $1, type = $2 WHERE id = $3`,
+    [new_equipment_name, newType, partyroomId]
+  );
 
   res.json({ message: "party room updated" });
 }
+
+// async function getComment(req: Request, res: Response) {
+//   try {
+//     const roomId = +req.params.pid;
+//     if (isNaN(roomId)) {
+//       res.status(400).json({ message: "invalid room id" });
+//       return;
+//     }
+//     let partyroomQuery = await dbClient.query(
+//       /*SQL*/ `SELECT * FROM partyrooms WHERE id = $1`,
+//       [roomId]
+//     );
+//     let equipmentQuery = await dbClient.query(
+//       /*SQL*/ `SELECT * FROM equipments WHERE id = $1`,
+//       [roomId]
+//     );
+
+//     const resultQuery = partyroomQuery.rows[0];
+//     const equipment = equipmentQuery.rows[0];
+
+//     equipment["equipment_name"] = equipment["name"];
+//     delete equipment["name"];
+//     Object.assign(resultQuery, equipment);
+
+//     res.json(resultQuery);
+//   } catch (err) {
+//     console.log(err);
+//     res.status(500).json({ message: "internal server error" });
+//   }
+// }

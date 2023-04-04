@@ -34,17 +34,11 @@ async function inputRoomDetails() {
         <p class="room-image">我要圖: ${image}</p>
       </div>
 
+      
 
     </div>
 
-    <div class="edit-and-del">
-      <button class="edit-button">
-        更改
-      </button>
-      <button class="del-button">
-        刪除
-      </button>
-    </div>
+   
       `;
   //   <p>場地主人: ${partyroom_details.name}</p>
   //   ${(await checkLogin()) ? addPokemon : loginBtn}
