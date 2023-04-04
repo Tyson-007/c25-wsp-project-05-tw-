@@ -74,7 +74,6 @@ async function createUpdateForm() {
 
   document.querySelector(".form-container").innerHTML = formHTMLString;
 }
-console.log("hihihi");
 async function updateRoomDetails() {
   document
     .querySelector("#upload-info")
