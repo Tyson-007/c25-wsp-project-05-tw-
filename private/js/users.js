@@ -191,10 +191,82 @@ function selectorTabToggle() {
 
 function instanceSearch() {
   const textInput = document.querySelector("#search-input");
-  // textInput.addEventListener("change", (e) => {
-  //   console.log(e.target.value);
-  // });
-  textInput.addEventListener("keydown", (e) => {
-    if (e.key == "Enter") console.log(e.target.value);
+
+  textInput.addEventListener("keydown", async (e) => {
+    if (e.key == "Enter") {
+      const searchQuery = e.target.value;
+      const numberQuery = parseInt(e.target.value);
+
+      let duplicatedResults = [];
+      let searchResults = [];
+
+      const res_user = await fetch("/user/self");
+      const user = await res_user.json();
+
+      const resp = await fetch(`/user/search`);
+      const partyrooms = await resp.json();
+
+      for (partyroom of partyrooms) {
+        for (key in partyroom) {
+          if (
+            (typeof partyroom[key] === "string" &&
+              partyroom[key].includes(searchQuery)) ||
+            (typeof partyroom[key] === "number" &&
+              partyroom[key] === numberQuery)
+          ) {
+            duplicatedResults.push(partyroom);
+          }
+        }
+      }
+
+      const ids = duplicatedResults.map((partyroom) => partyroom.id);
+      // the partyroom IDs from the partyrooms in duplicatedResults are extracted into an array called "ids"
+      searchResults = duplicatedResults.filter(
+        ({ id }, index) => !ids.includes(id, index + 1)
+        // { id } = the partyroom_id of a partyroom search result from duplicatedResults
+        // index = the index position of the partyroom search result in duplicatedResults
+
+        // after the arrow:
+        // id = the id mentioned before the arrow
+        // index + 1 = the includes() function will start searching from the index position right after the index provided before the arrow
+      );
+
+      let partyroomCardsHtml = "";
+      document.querySelector(".roomInfo-and-photo").innerHTML = "";
+
+      for (partyroom of searchResults) {
+        if (!partyroom.is_hidden) {
+          const card_image = `<img src="/images/${partyroom.imagefilename}" class="card-img-top" alt="${partyroom.name}">`;
+          const editAndDeleteBtn = `
+          <div class="edit-button"><a href="/partyrooms_edit.html?pid=${partyroom.id}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a></div>
+          <div class="del-button"><i class="fa-solid fa-trash fa-lg"></i></div>`;
+          const bookButton = `<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#booking-modal">立即預約</button>`;
+
+          partyroomCardsHtml += `
+          <div class="col-md-3 d-flex justify-content-center text-center">
+            <div class="card result w-75 partyroom-card mb-3 justify-content-center" data-id="${
+              partyroom.id
+            }">
+              <a href= "/partyrooms_details.html?pid=${
+                partyroom.id
+              }" class="result">${card_image}</a>
+              <div class="card-body">
+                <div class="card-title result"><h6>${partyroom.name}</h6></div>
+                <div class="card-text result">${partyroom.venue}</div>
+              </div>
+              <div class="result card-footer d-flex justify-content-around" data-id=${
+                partyroom.id
+              }>
+                ${user.id === partyroom.user_id ? editAndDeleteBtn : bookButton}
+              </div>
+            </div>
+          </div>
+          `;
+        }
+      }
+
+      document.querySelector(".roomInfo-and-photo").innerHTML +=
+        partyroomCardsHtml;
+    }
   });
 }

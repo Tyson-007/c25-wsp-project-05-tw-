@@ -20,6 +20,7 @@ userRoutes.get("/rooms_others", getOthersRooms);
 userRoutes.get("/rooms_self", getMyRooms);
 userRoutes.post("/rating/:pid", postComment);
 userRoutes.get("/rating/:pid", getUserIDNoSession);
+userRoutes.get("/search", searchRooms);
 
 // get user id, used in users.js //
 async function getUserID(req: Request, res: Response) {
@@ -101,10 +102,12 @@ async function uploadRoom(req: Request, res: Response) {
 }
 
 // show party room data from database, used in users.js //
-async function allRooms(_req: Request, res: Response) {
+async function allRooms(req: Request, res: Response) {
   const queryResult = await dbClient.query<Partyroom>(
     "SELECT * FROM partyrooms"
   );
+  req.session.user_viewmode = "all";
+  console.log("user viewmode: " + req.session.user_viewmode);
   res.json(queryResult.rows); // pass array into res.json()
 }
 
@@ -190,6 +193,9 @@ async function getOthersRooms(req: Request, res: Response) {
     /*SQL*/ `SELECT * from partyrooms WHERE user_id <> $1`,
     [req.session.user_id]
   );
+  req.session.user_viewmode = "others";
+  console.log("user viewmode: " + req.session.user_viewmode);
+
   res.json(queryResult.rows);
 }
 
@@ -199,5 +205,32 @@ async function getMyRooms(req: Request, res: Response) {
     /*SQL*/ `SELECT * from partyrooms WHERE user_id = $1`,
     [req.session.user_id]
   );
+  req.session.user_viewmode = "own";
+
+  console.log("user viewmode: " + req.session.user_viewmode);
   res.json(queryResult.rows);
+}
+
+async function searchRooms(req: Request, res: Response) {
+  if (req.session.user_viewmode === "own") {
+    const queryResult = await dbClient.query(
+      /*SQL*/ `SELECT * from partyrooms WHERE user_id = $1`,
+      [req.session.user_id]
+    );
+    res.json(queryResult.rows);
+    // console.log("own partyrooms data scraped");
+  } else if (req.session.user_viewmode === "others") {
+    const queryResult = await dbClient.query(
+      /*SQL*/ `SELECT * from partyrooms WHERE user_id <> $1`,
+      [req.session.user_id]
+    );
+    res.json(queryResult.rows);
+    // console.log("others partyrooms data scraped");
+  } else if (req.session.user_viewmode === "all") {
+    const queryResult = await dbClient.query(
+      /*SQL*/ `SELECT * from partyrooms`
+    );
+    res.json(queryResult.rows);
+    // console.log("all partyrooms data scraped");
+  }
 }
