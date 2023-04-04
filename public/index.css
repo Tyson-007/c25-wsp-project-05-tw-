@@ -8,7 +8,13 @@ h1 {
   font-size: 56px;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
 body {
+  margin: 0;
   background-color: #f7f7f7;
 }
 
@@ -40,15 +46,6 @@ body {
   --bs-btn-hover-border-color: #ec7e00;
   --bs-btn-active-bg: #ec7e00;
   --bs-btn-active-border-color: #ec7e00;
-}
-
-body {
-  margin: 0;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
 }
 
 .container-fluid {
