@@ -30,6 +30,7 @@ CREATE TABLE partyrooms (
 	created_at TIMESTAMP DEFAULT NOW(),
 	updated_at TIMESTAMP DEFAULT NOW(),
     user_id INT,
+    is_hidden BOOLEAN,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 

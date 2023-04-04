@@ -19,7 +19,6 @@ async function createUpdateForm() {
   const image = `<img src="/images/${partyroom_details.imagefilename}" width = "20" alt=""/>`;
 
   formHTMLString = `    
-    <form id="upload-info" enctype="multipart/form-data">
         <div class="top-info">
             <div class="name-div">
                 <p>Name:</p>
@@ -71,14 +70,14 @@ async function createUpdateForm() {
             <input type="file" name="image" />
             <input type="submit" id="submit-button" "Submit Party Room Information" />
         </div>
-    </form>`;
+   `;
 
   document.querySelector(".form-container").innerHTML = formHTMLString;
 }
-
+console.log("hihihi");
 async function updateRoomDetails() {
   document
-    .querySelector("#submit-button")
+    .querySelector("#upload-info")
     .addEventListener("submit", async (e) => {
       e.preventDefault();
 

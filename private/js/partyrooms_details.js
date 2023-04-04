@@ -1,7 +1,8 @@
 const urlSearchParams = new URLSearchParams(window.location.search);
 check();
 inputRoomDetails();
-uploadBookInfo();
+uploadBookingInfo();
+logout();
 
 async function check() {
   if (!urlSearchParams.has("pid")) {
@@ -78,12 +79,7 @@ async function inputRoomDetails() {
   // });
 }
 
-/* Comment未做 */
-// async function comment(){
-
-// }
-
-async function uploadBookInfo() {
+async function uploadBookingInfo() {
   const form = document.querySelector("#booking-form");
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
@@ -107,6 +103,21 @@ async function uploadBookInfo() {
     } else {
       const data = await res.json();
       alert(data.message);
+    }
+  });
+}
+
+async function logout() {
+  document.querySelector(".logout").addEventListener("click", async (e) => {
+    const resp = await fetch(`/auth/logout`, {
+      method: "DELETE",
+    });
+
+    const result = await resp.json();
+    alert(result.message);
+
+    if (resp.status === 200) {
+      window.location = "/";
     }
   });
 }

@@ -8,6 +8,16 @@ async function bookingDetails() {
     `/bookingDetails/${urlSearchParams.get("bid")}`
   );
   const booking = await res_booking.json();
+  console.log(booking);
+
+  const formattedStartTime = booking.start_at
+    .replace("T", " ")
+    .replace(".000Z", " ");
+  const formattedEndTime = booking.finish_at
+    .replace("T", " ")
+    .replace(".000Z", " ");
+
+  const image = `<img src="/images/${booking.imagefilename}" width="90%" alt=""/>`;
 
   const whatsappIcon = `<i class="fa-brands fa-whatsapp"></i>`;
   const phoneIcon = `<i class="fa-solid fa-phone"></i>`;
@@ -22,7 +32,7 @@ async function bookingDetails() {
         <div class="room-others">
           <div class="room-address w-100 mb-2">場地地址<br> ${booking.venue}</div>
           <div class="booking-time w-100 mb-2">活動時間<br> 
-            ${booking.start_at} - ${booking.finish_at}
+            ${formattedStartTime} - ${formattedEndTime}
           </div>
           <div class="booking-participants w-100 mb-2">
             活動人數<br> ${booking.participants}
@@ -35,14 +45,16 @@ async function bookingDetails() {
         </div>
       </div>
       <div class="col-md-4 d-flex flex-column">
-        <div class="room-image mb-5">image goes here</div>
+        <div class="room-image w-100 d-flex justify-content-center mb-5">
+          ${image}
+        </div>
         <div class="row owner-details">
           <div class="col-md-6">
             <div class="owner-name mb-3">場地負責人<br>${booking.owner}</div>
             <div class="owner-phone_no mb-3">${phoneIcon} ${booking.phone_no}</div>
             <div class="owner-whatsapp">${whatsappIcon} ${booking.phone_no}</div>
           </div>
-          <div class="col-md-6 text-center">
+          <div class="col-md-6 d-flex justify-content-center align-items-center">
             <i class="fa-solid fa-user fa-6x"></i>
           </div>
         </div>
@@ -50,4 +62,19 @@ async function bookingDetails() {
     </div>
     `;
   document.querySelector(".booking-details").innerHTML += bookinghtmlstr;
+}
+
+async function logout() {
+  document.querySelector(".logout").addEventListener("click", async (e) => {
+    const resp = await fetch(`/auth/logout`, {
+      method: "DELETE",
+    });
+
+    const result = await resp.json();
+    alert(result.message);
+
+    if (resp.status === 200) {
+      window.location = "/";
+    }
+  });
 }

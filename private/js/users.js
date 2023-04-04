@@ -1,10 +1,7 @@
 window.onload = () => {
   getAllRooms();
+  logout();
 };
-
-/*
-   div class & id names TBC
-  */
 
 async function getAllRooms() {
   const res_user = await fetch("/user/self");
@@ -17,15 +14,14 @@ async function getAllRooms() {
   document.querySelector(".roomInfo-and-photo").innerHTML = "";
 
   for (let partyroom of partyrooms) {
-    // console.log(partyroom.user_id);
-    // console.log(typeof partyroom.phone_no);
-    const card_image = `<img src="/images/${partyroom.imagefilename}" class="card-img-top" alt="${partyroom.name}">`;
-    const editAndDeleteBtn = `
-    <div class="edit-button"><a href="/partyrooms_edit.html?pid=${partyroom.id}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a></div>
-    <div class="del-button"><a href="#"><i class="fa-solid fa-trash fa-lg"></i></a></div>`;
-    const bookButton = `<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#booking-modal">立即預約</button>`;
+    if (!partyroom.is_hidden) {
+      const card_image = `<img src="/images/${partyroom.imagefilename}" class="card-img-top" alt="${partyroom.name}">`;
+      const editAndDeleteBtn = `
+      <div class="edit-button"><a href="/partyrooms_edit.html?pid=${partyroom.id}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a></div>
+      <div class="del-button"><i class="fa-solid fa-trash fa-lg"></i></div>`;
+      const bookButton = `<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#booking-modal">立即預約</button>`;
 
-    partyroomCardsHtml += `
+      partyroomCardsHtml += `
       <div class="col-md-3 d-flex justify-content-center text-center">
         <div class="card w-75 partyroom-card mb-3" data-id="${partyroom.id}">
           <a href= "/partyrooms_details.html?pid=${
@@ -35,12 +31,15 @@ async function getAllRooms() {
             <h5 class="card-title">${partyroom.name}</h5>
             <p class="card-text">${partyroom.venue}</p>
           </div>
-          <div class="card-footer d-flex justify-content-around">
+          <div class="card-footer d-flex justify-content-around" data-id=${
+            partyroom.id
+          }>
             ${user.id === partyroom.user_id ? editAndDeleteBtn : bookButton}
           </div>
         </div>
       </div>
       `;
+    }
   }
 
   document.querySelector(".roomInfo-and-photo").innerHTML += partyroomCardsHtml;
@@ -53,7 +52,9 @@ async function getAllRooms() {
       const roomId = roomDiv.dataset.id;
 
       const resp = await fetch(`/user/upload/${roomId}`, {
-        method: "DELETE",
+        method: "PUT", // change to PUT
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ is_hidden: true }),
       });
 
       const result = await resp.json();
@@ -64,4 +65,19 @@ async function getAllRooms() {
       }
     })
   );
+}
+
+async function logout() {
+  document.querySelector(".logout").addEventListener("click", async (e) => {
+    const resp = await fetch(`/auth/logout`, {
+      method: "DELETE",
+    });
+
+    const result = await resp.json();
+    alert(result.message);
+
+    if (resp.status === 200) {
+      window.location = "/";
+    }
+  });
 }

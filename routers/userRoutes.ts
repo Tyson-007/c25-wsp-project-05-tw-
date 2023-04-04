@@ -9,28 +9,22 @@ import { Equipment } from "../model";
 
 export const userRoutes = express.Router();
 
-userRoutes.delete("/upload/:pid", deleteRoom);
+userRoutes.put("/upload/:pid", deleteRoom);
 userRoutes.post("/booking/:pid", bookRoom);
 userRoutes.get("/booking", getAllBookings);
 userRoutes.post("/upload", uploadRoom);
 userRoutes.get("/upload", allRooms);
 userRoutes.post("/uploadEquipments", uploadEquipments);
 userRoutes.get("/self", getUserID);
-// userRoutes.get("/partyroomself", getPartyroomID);
-userRoutes.get("/bookingself", getBookingSelf);
+// userRoutes.get("/partyroomself", getPartyroomID)
+// userRoutes.get("/bookingself", getBookingSelf);
 
-async function getBookingSelf(req: Request, res: Response) {
-  const booking = (
-    await dbClient.query(
-      "SELECT * from bookings join users on bookings.user_id = users.id join partyrooms on bookings.partyroom_id = partyrooms.id where users.id = $1",
-      [req.session.user_id]
-    )
-  ).rows;
+// async function getBookingSelf(req: Request, res: Response) {
+//   const booking = (await dbClient.query("SELECT * from bookings join users on bookings.user_id = users.id join partyrooms on bookings.partyroom_id = partyrooms.id where users.id = $1", [req.session.user_id])).rows;
+//   res.json(booking);
+// }
 
-  res.json(booking);
-}
-
-// get user id //
+// get user id, used in users.js //
 async function getUserID(req: Request, res: Response) {
   const user = (
     await dbClient.query("SELECT id, name, phone_no FROM users WHERE id = $1", [
@@ -54,7 +48,7 @@ async function getUserID(req: Request, res: Response) {
 //   res.json(partyroom);
 // }
 
-// upload a party room //
+// upload a party room, used in postData.js //
 async function uploadRoom(req: Request, res: Response) {
   const { fields, files } = await partyroomFormPromise(partyroomForm, req);
 
@@ -68,6 +62,7 @@ async function uploadRoom(req: Request, res: Response) {
   const equipment_name = fields.equipment_name as string;
   const type = fields.type as string;
   const intro = fields.intro as string;
+  const is_hidden = false as boolean;
   // const user_id = parseInt(fields.user_id as string);
 
   if (
@@ -78,7 +73,8 @@ async function uploadRoom(req: Request, res: Response) {
     !style ||
     !area ||
     !capacity ||
-    !intro
+    !intro ||
+    !is_hidden
     // !user_id
   ) {
     res.status(400).json({ message: "missing content" });
@@ -89,7 +85,7 @@ async function uploadRoom(req: Request, res: Response) {
     ?.newFilename;
 
   await dbClient.query<Partyroom>(
-    /*SQL*/ `INSERT INTO partyrooms (name, phone_no, price, venue, style,area,capacity,intro, imagefilename, user_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)`,
+    /*SQL*/ `INSERT INTO partyrooms (name, phone_no, price, venue, style,area,capacity,intro, imagefilename, user_id, is_hidden) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
     [
       name,
       phone_no,
@@ -101,6 +97,7 @@ async function uploadRoom(req: Request, res: Response) {
       intro,
       imageFilename,
       req.session.user_id,
+      is_hidden,
     ]
   );
 
@@ -111,10 +108,7 @@ async function uploadRoom(req: Request, res: Response) {
   res.json({ message: "party room uploaded" });
 }
 
-/* ---------------------------users get room information ---------------------------------------------- */
-// some function here //
-
-// show party room data from database //
+// show party room data from database, used in users.js //
 async function allRooms(_req: Request, res: Response) {
   const queryResult = await dbClient.query<Partyroom>(
     "SELECT * FROM partyrooms"
@@ -139,7 +133,7 @@ async function uploadEquipments(req: Request, res: Response) {
   console.log(queryResult.rows[0]);
 }
 
-// make a booking //
+// make a booking, used in partyrooms_details.js //
 async function bookRoom(req: Request, res: Response) {
   const start_at = req.body.start_at;
   const finish_at = req.body.finish_at;
@@ -165,6 +159,7 @@ async function bookRoom(req: Request, res: Response) {
   res.status(200).json({ message: "booking successful" });
 }
 
+// get user's booking info, used in mybookings.js
 async function getAllBookings(req: Request, res: Response) {
   const queryResult = await dbClient.query<Booking>(
     `SELECT bookings.id AS id, name, venue, start_at, finish_at FROM bookings JOIN partyrooms ON bookings.partyroom_id = partyrooms.id WHERE bookings.user_id = $1;`,
@@ -173,23 +168,18 @@ async function getAllBookings(req: Request, res: Response) {
   res.json(queryResult.rows);
 }
 
-// delete party room //
+// delete party room, used in users.js //
 async function deleteRoom(req: Request, res: Response) {
   const partyroomId = +req.params.pid;
   if (isNaN(partyroomId)) {
-    // httpStatusCodes.BAD_REQUEST
     res.status(400).json({ message: "invalid partyrooms id" });
     return;
   }
 
-  // need to fix
-  await dbClient.query(/*SQL*/ `DELETE FROM equipments where id = $1`, [
-    partyroomId,
-  ]);
-
-  await dbClient.query(/*SQL*/ `DELETE FROM partyrooms where id = $1`, [
-    partyroomId,
-  ]);
+  await dbClient.query(
+    /*SQL*/ `UPDATE partyrooms SET is_hidden = true WHERE id = $1`,
+    [partyroomId]
+  );
 
   res.json({ message: "party room deleted" });
 }

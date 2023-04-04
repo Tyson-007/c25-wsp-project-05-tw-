@@ -10,7 +10,7 @@ export const bookingDetailsRoutes = express.Router();
 
 bookingDetailsRoutes.get("/:bid", getBookingDetails);
 
-// get details for one booking
+// get details for one booking, used in booked.js
 async function getBookingDetails(req: Request, res: Response) {
   try {
     const bookingId = +req.params.bid;
@@ -23,7 +23,7 @@ async function getBookingDetails(req: Request, res: Response) {
 
     let resultQuery = (
       await dbClient.query(
-        /*SQL*/ `SELECT bookings.id, users.name AS owner, partyrooms.name AS room_name, start_at, finish_at, participants, special_req, venue, partyrooms.phone_no FROM bookings INNER JOIN partyrooms ON bookings.partyroom_id = partyrooms.id INNER JOIN users ON partyrooms.user_id = users.id WHERE bookings.id = $1`,
+        /*SQL*/ `SELECT bookings.id, users.name AS owner, partyrooms.name AS room_name, start_at, finish_at, participants, special_req, venue, partyrooms.phone_no, imagefilename FROM bookings INNER JOIN partyrooms ON bookings.partyroom_id = partyrooms.id INNER JOIN users ON partyrooms.user_id = users.id WHERE bookings.id = $1`,
         [bookingId]
       )
     ).rows[0];
