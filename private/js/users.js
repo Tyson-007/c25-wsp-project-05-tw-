@@ -30,7 +30,7 @@ async function getAllRooms() {
         }">
           <a href= "/partyrooms_details.html?pid=${
             partyroom.id
-          } class='result' ">${card_image}</a>
+          }" class='result' ">${card_image}</a>
           <div class="card-body">
             <div class="card-title result">${partyroom.name}</div>
             <div class="card-text result">${partyroom.venue}</div>
