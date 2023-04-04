@@ -1,3 +1,17 @@
-.name-div{
-    color: aquamarine;
+.update-form-append-here{
+    display: flex;
+    flex-wrap: wrap;
 }
+
+.col-md-4 {
+    padding: 10px;
+}
+
+.col-md-12{
+    padding: 10px;
+}
+
+.col-md-6{
+    padding: 10px;
+}
+

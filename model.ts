@@ -39,3 +39,11 @@ export interface Equipment {
   name: string;
   type: string;
 }
+
+export interface Rating {
+  id: number;
+  user_id: number;
+  partyroom_id: number;
+  ratings: number;
+  comments: Text;
+}

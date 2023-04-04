@@ -3,6 +3,7 @@ check();
 inputRoomDetails();
 uploadBookingInfo();
 logout();
+uploadRating();
 
 async function check() {
   if (!urlSearchParams.has("pid")) {
@@ -14,6 +15,11 @@ async function check() {
 async function inputRoomDetails() {
   const resp = await fetch(`/roomDetails/${urlSearchParams.get("pid")}`);
   const partyroom_details = await resp.json();
+
+  const resp_comment = await fetch(
+    `/user/rating/${urlSearchParams.get("pid")}`
+  );
+  const comment_details = await resp_comment.json();
 
   const image = `<img src="/images/${partyroom_details.imagefilename}" width = "20" alt=""/>`;
 
@@ -33,47 +39,20 @@ async function inputRoomDetails() {
       <div class="right-part">
         <p class="room-image">我要圖: ${image}</p>
       </div>
-
-
     </div>
 
-    <div class="edit-and-del">
-      <button class="edit-button">
-        更改
-      </button>
-      <button class="del-button">
-        刪除
-      </button>
-    </div>
       `;
-  //   <p>場地主人: ${partyroom_details.name}</p>
-  //   ${(await checkLogin()) ? addPokemon : loginBtn}
+
+  let htmlStr2 = "";
+  for (let comment of comment_details) {
+    htmlStr2 += `
+
+    ${comment.name}${comment.comments}
+  `;
+  }
+
   document.querySelector(".result-container").innerHTML = htmlStr;
-
-  // const editBtn = document.querySelector(".edit-button");
-
-  // editBtn.addEventListener("click", async (e) => {
-  //   // const memoDiv = e.currentTarget.parentElement;
-  //   const roomDiv = editBtn.parentElement;
-  //   const roomId = roomDiv.dataset.id;
-  //   const newContent = roomDiv.querySelector(".banner").textContent.trim();
-
-  //   const resp = await fetch(`/roomDetails/${memoId}`, {
-  //     method: "PUT",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify({ content: newContent }),
-  //   });
-
-  //   // if (resp.status == 200) {
-  //   //   const result = await resp.json();
-  //   //   alert(result.message);
-  //   // } else {
-  //   //   const result = await resp.json();
-  //   //   alert(result.message);
-  //   // }
-  //   const result = await resp.json();
-  //   alert(result.message);
-  // });
+  document.querySelector(".commentBox").innerHTML += htmlStr2;
 }
 
 async function uploadBookingInfo() {
@@ -115,6 +94,35 @@ async function logout() {
 
     if (resp.status === 200) {
       window.location = "/";
+    }
+  });
+}
+
+async function uploadRating() {
+  const resp = await fetch(`/roomDetails/${urlSearchParams.get("pid")}`);
+  const partyroom_details = await resp.json();
+  const form = document.querySelector("#ratingForm");
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const comments = form.comments.value;
+
+    const res = await fetch(`/user/rating/${urlSearchParams.get("pid")}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        comments,
+      }),
+    });
+    // const booking_details = await res.json();
+    if (res.status === 200) {
+      window.location = `/partyrooms_details.html?pid=${partyroom_details.id}`;
+      alert("success");
+    } else {
+      const data = await res.json();
+      alert(data.message);
     }
   });
 }
