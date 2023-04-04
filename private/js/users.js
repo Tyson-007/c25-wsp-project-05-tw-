@@ -1,8 +1,9 @@
 window.onload = async () => {
   await getAllRooms();
   logout();
-  filterTable();
+  // filterTable();
   selectorTabToggle();
+  instanceSearch();
 };
 
 async function getAllRooms() {
@@ -156,20 +157,20 @@ async function logout() {
   });
 }
 
-function filterTable() {
-  const searchInput = document.querySelector("#search-input");
-  const results = document.querySelectorAll(".result");
+// function filterTable() {
+//   const searchInput = document.querySelector("#search-input");
+//   const results = document.querySelectorAll(".result");
 
-  searchInput.addEventListener("input", function () {
-    const searchTerm = searchInput.value.toLowerCase();
+//   searchInput.addEventListener("input", function () {
+//     const searchTerm = searchInput.value.toLowerCase();
 
-    results.forEach((result) => {
-      const text = result.textContent.toLowerCase();
-      if (!text.includes(searchTerm)) result.style.display = "none";
-      else result.style.display = "flex";
-    });
-  });
-}
+//     results.forEach((result) => {
+//       const text = result.textContent.toLowerCase();
+//       if (!text.includes(searchTerm)) result.style.display = "none";
+//       else result.style.display = "flex";
+//     });
+//   });
+// }
 
 function selectorTabToggle() {
   const myRoomsButton = document.querySelector(".selector-button-own");
@@ -185,5 +186,15 @@ function selectorTabToggle() {
 
   allRoomsbutton.addEventListener("click", () => {
     getAllRooms();
+  });
+}
+
+function instanceSearch() {
+  const textInput = document.querySelector("#search-input");
+  // textInput.addEventListener("change", (e) => {
+  //   console.log(e.target.value);
+  // });
+  textInput.addEventListener("keydown", (e) => {
+    if (e.key == "Enter") console.log(e.target.value);
   });
 }
