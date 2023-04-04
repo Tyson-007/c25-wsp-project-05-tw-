@@ -16,16 +16,17 @@ userRoutes.post("/upload", uploadRoom);
 userRoutes.get("/upload", allRooms);
 userRoutes.post("/uploadEquipments", uploadEquipments);
 userRoutes.get("/self", getUserID);
-userRoutes.get("/partyroomself", getPartyroomID);
+// userRoutes.get("/partyroomself", getPartyroomID);
 userRoutes.get("/bookingself", getBookingSelf);
 
 async function getBookingSelf(req: Request, res: Response) {
   const booking = (
     await dbClient.query(
-      "SELECT partyroom_id, start_at, finish_at from bookings WHERE user_id = $1",
+      "SELECT * from bookings join users on bookings.user_id = users.id join partyrooms on bookings.partyroom_id = partyrooms.id where users.id = $1",
       [req.session.user_id]
     )
-  ).rows[0];
+  ).rows;
+
   res.json(booking);
 }
 
@@ -39,14 +40,19 @@ async function getUserID(req: Request, res: Response) {
   res.json(user);
 }
 
-async function getPartyroomID(req: Request, res: Response) {
-  const partyroom = (
-    await dbClient.query("SELECT id, name FROM partyrooms WHERE id = $1", [
-      req.session.partyroom_id,
-    ])
-  ).rows[0];
-  res.json(partyroom);
-}
+// async function getPartyroomID(req: Request, res: Response) {
+//   const partyroom = (
+//     await dbClient.query("SELECT id, name FROM partyrooms WHERE id = $1", [
+//       req.session.partyroom_id,
+//     ])
+//   ).rows[0];
+//   res.json(partyroom);
+// }
+
+// async function getPartyroomID(req: Request, res: Response) {
+//   const partyroom = (await dbClient.query("SELECT id, name FROM partyrooms WHERE id = $1", [req.session.partyroom_id])).rows[0];
+//   res.json(partyroom);
+// }
 
 // upload a party room //
 async function uploadRoom(req: Request, res: Response) {
@@ -97,14 +103,6 @@ async function uploadRoom(req: Request, res: Response) {
       req.session.user_id,
     ]
   );
-  // const partyroomId = (
-  //   await dbClient.query<Partyroom>(
-  //     /*sql*/ `SELECT id, name FROM partyrooms WHERE name = $1`,
-  //     [name]
-  //   )
-  // ).rows[0];
-  // req.session.partyroom_id = partyroomId.id;
-  // console.log(req.session.partyroom_id);
 
   await dbClient.query<Equipment>(
     /*SQL*/ `INSERT INTO equipments (name, type) VALUES ($1, $2)`,
@@ -135,31 +133,11 @@ async function uploadEquipments(req: Request, res: Response) {
     res.status(400).json({ missing: "missing equipments" });
     return;
   }
-
   const queryResult = await dbClient.query<Equipment>(
-    /*SQL*/ `
-    INSERT INTO equipments (name, type)
-    VALUES ($1, $2), ($3, $4), ($5, $6)
-  `,
-    ["Switch", switchGame, "PS", psGame, "Other", otherEquipments]
+    /*SQL*/ `INSERT INTO equipments`
   );
   console.log(queryResult.rows[0]);
 }
-
-// async function uploadEquipments(req: Request, res: Response) {
-//   const switchGame: string = req.body.switchGame;
-//   const psGame: string = req.body.psGame;
-//   const otherEquipments: string = req.body.otherEquipments;
-
-//   if (!switchGame || !psGame || !otherEquipments) {
-//     res.status(400).json({ missing: "missing equipments" });
-//     return;
-//   }
-//   const queryResult = await dbClient.query<Equipment>(
-//     /*SQL*/ `INSERT INTO equipments`
-//   );
-//   console.log(queryResult.rows[0]);
-// }
 
 // make a booking //
 async function bookRoom(req: Request, res: Response) {
@@ -167,7 +145,7 @@ async function bookRoom(req: Request, res: Response) {
   const finish_at = req.body.finish_at;
   const participants = req.body.participants;
   const special_req = req.body.special_req;
-  const partyroom_id = +req.params.pid;
+  const partyroom_id = req.params.pid;
 
   if (!participants) {
     res.status(400).json({ missing: "missing required fields" });
@@ -188,7 +166,10 @@ async function bookRoom(req: Request, res: Response) {
 }
 
 async function getAllBookings(req: Request, res: Response) {
-  const queryResult = await dbClient.query<Booking>("SELECT * FROM bookings");
+  const queryResult = await dbClient.query<Booking>(
+    `SELECT bookings.id AS id, name, venue, start_at, finish_at FROM bookings JOIN partyrooms ON bookings.partyroom_id = partyrooms.id WHERE bookings.user_id = $1;`,
+    [req.session.user_id]
+  );
   res.json(queryResult.rows);
 }
 
@@ -201,24 +182,14 @@ async function deleteRoom(req: Request, res: Response) {
     return;
   }
 
-  await dbClient.query(
-    /*SQL*/ `
-  DELETE partyrooms, equipments 
-  FROM partyrooms
-  LEFT JOIN equipments ON partyrooms.id = equipments.partyroom_id
-  WHERE partyrooms.id = $1
-`,
-    [partyroomId]
-  );
+  // need to fix
+  await dbClient.query(/*SQL*/ `DELETE FROM equipments where id = $1`, [
+    partyroomId,
+  ]);
 
-  // await dbClient.query(/*SQL*/ `DELETE FROM partyrooms WHERE id = $1`, [
-  //   partyroomId,
-  // ]);
-
-  // // need to fix
-  // await dbClient.query(/*SQL*/ `DELETE FROM equipments where id = $1`, [
-  //   partyroomId,
-  // ]);
+  await dbClient.query(/*SQL*/ `DELETE FROM partyrooms where id = $1`, [
+    partyroomId,
+  ]);
 
   res.json({ message: "party room deleted" });
 }

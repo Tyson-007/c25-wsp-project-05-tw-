@@ -100,9 +100,9 @@ async function uploadBookInfo() {
       },
       body: JSON.stringify({ start_at, finish_at, participants, special_req }),
     });
-    const booking_details = await res.json();
+    // const booking_details = await res.json();
     if (res.status === 200) {
-      window.location = "/booked.html";
+      window.location = `/users.html`;
       alert("success");
     } else {
       const data = await res.json();

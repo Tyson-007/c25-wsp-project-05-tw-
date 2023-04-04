@@ -8,17 +8,28 @@ import type { Request, Response } from "express";
 
 export const bookingDetailsRoutes = express.Router();
 
-bookingDetailsRoutes.get("/:pid", getBookingDetails);
+bookingDetailsRoutes.get("/:bid", getBookingDetails);
 
-// get details for one party room
+// get details for one booking
 async function getBookingDetails(req: Request, res: Response) {
   try {
-    const bookingId = +req.params.pid;
-    if (isNaN(bookingId)) {
-      res.status(400).json({ message: "invalid room id" });
-      return;
-    }
-    let resultQuery = (await dbClient.query(/*SQL*/ `SELECT * FROM bookings WHERE id = $1`, [bookingId])).rows[0];
+    const bookingId = +req.params.bid;
+    console.log("booking ID: " + bookingId);
+
+    // if (isNaN(bookingId)) {
+    //   res.status(400).json({ message: "invalid booking id" });
+    //   return;
+    // }
+
+    let resultQuery = (
+      await dbClient.query(
+        /*SQL*/ `SELECT bookings.id, users.name AS owner, partyrooms.name AS room_name, start_at, finish_at, participants, special_req, venue, partyrooms.phone_no FROM bookings INNER JOIN partyrooms ON bookings.partyroom_id = partyrooms.id INNER JOIN users ON partyrooms.user_id = users.id WHERE bookings.id = $1`,
+        [bookingId]
+      )
+    ).rows[0];
+
+    console.log(resultQuery);
+
     res.json(resultQuery);
   } catch (err) {
     console.log(err);

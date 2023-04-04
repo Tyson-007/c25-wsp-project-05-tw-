@@ -3,6 +3,8 @@ window.onload = () => {
   getAllBookings();
 };
 
+const urlSearchParams = new URLSearchParams(window.location.search);
+
 async function getAllBookings() {
   const res_bookings = await fetch("/user/booking");
   const bookings = await res_bookings.json();
@@ -10,23 +12,19 @@ async function getAllBookings() {
   const res_user = await fetch("/user/self");
   const user = await res_user.json();
 
-  //try {
-  // const res_partyroom = await fetch("/user/partyroomself");
+  // const res_partyroom = await fetch(`/user/partyroomself`);
   // const partyroom = await res_partyroom.json();
-  //try}
 
   const res_bookingself = await fetch("/user/bookingself");
   const bookingself = await res_bookingself.json();
 
-  console.log(bookings);
-  console.log(bookingself);
-  console.log(user);
-  // console.log(partyroom);
+  // console.log(bookingself);
   let bookinghtmlstr = "";
   document.querySelector(".owner-info").innerHTML = "";
-
-  const image = `<img src="/images/${bookings.id}" width = "20" alt=""/>`;
-
+  // for (let user of users) {
+  // console.log(partyroom.name);
+  // const image = `<img src="/images/${bookings.id}" width = "20" alt=""/>`;
+  // console.log(partyroom);
   bookinghtmlstr += `
     <p>${user.name}</p>
             <i class="fa-brands fa-whatsapp"></i>

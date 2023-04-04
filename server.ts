@@ -17,7 +17,7 @@ declare module "express-session" {
   interface SessionData {
     isLoggedIn?: boolean;
     user_id: number;
-    partyroom_id: number
+    partyroom_id: number;
   }
 }
 
@@ -41,7 +41,7 @@ import { bookingDetailsRoutes } from "./routers/bookingDetailsRoutes";
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
 app.use("/roomDetails", roomDetailsRoutes);
-app.use("/bookingDetails", bookingDetailsRoutes)
+app.use("/bookingDetails", bookingDetailsRoutes);
 
 ////////////////////
 // express.static //

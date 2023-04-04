@@ -48,6 +48,7 @@ async function getAllRooms() {
   //del
   document.querySelectorAll(".del-button").forEach((delBtn) =>
     delBtn.addEventListener("click", async (e) => {
+      // document.querySelector(".roomInfo-and-photo").style.display = "none";
       const roomDiv = e.currentTarget.parentElement;
       const roomId = roomDiv.dataset.id;
 
@@ -64,5 +65,3 @@ async function getAllRooms() {
     })
   );
 }
-// server.ts加左個get method
-//partyrooms.phone_no == users.phone_no can del
