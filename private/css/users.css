@@ -3,9 +3,10 @@
   src: url(../assets/Oleo_Script/OleoScript-Regular.ttf);
 }
 
-h1 {
+.navbar-brand {
   font-family: "Oleo";
-  font-size: 56px;
+  font-size: 48px;
+  text-shadow: 2px 2px 5px #a3a3a3 !important;
 }
 
 body {
@@ -23,9 +24,8 @@ a {
   height: 100%;
 }
 
-.header {
-  display: flex;
-  align-items: center;
+.nav-link {
+  text-shadow: 2px 2px 10px #a3a3a3;
   font-size: large;
 }
 
@@ -36,6 +36,7 @@ a {
   --bs-btn-hover-border-color: #ec7e00;
   --bs-btn-active-bg: #ec7e00;
   --bs-btn-active-border-color: #ec7e00;
+  box-shadow: 0px 0px 3px #a3a3a3;
 }
 
 .banner {
@@ -55,18 +56,18 @@ a {
   font-size: 32px;
 }
 
-.main-content-button {
-  padding: 15px 15px;
-  border-radius: 16px;
-  height: fit-content;
-  background-color: #ffbb55;
-  box-shadow: 2px 2px 10px #a3a3a3;
-  font-size: 130%;
+.selector {
+  height: 6vh !important;
   color: #764000;
+  font-size: 24px;
 }
 
-.button-row {
-  height: 12vh;
+.selector-tab {
+  background-color: #ffbb55;
+}
+
+.selector-tab.clicked {
+  background-color: #ec7e00;
 }
 
 .partyroom-card {

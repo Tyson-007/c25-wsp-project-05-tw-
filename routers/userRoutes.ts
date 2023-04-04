@@ -16,6 +16,8 @@ userRoutes.get("/booking", getAllBookings);
 userRoutes.post("/upload", uploadRoom);
 userRoutes.get("/upload", allRooms);
 userRoutes.get("/self", getUserID);
+userRoutes.get("/rooms_others", getOthersRooms);
+userRoutes.get("/rooms_self", getMyRooms);
 userRoutes.post("/rating/:pid", postComment);
 userRoutes.get("/rating/:pid", getUserIDNoSession);
 
@@ -180,4 +182,22 @@ async function postComment(req: Request, res: Response) {
 
   // console.log(queryResult.rows[0]);
   res.status(200).json({ message: "submit rating successful" });
+}
+
+// get other's party rooms, used in users.js //
+async function getOthersRooms(req: Request, res: Response) {
+  const queryResult = await dbClient.query(
+    /*SQL*/ `SELECT * from partyrooms WHERE user_id <> $1`,
+    [req.session.user_id]
+  );
+  res.json(queryResult.rows);
+}
+
+// get my party rooms, used in users.js //
+async function getMyRooms(req: Request, res: Response) {
+  const queryResult = await dbClient.query(
+    /*SQL*/ `SELECT * from partyrooms WHERE user_id = $1`,
+    [req.session.user_id]
+  );
+  res.json(queryResult.rows);
 }
