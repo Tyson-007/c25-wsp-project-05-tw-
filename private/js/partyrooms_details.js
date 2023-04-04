@@ -15,11 +15,13 @@ async function check() {
 async function inputRoomDetails() {
   const resp = await fetch(`/roomDetails/${urlSearchParams.get("pid")}`);
   const partyroom_details = await resp.json();
-
+  //get comment
   const resp_comment = await fetch(
     `/user/rating/${urlSearchParams.get("pid")}`
   );
   const comment_details = await resp_comment.json();
+
+  //get rating score
 
   const image = `<img src="/images/${partyroom_details.imagefilename}" width = "20" alt=""/>`;
 
@@ -45,9 +47,10 @@ async function inputRoomDetails() {
 
   let htmlStr2 = "";
   for (let comment of comment_details) {
+    console.log(comment);
     htmlStr2 += `
 
-    ${comment.name}${comment.comments}
+    ${comment.name}${comment.comments}${comment.ratings}
   `;
   }
 
@@ -106,6 +109,7 @@ async function uploadRating() {
     event.preventDefault();
     const form = event.target;
     const comments = form.comments.value;
+    const ratings = form.ratings.value;
 
     const res = await fetch(`/user/rating/${urlSearchParams.get("pid")}`, {
       method: "POST",
@@ -114,6 +118,7 @@ async function uploadRating() {
       },
       body: JSON.stringify({
         comments,
+        ratings,
       }),
     });
     // const booking_details = await res.json();
