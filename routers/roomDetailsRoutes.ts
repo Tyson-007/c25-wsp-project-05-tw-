@@ -5,6 +5,7 @@ import type { Request, Response } from "express";
 import { partyroomForm, partyroomFormPromise } from "../formidable";
 import { Partyroom } from "../model";
 import { Equipment } from "../model";
+import formidable from "formidable";
 
 export const roomDetailsRoutes = express.Router();
 
@@ -52,19 +53,47 @@ async function editRoomDetails(req: Request, res: Response) {
   const new_equipment_name = fields.equipment_name;
   const newType = fields.type;
   const newIntro = fields.intro;
-
   if (isNaN(partyroomId)) {
     res.status(400).json({ message: "invalid partyroom id" });
     return;
   }
 
-  const newImageFileName = files.imagefilename;
+  let newImageFilename = (files.image as formidable.File | undefined)?.newFilename;
 
-  await dbClient.query<Partyroom>(
-    /*SQL*/ `UPDATE partyrooms SET name = $1, phone_no = $2, price = $3, venue = $4, style = $5, area = $6, capacity = $7, intro = $8, imagefilename = $9 WHERE id = $10`,
-    [newName, newPhone_no, newPrice, newVenue, newStyle, newArea, newCapacity, newIntro, newImageFileName, partyroomId]
-  );
-  console.log(newCapacity);
+  if (!newImageFilename){
+    await dbClient.query<Partyroom>(
+      /*SQL*/ `UPDATE partyrooms SET name = $1, phone_no = $2, price = $3, venue = $4, style = $5, area = $6, capacity = $7, intro = $8 WHERE id = $9`,
+      [
+        newName,
+        newPhone_no,
+        newPrice,
+        newVenue,
+        newStyle,
+        newArea,
+        newCapacity,
+        newIntro,
+        partyroomId,
+      ]
+    );
+  } else {
+    await dbClient.query<Partyroom>(
+      /*SQL*/ `UPDATE partyrooms SET name = $1, phone_no = $2, price = $3, venue = $4, style = $5, area = $6, capacity = $7, intro = $8, imagefilename = $9 WHERE id = $10`,
+      [
+        newName,
+        newPhone_no,
+        newPrice,
+        newVenue,
+        newStyle,
+        newArea,
+        newCapacity,
+        newIntro,
+        newImageFilename,
+        partyroomId,
+      ]
+    );
+  }
+
+  
   // need to fix //
   await dbClient.query<Equipment>(/*SQL*/ `UPDATE equipments SET name = $1, type = $2 WHERE id = $3`, [
     new_equipment_name,

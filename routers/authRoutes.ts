@@ -48,7 +48,12 @@ async function login(req: Request, res: Response) {
 // signup, used in login.js //
 async function signup(req: Request, res: Response) {
   try {
-    const { name, password, phone_no, date_of_birth, email } = req.body;
+    const { name, password, password_check, phone_no, date_of_birth, email } =
+      req.body;
+    if (password != password_check) {
+      res.status(401).json({ message: "passwords do not match" });
+      return;
+    }
     if (!name || !password || !phone_no || !email) {
       res.status(400).json({ missing: "missing required fields" });
       return;
