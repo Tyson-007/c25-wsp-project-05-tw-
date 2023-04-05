@@ -21,42 +21,36 @@ async function inputRoomDetails() {
   );
   const comment_details = await resp_comment.json();
 
+  //get rating score
+
   const image = `<img src="/images/${partyroom_details.imagefilename}" width = "20" alt=""/>`;
 
   let htmlStr = `
     <div class="details-header">
       <div class="pr-booking-div">
         <h1>場地名稱: ${partyroom_details.name}</h1>
-
-        <button class="booking-now BTN" data-bs-toggle="modal" data-bs-target="#booking-modal">立即預約</button>
+        <button class="booking-now" data-bs-toggle="modal" data-bs-target="#booking-modal">立場預約</button>
       </div>
     </div>
     <!-- Details-Area-->
     <div class="details-main-container">
       <div class="left-part">
-        <div class="room-details">
-        <p>場地資訊</p>
-        <p>價錢: $${partyroom_details.price} (每小時)</p>
-        <p>地址: ${partyroom_details.venue}</p>
-        </div>
-
-        <p class="equipments">PartyRoom 設備: ${partyroom_details.equipment_name}<br>種類: ${partyroom_details.type}</p>
+        <p class="room-details">場地資訊: ${partyroom_details.price}</p>
+        <p class="equipments">Names: ${partyroom_details.equipment_name}<br>Types: ${partyroom_details.type}</p>
       </div>
       <div class="right-part">
-        <p class="room-image">${image}</p>
+        <p class="room-image">我要圖: ${image}</p>
       </div>
     </div>
 
       `;
 
   let htmlStr2 = "";
-
   for (let comment of comment_details) {
+    console.log(comment);
     htmlStr2 += `
-    <div class="commentBar">
-    ${comment.name}: ${comment.comments} <p class="score">給予評分: ${comment.ratings}</p>
-    </div>
-    
+
+    ${comment.name}${comment.comments}${comment.ratings}
   `;
   }
 
@@ -73,6 +67,8 @@ async function uploadBookingInfo() {
     const finish_at = form.finish_at.value;
     const participants = form.participants.value;
     const special_req = form.special_req.value;
+
+    // 加boolean
 
     const res = await fetch(`/user/booking/${urlSearchParams.get("pid")}`, {
       method: "POST",

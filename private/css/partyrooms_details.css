@@ -43,13 +43,16 @@ a {
 }
 
 .pr-booking-div {
-  width: 40%;
+  width: 100%;
   display: flex;
   justify-content: space-between;
-  border: solid black;
+  /* border: solid black; */
   padding: 20px;
+  margin-bottom: 20px;
+  /* background-color: aqua; */
 }
 
+/* top */
 .partyroom-name {
   /* background-color: brown; */
   font-size: 40px;
@@ -57,15 +60,19 @@ a {
 
 .details-main-container {
   display: flex;
-  justify-content: space-around;
-  border: 1px solid black;
+  justify-content: space-between;
+  /* border: 1px solid black; */
   width: 100%;
 }
 
+/* 場地資訊 */
 .room-details {
   width: 50vh;
-  height: 10vh;
+  height: 20vh;
   border: 1px solid black;
+  border-radius: 20px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  padding: 2%;
 }
 
 .equipments {
@@ -73,14 +80,24 @@ a {
   height: 10vh;
   border: 1px solid black;
   margin-top: 30px;
+  border-radius: 20px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  padding: 2%;
 }
+
+/* 左邊 */
 
 .room-image {
-  width: 50vh;
-  height: 10vh;
-  border: 1px solid black;
+  width: 55vh;
+  height: 35vh;
+  /* border: 1px solid black; */
 }
-
+img {
+  width: 100%;
+  height: 100%;
+  border-radius: 20px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
 .room-owner {
   width: 50vh;
   height: 10vh;
@@ -93,4 +110,39 @@ a {
   position: fixed;
   bottom: 0px;
   justify-content: center;
+}
+
+/* Comment */
+.comment-area {
+  margin: 2%;
+}
+.comment-container {
+  background-color: #ffefc5;
+  border-radius: 20px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+textarea {
+  margin-left: 3%;
+  width: 92%;
+}
+.rating-div {
+  display: flex;
+  justify-content: space-evenly;
+}
+.commentBox {
+  margin-top: 2%;
+}
+.commentBar {
+  width: 90%;
+  margin: 3% 3% 5% 3%;
+  padding: 2%;
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.25);
+}
+.BTN {
+  color: white;
+  background-color: #ff8a00;
+  border-radius: 20px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }

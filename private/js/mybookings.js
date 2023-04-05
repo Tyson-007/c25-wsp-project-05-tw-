@@ -1,5 +1,6 @@
 window.onload = () => {
   getAllUserBookings();
+  logout();
 };
 
 async function getAllUserBookings() {
@@ -8,6 +9,7 @@ async function getAllUserBookings() {
   let allBookingsHTML = "";
   // const modify = document.querySelector('#start_at').value
   // modify = modify.replace("T", " ")
+
   const date = new Date();
 
   const isoString = date.toISOString();
@@ -16,19 +18,37 @@ async function getAllUserBookings() {
     try {
       if (booking.start_at > isoString) {
         allBookingsHTML += `
-          <div class=booking-container>
-              ${booking.name} <br>
-              ${booking.venue} <br>
+
+          <div class="booking-container">
+            <div class="booked-info">
+            Party Room Name:
+              ${booking.name} 
+            
+            <br>
+            Venue:
+              ${booking.venue} 
+            
+            <br>
+            
               starts at: ${booking.start_at
                 .replace("T", " ")
-                .replace(".000Z", " ")} <br>
+                .replace(".000Z", " ")} 
+            
+            <br>
+            
               finishes at: ${booking.finish_at
                 .replace("T", " ")
                 .replace(".000Z", " ")}
-          </div>
-          <div class=test"><a href="/booked.html?bid=${
+            
+            </div>
+
+          <div class="test"><a href="/booked.html?bid=${
             booking.id
-          }">test</a></div>
+          }">詳細資訊</a></div>
+
+        
+
+          </div>
           `;
       } else {
         allBookingsHTML += ``;
@@ -40,4 +60,18 @@ async function getAllUserBookings() {
   }
 
   document.querySelector(".bookings-container").innerHTML += allBookingsHTML;
+}
+async function logout() {
+  document.querySelector(".logout").addEventListener("click", async (e) => {
+    const resp = await fetch(`/auth/logout`, {
+      method: "DELETE",
+    });
+
+    const result = await resp.json();
+    alert(result.message);
+
+    if (resp.status === 200) {
+      window.location = "/";
+    }
+  });
 }

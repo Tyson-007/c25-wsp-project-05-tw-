@@ -16,6 +16,9 @@ export interface Booking {
   special_req?: string;
   user_id: number;
   partyroom_id: number;
+  //try
+  is_booked: boolean;
+  //try
 }
 
 export interface Partyroom {
