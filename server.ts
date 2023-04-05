@@ -18,6 +18,7 @@ declare module "express-session" {
     isLoggedIn?: boolean;
     user_id: number;
     partyroom_id: number;
+    user_viewmode: string;
   }
 }
 

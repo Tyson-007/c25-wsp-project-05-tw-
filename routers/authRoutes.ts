@@ -38,6 +38,7 @@ async function login(req: Request, res: Response) {
 
     req.session.isLoggedIn = true;
     req.session.user_id = foundUser.id;
+    req.session.user_viewmode = "all";
     res.json({ message: "login success" });
   } catch (err) {
     console.log(err.message);
