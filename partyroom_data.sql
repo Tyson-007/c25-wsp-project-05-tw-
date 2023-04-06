@@ -73,7 +73,7 @@ CREATE TABLE equipments (
 );
 
 -- manual linking
-UPDATE equipments SET partyroom_id=1 WHERE equipments.id=1;
+UPDATE equipments SET partyroom_id=5 WHERE equipments.id=5;
 
 -- insert into equipments (equipment_in_service, switch_game, board_game) values ('air-condition', 'mario', 'monopoly');
 -- insert into equipments (equipment_in_service, switch_game, board_game) values ('TV', '', 'card);

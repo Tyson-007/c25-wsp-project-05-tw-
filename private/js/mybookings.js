@@ -11,11 +11,14 @@ async function getAllUserBookings() {
   // modify = modify.replace("T", " ")
 
   const date = new Date();
-
+  // console.log(date);
   const isoString = date.toISOString();
+  // console.log(isoString);
 
   for (let booking of bookingdetails) {
     try {
+      console.log(new Date(booking.start_at));
+
       if (booking.start_at > isoString) {
         allBookingsHTML += `
 
