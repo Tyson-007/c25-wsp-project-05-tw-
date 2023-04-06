@@ -2,7 +2,6 @@ window.onload = () => {
   initLogin();
   initSignup();
   getAllRooms();
-  selectorTabToggle();
   instanceSearch();
 };
 
