@@ -40,17 +40,18 @@ async function inputRoomDetails() {
       </div>
     </div>
     <!-- Details-Area-->
-    <div class="details-main-container">
-      <div class="left-part">
+    <div class="row details-main-container">
+      <div class="col left-part d-flex flex-column justify-content-center">
         <div class="room-details">
         <p>場地資訊</p>
         <p>價錢: $${partyroom_details.price} (每小時)</p>
         <p>地址: ${partyroom_details.venue}</p>
         </div>
 
-        <p class="equipments">PartyRoom 設備: ${partyroom_details.equipment_name}<br>種類: ${partyroom_details.type}</p>
+        <p class="equipments col">PartyRoom 設備: ${partyroom_details.equipment_name}<br>種類: ${partyroom_details.type}</p>
       </div>
-      <div class="right-part">
+
+      <div class="right-part col d-flex justify-content-end">
         <p class="room-image">${image}</p>
       </div>
     </div>
@@ -81,7 +82,7 @@ async function uploadBookingInfo() {
     const finish_at = form.finish_at.value;
     const participants = form.participants.value;
     const special_req = form.special_req.value;
-  
+
     const res = await fetch(`/user/booking/${urlSearchParams.get("pid")}`, {
       method: "POST",
       headers: {
@@ -90,7 +91,7 @@ async function uploadBookingInfo() {
       body: JSON.stringify({ start_at, finish_at, participants, special_req }),
     });
     // const booking_details = await res.json();
-    if (start_at < finish_at){
+    if (start_at < finish_at) {
       console.log("hihihi");
     }
     if (res.status === 200) {
