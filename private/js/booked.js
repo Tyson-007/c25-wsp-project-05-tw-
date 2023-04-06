@@ -10,12 +10,8 @@ async function bookingDetails() {
   const booking = await res_booking.json();
   console.log(booking);
 
-  const formattedStartTime = booking.start_at
-    .replace("T", " ")
-    .replace(".000Z", " ");
-  const formattedEndTime = booking.finish_at
-    .replace("T", " ")
-    .replace(".000Z", " ");
+  const formattedStartTime = new Date(booking.start_at).toString().slice(0,24);
+  const formattedEndTime = new Date(booking.finish_at).toString().slice(0,24);
 
   const image = `<img src="/images/${booking.imagefilename}" width="90%" alt=""/>`;
 

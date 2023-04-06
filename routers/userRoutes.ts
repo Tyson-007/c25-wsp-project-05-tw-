@@ -108,7 +108,6 @@ async function allRooms(req: Request, res: Response) {
     "SELECT * FROM partyrooms"
   );
   req.session.user_viewmode = "all";
-  console.log("user viewmode: " + req.session.user_viewmode);
   res.json(queryResult.rows); // pass array into res.json()
 }
 
@@ -118,7 +117,7 @@ async function bookRoom(req: Request, res: Response) {
   const finish_at = req.body.finish_at;
   const participants = req.body.participants;
   const special_req = req.body.special_req;
-  const partyroom_id = req.params.pid;
+  const partyroom_id = +req.params.pid;
 
   // if (!participants) {
   //   res.status(400).json({ missing: "missing required fields" });
@@ -199,8 +198,6 @@ async function getOthersRooms(req: Request, res: Response) {
     [req.session.user_id]
   );
   req.session.user_viewmode = "others";
-  console.log("user viewmode: " + req.session.user_viewmode);
-
   res.json(queryResult.rows);
 }
 
@@ -211,8 +208,6 @@ async function getMyRooms(req: Request, res: Response) {
     [req.session.user_id]
   );
   req.session.user_viewmode = "own";
-
-  console.log("user viewmode: " + req.session.user_viewmode);
   res.json(queryResult.rows);
 }
 
