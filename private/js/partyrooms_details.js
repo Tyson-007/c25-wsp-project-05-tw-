@@ -4,12 +4,20 @@ inputRoomDetails();
 uploadBookingInfo();
 logout();
 uploadRating();
+welcomeUser();
 
 async function check() {
   if (!urlSearchParams.has("pid")) {
     window.location = `/`;
     return;
   }
+}
+
+async function welcomeUser() {
+  const res_user = await fetch("/user/self");
+  const user = await res_user.json();
+
+  document.querySelector("#welcome-user").innerHTML = ` ${user.name}`;
 }
 
 async function inputRoomDetails() {
@@ -28,7 +36,7 @@ async function inputRoomDetails() {
       <div class="pr-booking-div">
         <h1>場地名稱: ${partyroom_details.name}</h1>
 
-        <button class="booking-now BTN" data-bs-toggle="modal" data-bs-target="#booking-modal">立即預約</button>
+        <button class="booking-now btn btn-primary" data-bs-toggle="modal" data-bs-target="#booking-modal">立即預約</button>
       </div>
     </div>
     <!-- Details-Area-->

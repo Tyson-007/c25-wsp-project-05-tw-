@@ -22,12 +22,12 @@ async function createUpdateForm() {
         <!--name-->
           <div class="col-md-4 name-div mb-3">
             <label for="inputName" class="form-label">場地名稱</label>
-            <input type="text" name="name" class="form-control uploads" />
+            <input type="text" name="name" class="form-control uploads" value="${partyroom_details.name}"/>
           </div>
           <!--phone no-->
           <div class="col-md-4 phone-no-div mb-3">
             <label for="inputPhoneNo" class="form-label">聯絡人電話</label>
-            <input type="tel" name="phone_no" class="form-control uploads" />
+            <input type="tel" name="phone_no" class="form-control uploads" value="${partyroom_details.phone_no}"/>
           </div>
           <!--price-->
           <div class="col-md-4 price-div mb-3">
@@ -36,14 +36,14 @@ async function createUpdateForm() {
               type="number"
               name="price"
               class="form-control uploads"
-              value="100"
+              value="${partyroom_details.price}"
               step="50"
             />
           </div>
           <!--venue-->
           <div class="col-md-12 venue-div mb-3">
             <label for="inputVenue" class="venue-label">地址</label>
-            <input type="text" name="venue" class="form-control uploads" />
+            <input type="text" name="venue" class="form-control uploads" value="${partyroom_details.venue}""/>
           </div>
           <div class="col-md-4 area-div mb-3">
             <label for="inputArea" class="area-label">場地面積</label>
@@ -51,7 +51,7 @@ async function createUpdateForm() {
               type="number"
               name="area"
               class="form-control uploads"
-              value="100"
+              value="${partyroom_details.area}"
             />
           </div>
           <!--capacity-->
@@ -63,13 +63,13 @@ async function createUpdateForm() {
               type="number"
               name="capacity"
               class="form-control uploads"
-              value="16"
+              value="${partyroom_details.capacity}"
             />
           </div>
           <!--style-->
           <div class="col-md-4 style-div mb-3">
             <label for="inputStyle" class="style-label">場地風格</label>
-            <input type="text" name="style" class="form-control uploads" />
+            <input type="text" name="style" class="form-control uploads" value="${partyroom_details.style}" />
           </div>
           <!--signature equipment-->
           <div class="col-md-12 d-flex justify-content-center">
@@ -83,13 +83,14 @@ async function createUpdateForm() {
               type="text"
               name="equipment_name"
               class="form-control uploads"
+              value="${partyroom_details.equipment_name}"
             />
           </div>
           <div class="col-md-6 equipment-type-div mb-3">
             <label for="inputEquipmentType" class="equipment-type-label"
               >設備種類</label
             >
-            <input type="text" name="type" class="form-control uploads" />
+            <input type="text" name="type" class="form-control uploads" value="${partyroom_details.type}"/>
           </div>
           <!--intro-->
           <div class="col-md-12 intro-div mb-3">
@@ -98,7 +99,7 @@ async function createUpdateForm() {
               class="form-control uploads"
               name="intro"
               rows="4"
-            ></textarea>
+            >${partyroom_details.intro}</textarea>
           </div>
           <!--image-->
           <div class="col-md-12 image-div mb-3">

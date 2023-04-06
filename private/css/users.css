@@ -3,6 +3,10 @@
   src: url(../assets/Oleo_Script/OleoScript-Regular.ttf);
 }
 
+nav {
+  background-color: #efefef !important;
+}
+
 .navbar-brand {
   font-family: "Oleo";
   font-size: 48px;
@@ -25,7 +29,7 @@ a {
 }
 
 .nav-link {
-  text-shadow: 2px 2px 10px #a3a3a3;
+  text-shadow: 2px 2px 18px #a3a3a3;
   font-size: large;
 }
 
