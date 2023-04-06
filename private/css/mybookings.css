@@ -1,22 +1,58 @@
-.booking-container {
-  margin: 5%;
-  padding: 3%;
+@font-face {
+  font-family: "Oleo";
+  src: url(../assets/Oleo_Script/OleoScript-Regular.ttf);
+}
+
+body {
+  margin: 0;
+  background-color: #f7f7f7;
+}
+
+h5 {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  width: fit-content;
+}
+
+nav {
+  background-color: #efefef !important;
+}
+
+.navbar-brand {
+  font-family: "Oleo";
+  font-size: 48px;
+  text-shadow: 2px 2px 5px #a3a3a3 !important;
+}
+
+.nav-link {
+  font-size: large;
+}
+
+.container-fluid {
+  position: relative;
+  height: 100%;
+}
+
+.booking-card {
   width: 40%;
   height: 100%;
-  /* border: solid black; */
-  background-color: #ffbb55;
   border-radius: 20px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 1px 1px 18px #b5b5b5;
 }
-.header {
-  display: flex;
-  background-color: #ffffff !important;
-  align-items: center;
-  line-height: 100%;
-  height: 8vh;
-  font-size: large;
-  border-bottom: solid 0.5px #999999;
+
+.card {
+  background-color: #fff8ec !important;
+  color: #733e00;
 }
+
+.card-header {
+  color: #733e00;
+}
+
 .btn-primary {
   --bs-btn-bg: #ff8a00;
   --bs-btn-border-color: #ff8a00;
@@ -24,4 +60,12 @@
   --bs-btn-hover-border-color: #ec7e00;
   --bs-btn-active-bg: #ec7e00;
   --bs-btn-active-border-color: #ec7e00;
+  box-shadow: 0px 0px 3px #a3a3a3;
+}
+
+.footer {
+  background-color: #3c3c3c;
+  color: #ffffff;
+  padding-top: 4px;
+  padding-bottom: 4px;
 }

@@ -1,3 +1,17 @@
+@font-face {
+  font-family: "Oleo";
+  src: url(../assets/Oleo_Script/OleoScript-Regular.ttf);
+}
+
+nav {
+  background-color: #efefef !important;
+}
+
+body {
+  margin: 0;
+  background-color: #f7f7f7;
+}
+
 a {
   text-decoration: none;
   color: inherit;
@@ -9,17 +23,22 @@ img {
 }
 
 .container-fluid {
+  height: 100%;
   position: relative;
 }
 
-.header {
-  display: flex;
-  background-color: #ffffff !important;
-  align-items: center;
-  line-height: 100%;
-  height: 8vh;
+.navbar-brand {
+  font-family: "Oleo";
+  font-size: 48px;
+  text-shadow: 2px 2px 5px #a3a3a3 !important;
+}
+
+.nav-link {
   font-size: large;
-  border-bottom: solid 0.5px #999999;
+}
+
+.btn {
+  box-shadow: 0px 0px 3px #a3a3a3;
 }
 
 .btn-primary {
@@ -29,15 +48,17 @@ img {
   --bs-btn-hover-border-color: #ec7e00;
   --bs-btn-active-bg: #ec7e00;
   --bs-btn-active-border-color: #ec7e00;
+  box-shadow: 0px 0px 3px #a3a3a3;
 }
 
 .booking-details {
   color: #733e00;
+  height: 100%;
 }
 
 .room-name {
   padding: 36px;
-  background-color: #fff2df;
+  background-color: #ffbb55;
   border-radius: 16px;
   font-size: 2rem;
   box-shadow: 4px 4px 20px 5px rgba(0, 0, 0, 0.1);
@@ -45,17 +66,17 @@ img {
 
 .room-others {
   padding: 36px;
-  background-color: #fff2df;
+  background-color: #fff5e4;
   border-radius: 16px;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   box-shadow: 4px 4px 20px 5px rgba(0, 0, 0, 0.1);
 }
 
 .owner-details {
   padding: 24px;
-  background-color: #fff2df;
+  background-color: #fff5e4;
   border-radius: 16px;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   box-shadow: 4px 4px 20px 5px rgba(0, 0, 0, 0.1);
 }
 
