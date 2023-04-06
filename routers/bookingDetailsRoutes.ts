@@ -14,7 +14,6 @@ bookingDetailsRoutes.get("/:bid", getBookingDetails);
 async function getBookingDetails(req: Request, res: Response) {
   try {
     const bookingId = +req.params.bid;
-    console.log("booking ID: " + bookingId);
 
     // if (isNaN(bookingId)) {
     //   res.status(400).json({ message: "invalid booking id" });
