@@ -117,7 +117,7 @@ async function bookRoom(req: Request, res: Response) {
   const finish_at = req.body.finish_at;
   const participants = req.body.participants;
   const special_req = req.body.special_req;
-  const partyroom_id = req.params.pid;
+  const partyroom_id = +req.params.pid;
 
   // if (!participants) {
   //   res.status(400).json({ missing: "missing required fields" });

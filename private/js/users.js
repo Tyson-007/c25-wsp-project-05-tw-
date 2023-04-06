@@ -56,6 +56,27 @@ async function getAllRooms() {
   }
 
   document.querySelector(".roomInfo-and-photo").innerHTML += partyroomCardsHtml;
+
+  document.querySelectorAll(".del-button").forEach((delBtn) =>
+    delBtn.addEventListener("click", async (e) => {
+      // document.querySelector(".roomInfo-and-photo").style.display = "none";
+      const roomDiv = e.currentTarget.parentElement;
+      const roomId = roomDiv.dataset.id;
+
+      const resp = await fetch(`/user/upload/${roomId}`, {
+        method: "PUT", // change to PUT
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ is_hidden: true }),
+      });
+
+      const result = await resp.json();
+      alert(result.message);
+
+      if (resp.status === 200) {
+        getAllRooms();
+      }
+    })
+  );
 }
 
 async function getMyRooms() {
@@ -124,31 +145,10 @@ async function getOthersRooms() {
       `;
     }
   }
-
   document.querySelector(".roomInfo-and-photo").innerHTML += partyroomCardsHtml;
 }
 
 //del
-document.querySelectorAll(".del-button").forEach((delBtn) =>
-  delBtn.addEventListener("click", async (e) => {
-    // document.querySelector(".roomInfo-and-photo").style.display = "none";
-    const roomDiv = e.currentTarget.parentElement;
-    const roomId = roomDiv.dataset.id;
-
-    const resp = await fetch(`/user/upload/${roomId}`, {
-      method: "PUT", // change to PUT
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ is_hidden: true }),
-    });
-
-    const result = await resp.json();
-    alert(result.message);
-
-    if (resp.status === 200) {
-      getAllRooms();
-    }
-  })
-);
 
 async function logout() {
   document.querySelector(".logout").addEventListener("click", async (e) => {
