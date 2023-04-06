@@ -3,9 +3,24 @@
   src: url(./assets/Oleo_Script/OleoScript-Regular.ttf);
 }
 
+nav {
+  background-color: #efefef !important;
+}
+
+.navbar-brand {
+  font-family: "Oleo";
+  font-size: 48px;
+  text-shadow: 2px 2px 5px #a3a3a3 !important;
+}
+
+.nav-link {
+  font-size: large;
+}
+
 h1 {
   font-family: "Oleo";
   font-size: 56px;
+  margin: 0;
 }
 
 a {
@@ -88,4 +103,6 @@ body {
 .footer {
   background-color: #3c3c3c;
   color: #ffffff;
+  padding-top: 4px;
+  padding-bottom: 4px;
 }
