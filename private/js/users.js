@@ -137,12 +137,10 @@ async function getOthersRooms() {
       `;
     }
   }
-
   document.querySelector(".roomInfo-and-photo").innerHTML += partyroomCardsHtml;
 }
 
 //del
-
 
 async function logout() {
   document.querySelector(".logout").addEventListener("click", async (e) => {

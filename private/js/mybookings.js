@@ -11,12 +11,16 @@ async function getAllUserBookings() {
   // modify = modify.replace("T", " ")
 
   const date = new Date();
-
+  // console.log(date);
   const isoString = date.toISOString();
+
+  // console.log(isoString);
+
   for (let booking of bookingdetails) {
     try {
-      start_at = new Date(booking.start_at).toString().slice(0,24);
-         finish_at = new Date(booking.finish_at).toString().slice(0,24);
+      start_at = new Date(booking.start_at).toString().slice(0, 24);
+      finish_at = new Date(booking.finish_at).toString().slice(0, 24);
+
       if (booking.start_at > isoString) {
         allBookingsHTML += `
 
@@ -31,19 +35,15 @@ async function getAllUserBookings() {
             
             <br>
             
-              Starts at: ${start_at
-               } 
+              Starts at: ${start_at} 
             
             <br>
             
-              Finishes at: ${finish_at
-                }
+              Finishes at: ${finish_at}
             
             </div>
 
-          <div class="test"><a href="/booked.html?bid=${
-            booking.id
-          }">詳細資訊</a></div>
+          <div class="test"><a href="/booked.html?bid=${booking.id}">詳細資訊</a></div>
 
         
 
