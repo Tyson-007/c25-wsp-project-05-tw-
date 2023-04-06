@@ -205,8 +205,8 @@ function instanceSearch() {
       const res_user = await fetch("/user/self");
       const user = await res_user.json();
 
-      const resp = await fetch(`/user/search`);
-      const partyrooms = await resp.json();
+      const res_partyrooms = await fetch(`/user/search`);
+      const partyrooms = await res_partyrooms.json();
 
       for (partyroom of partyrooms) {
         for (key in partyroom) {
