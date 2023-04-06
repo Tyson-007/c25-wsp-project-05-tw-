@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Party Room Details</title>
+    <!--font awesome css-->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+      integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <!--bootstrap css-->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
+      crossorigin="anonymous"
+    />
+    <!--bootstrap js-->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+      crossorigin="anonymous"
+    ></script>
+    <!--custom css-->
+    <link rel="stylesheet" href="./partyrooms_details_logout.css" />
+  </head>
+  <!--booking modal-->
+
+  <body>
+    <div class="container-fluid">
+      <div class="row header mb-4">
+        <div class="col-md-4" style="text-align: left">
+          <div class="header-content px-4">
+            <i class="fa-solid fa-bars fa-2x"></i>
+          </div>
+        </div>
+        <div class="col-md-4" style="text-align: center">
+          <div class="header-text">
+            <a href="/users.html"><h1>The Party Room</h1></a>
+          </div>
+        </div>
+      </div>
+      <!-- Result-Area -->
+      <div class="result-container"></div>
+      <!-- Comment-Area -->
+
+      <div class="comment-area">
+        <div class="comment-container">
+          <br />
+          <form id="ratingForm">
+            <!-- <textarea
+              name="comments"
+              id="commentTyping"
+              cols="93"
+              rows="10"
+            ></textarea>
+            <div class="rating-div">
+              <select name="ratings" id="score">
+                <option value="">請選擇分數</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+              </select>
+              <button type="submit" value="submit" class="BTN">提交</button> -->
+            </div>
+            <h2>用戶留言</h2>
+            <div class="commentBox"></div>
+            <br />
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <div>Footer</div>
+    </div>
+  </body>
+  <script src="./partyrooms_details_logout.js"></script>
+  <!-- <script src="./js/tryPartyrooms_details.js"></script> -->
+</html>

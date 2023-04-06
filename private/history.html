@@ -30,6 +30,38 @@
     <link rel="stylesheet" href="./css/history.css" />
   </head>
   <body>
+    <div class="row header mb-4">
+      <div class="col-md-4" style="text-align: left">
+        <div class="header-content px-4">
+          <i class="fa-solid fa-bars fa-2x"></i>
+        </div>
+      </div>
+      <div class="col-md-4" style="text-align: center">
+        <div class="header-text">
+          <a href="/users.html"><h1>The Party Room</h1></a>
+        </div>
+      </div>
+      <div class="col-md-4" style="text-align: right">
+        <div class="dropdown">
+          <button
+            class="btn btn-primary dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            歡迎
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">用戶資料</a></li>
+            <li>
+              <a class="dropdown-item logout" href="#" style="color: red"
+                >登出</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
     <h1>History</h1>
     <div class="bookings-container"></div>
     <script src="./js/history.js"></script>

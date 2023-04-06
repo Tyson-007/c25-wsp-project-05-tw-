@@ -1,7 +1,7 @@
 window.onload = () => {
   initLogin();
   initSignup();
-  // getAllRooms();
+  getAllRooms();
 };
 
 async function initLogin() {
@@ -61,8 +61,8 @@ async function initSignup() {
 }
 
 async function getAllRooms() {
-  const res_user = await fetch("/user/self");
-  const user = await res_user.json();
+  // const res_user = await fetch("/user/self");
+  // const user = await res_user.json();
 
   const res = await fetch("/user/upload");
   const partyrooms = await res.json();
@@ -71,6 +71,7 @@ async function getAllRooms() {
   document.querySelector(".roomInfo-and-photo").innerHTML = "";
 
   for (let partyroom of partyrooms) {
+    console.log(partyroom);
     // console.log(partyroom.user_id);
     // console.log(typeof partyroom.phone_no);
     const card_image = `<img src="/images/${partyroom.imagefilename}" class="card-img-top" alt="${partyroom.name}">`;
@@ -80,7 +81,7 @@ async function getAllRooms() {
     partyroomCardsHtml += `
       <div class="col-md-3 d-flex justify-content-center text-center">
         <div class="card w-75 partyroom-card mb-3" data-id="${partyroom.id}">
-          <a href= "/partyrooms_details.html?pid=${partyroom.id}">${card_image}</a>
+          <a href= "/partyrooms_details_logout.html?pid=${partyroom.id}">${card_image}</a>
           <div class="card-body">
             <h5 class="card-title">${partyroom.name}</h5>
             <p class="card-text">${partyroom.venue}</p>

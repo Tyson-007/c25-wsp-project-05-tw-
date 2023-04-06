@@ -171,10 +171,10 @@ async function postComment(req: Request, res: Response) {
   const comments = req.body.comments;
   const partyroom_id = +req.params.pid;
 
-  // if (!participants) {
-  //   res.status(400).json({ missing: "missing required fields" });
-  //   return;
-  // }
+  if (ratings != Number) {
+    res.status(400).json({ message: "Please give a score" });
+    return;
+  }
 
   const queryResult = /*SQL*/ `INSERT INTO ratings (user_id, partyroom_id, ratings, comments) VALUES ($1, $2, $3, $4) RETURNING id`;
   await dbClient.query<Rating>(queryResult, [
