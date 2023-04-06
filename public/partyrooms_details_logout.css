@@ -12,7 +12,10 @@ a {
   font-size: large;
   border-bottom: solid 0.5px #999999;
 }
-
+.whole {
+  margin-left: 5%;
+  margin-right: 5%;
+}
 .btn-primary {
   --bs-btn-bg: #ff8a00;
   --bs-btn-border-color: #ff8a00;
@@ -67,7 +70,7 @@ a {
 
 /* 場地資訊 */
 .room-details {
-  width: 50vh;
+  width: 40vh;
   height: 20vh;
   border: 1px solid black;
   border-radius: 20px;
@@ -76,7 +79,7 @@ a {
 }
 
 .equipments {
-  width: 50vh;
+  width: 40vh;
   height: 10vh;
   border: 1px solid black;
   margin-top: 30px;

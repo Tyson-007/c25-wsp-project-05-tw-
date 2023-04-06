@@ -24,7 +24,9 @@ async function inputRoomDetails() {
   const image = `<img src="/images/${partyroom_details.imagefilename}" width = "20" alt=""/>`;
 
   let htmlStr = `
+  
     <div class="details-header">
+ 
       <div class="pr-booking-div">
         <h1>場地名稱: ${partyroom_details.name}</h1>
 
@@ -32,19 +34,20 @@ async function inputRoomDetails() {
       </div>
     </div>
     <!-- Details-Area-->
-    <div class="details-main-container">
-      <div class="left-part">
+    <div class="row details-main-container">
+      <div class="col left-part d-flex flex-column justify-content-center">
         <div class="room-details">
         <p>場地資訊</p>
         <p>價錢: $${partyroom_details.price} (每小時)</p>
         <p>地址: ${partyroom_details.venue}</p>
         </div>
 
-        <p class="equipments">PartyRoom 設備: ${partyroom_details.equipment_name}<br>種類: ${partyroom_details.type}</p>
+        <p class="equipments col">PartyRoom 設備: ${partyroom_details.equipment_name}<br>種類: ${partyroom_details.type}</p>
       </div>
-      <div class="right-part">
+      <div class="right-part col d-flex justify-content-end">
         <p class="room-image">${image}</p>
       </div>
+
     </div>
 
       `;
