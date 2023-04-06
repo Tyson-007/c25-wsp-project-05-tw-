@@ -49,7 +49,6 @@ async function getAllRooms() {
 
   document.querySelector(".roomInfo-and-photo").innerHTML += partyroomCardsHtml;
 
-  //del
   document.querySelectorAll(".del-button").forEach((delBtn) =>
     delBtn.addEventListener("click", async (e) => {
       // document.querySelector(".roomInfo-and-photo").style.display = "none";
@@ -141,27 +140,7 @@ async function getOthersRooms() {
   document.querySelector(".roomInfo-and-photo").innerHTML += partyroomCardsHtml;
 }
 
-// //del
-// document.querySelectorAll(".del-button").forEach((delBtn) =>
-//   delBtn.addEventListener("click", async (e) => {
-//     // document.querySelector(".roomInfo-and-photo").style.display = "none";
-//     const roomDiv = e.currentTarget.parentElement;
-//     const roomId = roomDiv.dataset.id;
-
-//     const resp = await fetch(`/user/upload/${roomId}`, {
-//       method: "PUT", // change to PUT
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify({ is_hidden: true }),
-//     });
-
-//     const result = await resp.json();
-//     alert(result.message);
-
-//     if (resp.status === 200) {
-//       getAllRooms();
-//     }
-//   })
-// );
+//del
 
 async function logout() {
   document.querySelector(".logout").addEventListener("click", async (e) => {
@@ -224,8 +203,8 @@ function instanceSearch() {
       const res_user = await fetch("/user/self");
       const user = await res_user.json();
 
-      const resp = await fetch(`/user/search`);
-      const partyrooms = await resp.json();
+      const res_partyrooms = await fetch(`/user/search`);
+      const partyrooms = await res_partyrooms.json();
 
       for (partyroom of partyrooms) {
         for (key in partyroom) {
