@@ -1,7 +1,15 @@
 window.onload = () => {
   getAllUserBookings();
   logout();
+  welcomeUser();
 };
+
+async function welcomeUser() {
+  const res_user = await fetch("/user/self");
+  const user = await res_user.json();
+
+  document.querySelector("#welcome-user").innerHTML = ` ${user.name}`;
+}
 
 async function getAllUserBookings() {
   const res_bookingdetails = await fetch("/user/booking");
@@ -18,36 +26,24 @@ async function getAllUserBookings() {
 
   for (let booking of bookingdetails) {
     try {
-      start_at = new Date(booking.start_at).toString().slice(0, 24);
-      finish_at = new Date(booking.finish_at).toString().slice(0, 24);
+      start_at = new Date(booking.start_at).toString().slice(0, 21);
+      finish_at = new Date(booking.finish_at).toString().slice(0, 21);
 
       if (booking.start_at > isoString) {
         allBookingsHTML += `
-
-          <div class="booking-container">
-            <div class="booked-info">
-            Party Room Name:
-              ${booking.name} 
-            
-            <br>
-            Venue:
-              ${booking.venue} 
-            
-            <br>
-            
-              Starts at: ${start_at} 
-            
-            <br>
-            
-              Finishes at: ${finish_at}
-            
+        <div class="col-md-3 mx-0">
+          <div class="booking-card card w-100">
+            <div class="card-header text-center"><h5>${booking.name}</h5></div>
+            <div class="card-body">
+              <p><b>Venue:</b> ${booking.venue}</p>
+              <p><b>Starts at:</b> ${start_at}</p>
+              <p><b>Finishes at:</b> ${finish_at}</p>
+              <div class="card-button d-flex justify-content-center">
+                <a class="btn btn-primary" href="/booked.html?bid=${booking.id}">詳細資訊</a>
+              </div>
             </div>
-
-          <div class="test"><a href="/booked.html?bid=${booking.id}">詳細資訊</a></div>
-
-        
-
           </div>
+        </div>
           `;
       } else {
         allBookingsHTML += ``;

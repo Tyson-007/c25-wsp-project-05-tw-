@@ -30,30 +30,53 @@
     <link rel="stylesheet" href="./css/booked.css" />
   </head>
   <body>
-    <div class="container-fluid">
-      <!--header-->
-      <div class="row header mb-4">
-        <div class="col-md-4" style="text-align: left">
-          <div class="header-content px-4">
-            <i class="fa-solid fa-bars fa-2x"></i>
+    <div class="container-fluid overflow-hidden justify-content-center m-0 g-0">
+      <!--navbar-->
+      <nav class="navbar navbar-expand-lg px-2 mb-5">
+        <!--navbar contianer-->
+        <div class="container-fluid g-0 px-2">
+          <!--responsive toggler-->
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <!--navbar items-->
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <!--The Party Room-->
+            <a class="navbar-brand" href="/users.html">Soirée Suite</a>
+            <!--navbar links-->
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link" href="./postData.html">上傳新Party Room</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./mybookings.html"
+                  >你的Party Room預約</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./history.html">預約記錄</a>
+              </li>
+            </ul>
           </div>
-        </div>
-        <div class="col-md-4" style="text-align: center">
-          <div class="header-text">
-            <a href="/users.html"><h1>The Party Room</h1></a>
-          </div>
-        </div>
-        <div class="col-md-4" style="text-align: right">
-          <div class="dropdown">
+          <!--login/logout button-->
+          <div class="nav-item dropdown">
             <button
               class="btn btn-primary dropdown-toggle"
               type="button"
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              歡迎
+              歡迎,<span id="welcome-user"></span>
             </button>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu dropdown-menu-end">
               <li><a class="dropdown-item" href="#">用戶資料</a></li>
               <li>
                 <a class="dropdown-item logout" href="#" style="color: red"
@@ -63,8 +86,7 @@
             </ul>
           </div>
         </div>
-      </div>
-      <div class="owner-info"></div>
+      </nav>
       <div class="booking-details"></div>
     </div>
     <!--footer-->
