@@ -226,7 +226,7 @@ async function searchRooms(req: Request, res: Response) {
     );
     res.json(queryResult.rows);
     // console.log("others partyrooms data scraped");
-  } else if (req.session.user_viewmode === "all") {
+  } else if (!req.session.user_id || req.session.user_viewmode === "all") {
     const queryResult = await dbClient.query(
       /*SQL*/ `SELECT partyrooms.id AS id, partyrooms.name AS name, user_id, phone_no, price, venue, style, area, capacity, intro, equipments.name AS equipment_name, type, imagefilename FROM partyrooms JOIN equipments ON partyrooms.id = equipments.partyroom_id;`
     );

@@ -2,7 +2,6 @@ window.onload = () => {
   initLogin();
   initSignup();
   getAllRooms();
-  selectorTabToggle();
   instanceSearch();
 };
 
@@ -115,9 +114,6 @@ function instanceSearch() {
       let duplicatedResults = [];
       let searchResults = [];
 
-      const res_user = await fetch("/user/self");
-      const user = await res_user.json();
-
       const res_partyrooms = await fetch(`/user/search`);
       const partyrooms = await res_partyrooms.json();
 
@@ -170,20 +166,11 @@ function instanceSearch() {
 
           partyroomCardsHtml += `
           <div class="col-md-3 d-flex justify-content-center text-center">
-            <div class="card result w-75 partyroom-card mb-3 justify-content-center" data-id="${
-              partyroom.id
-            }">
-              <a href= "/partyrooms_details.html?pid=${
-                partyroom.id
-              }" class="result">${card_image}</a>
+            <div class="card result w-75 partyroom-card mb-3 justify-content-center" data-id="${partyroom.id}">
+              <a href= "/partyrooms_details.html?pid=${partyroom.id}" class="result">${card_image}</a>
               <div class="card-body">
                 <div class="card-title result"><h6>${partyroom.name}</h6></div>
                 <div class="card-text result">${partyroom.venue}</div>
-              </div>
-              <div class="result card-footer d-flex justify-content-around" data-id=${
-                partyroom.id
-              }>
-                ${user.id === partyroom.user_id ? editAndDeleteBtn : bookButton}
               </div>
             </div>
           </div>
