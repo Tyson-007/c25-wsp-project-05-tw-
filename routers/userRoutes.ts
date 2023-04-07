@@ -145,7 +145,10 @@ async function getAllBookings(req: Request, res: Response) {
     `SELECT bookings.id AS id, name, venue, start_at, finish_at FROM bookings JOIN partyrooms ON bookings.partyroom_id = partyrooms.id WHERE bookings.user_id = $1;`,
     [req.session.user_id]
   );
+  console.log("test");
+
   res.json(queryResult.rows);
+  console.log(queryResult.rows);
 }
 
 // delete party room, used in users.js //
