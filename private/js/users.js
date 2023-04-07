@@ -5,6 +5,8 @@ window.onload = async () => {
   selectorTabToggle();
   instanceSearch();
   welcomeUser();
+  bookOnUser();
+  removeParams();
 };
 
 async function welcomeUser() {
@@ -12,6 +14,31 @@ async function welcomeUser() {
   const user = await res_user.json();
 
   document.querySelector("#welcome-user").innerHTML = ` ${user.name}`;
+}
+
+async function bookOnUser() {
+  const bookingModal = new bootstrap.Modal("#booking-modal");
+
+  document.querySelectorAll(".book-button").forEach((bookBtn) =>
+    bookBtn.addEventListener("click", async (e) => {
+      const partyroomID = bookBtn.parentElement.dataset.id;
+
+      const currentURL = window.location.href;
+      const newURL = currentURL + "?pid=" + partyroomID;
+      window.history.pushState({ path: newURL }, "", newURL);
+
+      bookingModal.show();
+    })
+  );
+}
+
+async function removeParams() {
+  const bookingModal = document.querySelector("#booking-modal");
+  const userHTML = "/users.html";
+
+  bookingModal.addEventListener("hidden.bs.modal", async (e) => {
+    window.history.replaceState({ path: userHTML }, "", userHTML);
+  });
 }
 
 async function getAllRooms() {
@@ -30,7 +57,7 @@ async function getAllRooms() {
       const editAndDeleteBtn = `
       <div class="edit-button"><a href="/partyrooms_edit.html?pid=${partyroom.id}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a></div>
       <div class="del-button"><a href="#"><i class="fa-solid fa-trash fa-lg"></i></a></div>`;
-      const bookButton = `<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#booking-modal">立即預約</button>`;
+      const bookButton = `<button class="btn btn-primary book-button" data-id="${partyroom.id}">立即預約</button>`;
 
       partyroomCardsHtml += `
       <div class="col-md-3 d-flex justify-content-center text-center">
@@ -42,7 +69,12 @@ async function getAllRooms() {
           }" class="result">${card_image}</a>
           <div class="card-body">
             <div class="card-title result"><h6>${partyroom.name}</h6></div>
-            <div class="card-text result">${partyroom.venue}</div>
+            <div class="card-text result">
+              <p>${partyroom.venue}</p>
+              最多${partyroom.capacity}人&nbsp;&nbsp;|&nbsp;&nbsp;${
+        partyroom.style
+      }
+            </div>
           </div>
           <div class="result card-footer d-flex justify-content-around" data-id=${
             partyroom.id
