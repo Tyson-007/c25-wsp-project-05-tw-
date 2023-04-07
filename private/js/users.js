@@ -5,8 +5,8 @@ window.onload = async () => {
   selectorTabToggle();
   instanceSearch();
   welcomeUser();
-  bookOnUser();
-  removeParams();
+  modalAddParams();
+  modalRemoveParams();
 };
 
 async function welcomeUser() {
@@ -16,7 +16,7 @@ async function welcomeUser() {
   document.querySelector("#welcome-user").innerHTML = ` ${user.name}`;
 }
 
-async function bookOnUser() {
+async function modalAddParams() {
   const bookingModal = new bootstrap.Modal("#booking-modal");
 
   document.querySelectorAll(".book-button").forEach((bookBtn) =>
@@ -32,12 +32,12 @@ async function bookOnUser() {
   );
 }
 
-async function removeParams() {
+async function modalRemoveParams() {
   const bookingModal = document.querySelector("#booking-modal");
-  const userHTML = "/users.html";
+  const usersHTML = "/users.html";
 
   bookingModal.addEventListener("hidden.bs.modal", async (e) => {
-    window.history.replaceState({ path: userHTML }, "", userHTML);
+    window.history.replaceState({ path: usersHTML }, "", usersHTML);
   });
 }
 
