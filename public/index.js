@@ -95,13 +95,13 @@ async function getAllRooms() {
   document.querySelector(".roomInfo-and-photo").innerHTML += partyroomCardsHtml;
 }
 
-function selectorTabToggle() {
-  const allRoomsbutton = document.querySelector(".selector-button-all");
+// function selectorTabToggle() {
+//   const allRoomsbutton = document.querySelector(".selector-button-all");
 
-  allRoomsbutton.addEventListener("click", () => {
-    getAllRooms();
-  });
-}
+//   allRoomsbutton.addEventListener("click", () => {
+//     getAllRooms();
+//   });
+// }
 
 function instanceSearch() {
   const textInput = document.querySelector("#search-input");

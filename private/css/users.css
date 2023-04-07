@@ -44,13 +44,39 @@ a {
 
 .banner {
   display: flex;
-  height: 24vh;
   background-color: rgb(226, 182, 182);
-  background-image: url(../assets/banner_image.png);
+  /* background-image: url(../assets/partyroom1); */
   align-items: center;
   text-align: center;
-  position: relative;
-  right: 20%;
+}
+
+/* Slider */
+.slider {
+  width: 100%;
+  height: 40vh;
+  overflow: hidden;
+}
+
+.slider-container {
+  display: flex;
+  width: 400%;
+  height: 100%;
+  animation: slide 60s linear infinite;
+}
+
+.slider-container img {
+  width: 100vh;
+  height: 100%;
+  object-fit: cover;
+}
+
+@keyframes slide {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-75%);
+  }
 }
 
 .banner-text {
@@ -60,9 +86,12 @@ a {
   border-radius: 16px;
   font-size: 32px;
   position: absolute;
-  left: 15%;
+  left: 13%;
+  top: 30vh;
 }
-
+.card-and-controlBTN {
+  margin-top: 5vh;
+}
 .selector {
   height: 6vh !important;
   color: #764000;
