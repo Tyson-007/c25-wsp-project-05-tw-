@@ -71,6 +71,7 @@ body {
   background-image: url(../assets/banner_image.png);
   align-items: center;
   text-align: center;
+  /* position: relative; */
 }
 
 .banner-text {
@@ -79,6 +80,7 @@ body {
   padding-bottom: 2vh;
   border-radius: 16px;
   font-size: 32px;
+  /* position: absolute; */
 }
 
 .partyroom-card {

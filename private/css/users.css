@@ -49,6 +49,8 @@ a {
   background-image: url(../assets/banner_image.png);
   align-items: center;
   text-align: center;
+  position: relative;
+  right: 20%;
 }
 
 .banner-text {
@@ -57,6 +59,8 @@ a {
   padding-bottom: 2vh;
   border-radius: 16px;
   font-size: 32px;
+  position: absolute;
+  left: 15%;
 }
 
 .selector {

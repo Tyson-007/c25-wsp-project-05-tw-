@@ -1,7 +1,23 @@
 window.onload = () => {
+  check();
+  welcomeUser();
   getAllUserBookings();
   // logout();
 };
+
+async function check() {
+  if (!urlSearchParams.has("pid")) {
+    window.location = `/`;
+    return;
+  }
+}
+
+async function welcomeUser() {
+  const res_user = await fetch("/user/self");
+  const user = await res_user.json();
+
+  document.querySelector("#welcome-user").innerHTML = ` ${user.name}`;
+}
 
 async function getAllUserBookings() {
   const res_bookingdetails = await fetch("/user/booking");
