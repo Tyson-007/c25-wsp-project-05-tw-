@@ -17,7 +17,7 @@ export interface Booking {
   user_id: number;
   partyroom_id: number;
   //try
-  is_booked: boolean;
+  is_cancelled: boolean;
   //try
 }
 

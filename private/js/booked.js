@@ -1,5 +1,7 @@
 const urlSearchParams = new URLSearchParams(window.location.search);
 bookingDetails();
+logout();
+deleteBooking();
 
 async function bookingDetails() {
   const bid = urlSearchParams.get("bid");
@@ -35,7 +37,7 @@ async function bookingDetails() {
           <div class="booking-special-req w-100 mb-4"><b>特別要求</b><br> ${booking.special_req}</div>
           <div class="booking-buttons w-100 d-flex justify-content-around">
             <button class="btn btn-primary edit-button">更改時間</button>
-            <button class="btn btn-danger delete-button">取消預約</button>
+            <button class="btn btn-danger delete-button" data-bs-toggle="modal" data-bs-target="#cancel-modal">取消預約</button>
           </div>
         </div>
       </div>
@@ -72,4 +74,26 @@ async function logout() {
       window.location = "/";
     }
   });
+}
+
+async function deleteBooking() {
+  document
+    .querySelector("#cancel-button")
+    .addEventListener("click", async (e) => {
+      const resp = await fetch(
+        `/bookingDetails/${urlSearchParams.get("bid")}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ is_cancelled: true }),
+        }
+      );
+
+      const result = await resp.json();
+      alert(result.message);
+
+      if (resp.status === 200) {
+        window.location = "/mybookings.html";
+      }
+    });
 }

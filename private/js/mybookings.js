@@ -14,6 +14,7 @@ async function welcomeUser() {
 async function getAllUserBookings() {
   const res_bookingdetails = await fetch("/user/booking");
   const bookingdetails = await res_bookingdetails.json();
+
   let allBookingsHTML = "";
   // const modify = document.querySelector('#start_at').value
   // modify = modify.replace("T", " ")
@@ -25,32 +26,34 @@ async function getAllUserBookings() {
   // console.log(isoString);
 
   for (let booking of bookingdetails) {
-    try {
-      start_at = new Date(booking.start_at).toString().slice(0, 21);
-      finish_at = new Date(booking.finish_at).toString().slice(0, 21);
+    if (!booking.is_cancelled) {
+      try {
+        start_at = new Date(booking.start_at).toString().slice(0, 21);
+        finish_at = new Date(booking.finish_at).toString().slice(0, 21);
 
-      if (booking.start_at > isoString) {
-        allBookingsHTML += `
-        <div class="col-md-3 mx-0">
-          <div class="booking-card card w-100">
-            <div class="card-header text-center"><h5>${booking.name}</h5></div>
-            <div class="card-body">
-              <p><b>Venue:</b> ${booking.venue}</p>
-              <p><b>Starts at:</b> ${start_at}</p>
-              <p><b>Finishes at:</b> ${finish_at}</p>
-              <div class="card-button d-flex justify-content-center">
-                <a class="btn btn-primary" href="/booked.html?bid=${booking.id}">詳細資訊</a>
+        if (booking.start_at > isoString) {
+          allBookingsHTML += `
+          <div class="col-md-3 mx-0">
+            <div class="booking-card card w-100">
+              <div class="card-header text-center"><h5>${booking.name}</h5></div>
+              <div class="card-body">
+                <p><b>Venue:</b> ${booking.venue}</p>
+                <p><b>Starts at:</b> ${start_at}</p>
+                <p><b>Finishes at:</b> ${finish_at}</p>
+                <div class="card-button d-flex justify-content-center">
+                  <a class="btn btn-primary" href="/booked.html?bid=${booking.id}">詳細資訊</a>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-          `;
-      } else {
-        allBookingsHTML += ``;
+            `;
+        } else {
+          allBookingsHTML += ``;
+        }
+      } catch (err) {
+        console.log(err);
+        res.status(500).json({ message: "Error" });
       }
-    } catch (err) {
-      console.log(err);
-      res.status(500).json({ message: "Error" });
     }
   }
 

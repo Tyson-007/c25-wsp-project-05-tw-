@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>My Booking</title>
     <!--font awesome cdn-->
     <link
       rel="stylesheet"
@@ -29,6 +29,25 @@
     <!--custom css-->
     <link rel="stylesheet" href="./css/booked.css" />
   </head>
+  <!--confirm cancel modal-->
+  <div class="modal fade" id="cancel-modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">取消預約</h5>
+        </div>
+        <div class="modal-body text-center p-4">請確定你是否要取消預約</div>
+        <div class="modal-footer justify-content-around">
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+            不要取消
+          </button>
+          <button type="button" id="cancel-button" class="btn btn-primary">
+            確定取消
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
   <body>
     <div class="container-fluid overflow-hidden justify-content-center m-0 g-0">
       <!--navbar-->

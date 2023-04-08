@@ -9,6 +9,7 @@ import type { Request, Response } from "express";
 export const bookingDetailsRoutes = express.Router();
 
 bookingDetailsRoutes.get("/:bid", getBookingDetails);
+bookingDetailsRoutes.put("/:bid", deleteBooking);
 
 // get details for one booking, used in booked.js
 async function getBookingDetails(req: Request, res: Response) {
@@ -32,4 +33,21 @@ async function getBookingDetails(req: Request, res: Response) {
     console.log(err);
     res.status(500).json({ message: "internal server error" });
   }
+}
+
+// delete booking (using is_cancelled boolean)
+async function deleteBooking(req: Request, res: Response) {
+  const bookingId = +req.params.bid;
+
+  if (isNaN(bookingId)) {
+    res.status(400).json({ message: "invalid booking id" });
+    return;
+  }
+
+  await dbClient.query(
+    /*SQL*/ `UPDATE bookings SET is_cancelled = true WHERE id = $1`,
+    [bookingId]
+  );
+
+  res.json({ message: "booking cancelled" });
 }

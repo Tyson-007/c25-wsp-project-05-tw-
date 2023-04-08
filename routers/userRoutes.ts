@@ -143,7 +143,7 @@ async function bookRoom(req: Request, res: Response) {
 // get user's booking info, used in mybookings.js
 async function getAllBookings(req: Request, res: Response) {
   const queryResult = await dbClient.query<Booking>(
-    `SELECT bookings.id AS id, name, venue, start_at, finish_at FROM bookings JOIN partyrooms ON bookings.partyroom_id = partyrooms.id WHERE bookings.user_id = $1;`,
+    `SELECT bookings.id AS id, name, venue, start_at, finish_at, is_cancelled FROM bookings JOIN partyrooms ON bookings.partyroom_id = partyrooms.id WHERE bookings.user_id = $1;`,
     [req.session.user_id]
   );
 

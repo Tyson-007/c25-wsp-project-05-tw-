@@ -47,7 +47,8 @@ CREATE TABLE bookings (
 	created_at TIMESTAMP DEFAULT NOW(),
 	updated_at TIMESTAMP DEFAULT NOW(),
     start_at TIMESTAMP,
-    finish_at TIMESTAMP
+    finish_at TIMESTAMP,
+    is_cancelled BOOLEAN DEFAULT FALSE
 );
 
 DROP TABLE IF EXISTS ratings;
