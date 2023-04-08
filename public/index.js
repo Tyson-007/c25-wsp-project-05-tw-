@@ -86,6 +86,7 @@ async function getAllRooms() {
           <div class="card-body">
             <h5 class="card-title">${partyroom.name}</h5>
             <p class="card-text">${partyroom.venue}</p>
+            <p class="card-text">最多${partyroom.capacity}人&nbsp;&nbsp;|&nbsp;&nbsp;${partyroom.style}</p>
           </div>
         </div>
       </div>

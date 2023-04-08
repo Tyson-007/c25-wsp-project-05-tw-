@@ -87,11 +87,9 @@ a {
   font-size: 32px;
   position: absolute;
   left: 13%;
-  top: 30vh;
+  top: 25%;
 }
-.card-and-controlBTN {
-  margin-top: 5vh;
-}
+
 .selector {
   height: 6vh !important;
   color: #764000;
