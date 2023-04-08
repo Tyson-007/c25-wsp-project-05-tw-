@@ -21,6 +21,7 @@ userRoutes.get("/rooms_self", getMyRooms);
 userRoutes.post("/rating/:pid", postComment);
 userRoutes.get("/rating/:pid", getUserIDNoSession);
 userRoutes.get("/search", searchRooms);
+userRoutes.put("/user_info", updateUserInfo)
 // userRoutes.post("rating/:pid", postRating)
 
 // get user id, used in users.js //
@@ -233,4 +234,14 @@ async function searchRooms(req: Request, res: Response) {
     res.json(queryResult.rows);
     // console.log("all partyrooms data scraped");
   }
+}
+
+async function updateUserInfo(req: Request, res: Response) {
+  const user_id = req.session.user_id
+  const newEmail = req.body.email
+  const newPhone_no = req.body.phone_no
+  const newDate_of_birth = req.body.date_of_birth
+  await dbClient.query(/*SQL*/ `UPDATE users SET email = $1, phone_no = $2, date_of_birth = $3 WHERE id = $4`, [newEmail, newPhone_no, newDate_of_birth, user_id]);
+
+  res.json({ message: "user info updated" });
 }

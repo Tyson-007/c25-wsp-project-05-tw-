@@ -78,44 +78,72 @@
         </div>
       </div>
     </nav>
-    <!--User_Infomation-->
-    <button class="open-button" onclick="openForm()">
-      <div id="my-info">我的資料</div>
-    </button>
-    <div class="form-popup" id="myForm">
-      <form class="form-container">
-        <div class="user_info_image-div">
-          <img class="user_image" src="../private/assets/no-user-image-icon-27.jpg" />
-        </div>
-        <div class="username"><h1>用戶名稱</h1></div>
-        <!-- email-area -->
-        <div class="user-info-div">
-          <div class="user-info-icon">
-            <i class="fa-regular fa-envelope" style="color: #733e00"></i>
-          </div>
-          <input type="text" placeholder="輸入你的電郵地址" name="email" required />
-        </div>
-        <!-- phone-area -->
-        <div class="user-info-div">
-          <div class="user-info-icon">
-            <i class="fa-solid fa-phone" style="color: #733e00"></i>
-          </div>
-          <input type="text" placeholder="輸入你的流動電話號碼" name="phone_no" required />
-        </div>
-        <!-- date-of-birth -->
-        <div class="user-info-div">
-          <div class="user-info-icon">
-            <i class="fa-solid fa-cake-candles" style="color: #733e00"></i>
-          </div>
-          <input type="text" placeholder="輸入你的出生日期" name="email" required />
-        </div>
 
-        <div class="save-button">
-          <button type="submit" class="btn">儲存更改</button>
-          <button type="button" class="btn cancel" onclick="closeForm()">關閉</button>
+    <!--User Infomation-->
+    <div class="info-button">
+      <button class="open-button" onclick="userForm()">
+        <div id="my-info">我的資料</div>
+      </button>
+      <div class="user-form-popup">
+        <div class="append-here">
+        <form class="form-container" id="user_info_form">
+          <!-- email-area -->
+          <div class="user-info-div">
+            <div class="user-info-icon">
+              <i class="fa-regular fa-envelope" style="color: #733e00"></i>
+            </div>
+            <input type="text" placeholder="輸入你的新電郵地址" name="email"/>
+          </div>
+          <!-- phone-area -->
+          <div class="user-info-div">
+            <div class="user-info-icon">
+              <i class="fa-solid fa-phone" style="color: #733e00"></i>
+            </div>
+            <input type="text" placeholder="輸入你的新流動電話號碼" name="phone_no"/>
+          </div>
+          <!-- date-of-birth -->
+          <div class="user-info-div">
+            <div class="user-info-icon">
+              <i class="fa-solid fa-cake-candles" style="color: #733e00"></i>
+            </div>
+            <input type="text" placeholder="輸入你的新出生日期" name="date_of_birth"/>
+          </div>
+          <!-- save button -->
+          <div class="save-button">
+            <button type="submit" class="btn">儲存更改</button>
+          </div>
+        </form>
         </div>
-      </form>
+      </div>
     </div>
+
+    <!--Reset Password-->
+    <div class="info-button">
+      <div class="password-form-popup">
+        <form class="form-container" id="password_reset_form">
+          <div class="form-contain-container">
+          <!-- <div class="password-info-div"> 
+            <span class="password-label">請輸入舊密碼</span>
+            <input type="text" placeholder="" name="old_password" />
+          </div> -->
+          <div class="password-info-div"> 
+            <span class="password-label">請輸入新密碼</span>
+            <input type="text" placeholder="" name="new_password" />
+          </div>
+          <!-- <div class="password-info-div"> 
+           <span class="password-label">再確認新密碼</span>
+            <input type="text" placeholder="" name="confirm_new_password" />
+          </div> -->
+          </div>
+
+          <!-- save button -->
+          <div class="save-button">
+            <button type="submit" class="btn">儲存更改</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
     <!--footer-->
     <div class="row footer fixed-bottom justify-content-center text-center">
       <div class="col-md-12 pt-1 pb-1">Powered by Tecky Group 5</div>
