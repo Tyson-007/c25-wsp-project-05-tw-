@@ -9,6 +9,8 @@ window.onload = async () => {
   modalRemoveParams();
 };
 
+uploadBookingInfo();
+
 async function welcomeUser() {
   const res_user = await fetch("/user/self");
   const user = await res_user.json();
@@ -38,6 +40,41 @@ async function modalRemoveParams() {
 
   bookingModal.addEventListener("hidden.bs.modal", async (e) => {
     window.history.replaceState({ path: usersHTML }, "", usersHTML);
+  });
+}
+
+async function uploadBookingInfo() {
+  const form = document.querySelector("#booking-form");
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const start_at = form.start_at.value;
+    const finish_at = form.finish_at.value;
+    const participants = form.participants.value;
+    const special_req = form.special_req.value;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const pid = urlParams.get("pid");
+
+    const res = await fetch(`/user/booking/${pid}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ start_at, finish_at, participants, special_req }),
+    });
+    console.log(res);
+
+    if (start_at < finish_at) {
+      console.log("fix time");
+    }
+    if (res.status === 200) {
+      window.location = `/users.html`;
+      alert("success");
+    } else {
+      const data = await res.json();
+      alert(data.message);
+    }
   });
 }
 

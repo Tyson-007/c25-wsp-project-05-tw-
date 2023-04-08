@@ -21,7 +21,7 @@ userRoutes.get("/rooms_self", getMyRooms);
 userRoutes.post("/rating/:pid", postComment);
 userRoutes.get("/rating/:pid", getUserIDNoSession);
 userRoutes.get("/search", searchRooms);
-userRoutes.put("/user_info", updateUserInfo)
+userRoutes.put("/user_info", updateUserInfo);
 // userRoutes.post("rating/:pid", postRating)
 
 // get user id, used in users.js //
@@ -146,10 +146,8 @@ async function getAllBookings(req: Request, res: Response) {
     `SELECT bookings.id AS id, name, venue, start_at, finish_at FROM bookings JOIN partyrooms ON bookings.partyroom_id = partyrooms.id WHERE bookings.user_id = $1;`,
     [req.session.user_id]
   );
-  console.log("test");
 
   res.json(queryResult.rows);
-  console.log(queryResult.rows);
 }
 
 // delete party room, used in users.js //
@@ -240,11 +238,14 @@ async function searchRooms(req: Request, res: Response) {
 }
 
 async function updateUserInfo(req: Request, res: Response) {
-  const user_id = req.session.user_id
-  const newEmail = req.body.email
-  const newPhone_no = req.body.phone_no
-  const newDate_of_birth = req.body.date_of_birth
-  await dbClient.query(/*SQL*/ `UPDATE users SET email = $1, phone_no = $2, date_of_birth = $3 WHERE id = $4`, [newEmail, newPhone_no, newDate_of_birth, user_id]);
+  const user_id = req.session.user_id;
+  const newEmail = req.body.email;
+  const newPhone_no = req.body.phone_no;
+  const newDate_of_birth = req.body.date_of_birth;
+  await dbClient.query(
+    /*SQL*/ `UPDATE users SET email = $1, phone_no = $2, date_of_birth = $3 WHERE id = $4`,
+    [newEmail, newPhone_no, newDate_of_birth, user_id]
+  );
 
   res.json({ message: "user info updated" });
 }
