@@ -174,7 +174,7 @@ async function postComment(req: Request, res: Response) {
   const comments = req.body.comments;
   const partyroom_id = +req.params.pid;
 
-  if (ratings != Number) {
+  if (ratings != req.body.ratings) {
     res.status(400).json({ message: "Please give a score" });
     return;
   }
