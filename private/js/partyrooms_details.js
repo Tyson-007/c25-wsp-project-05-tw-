@@ -40,19 +40,33 @@ async function inputRoomDetails() {
       </div>
     </div>
     <!-- Details-Area-->
-    <div class="row details-main-container">
-      <div class="col left-part d-flex flex-column justify-content-center">
-        <div class="room-details">
-        <p>場地資訊</p>
-        <p>價錢: $${partyroom_details.price} (每小時)</p>
-        <p>地址: ${partyroom_details.venue}</p>
+    <div class="row details-main-container d-flex justify-content-center">
+      <div class="col d-flex flex-column justify-content-center mb-2">
+        <div class="room-details m-3 p-3">
+          <h4>場地資訊</h4>
+          價錢: $${partyroom_details.price} (每小時)<br>
+          地址: ${partyroom_details.venue}
         </div>
-
-        <p class="equipments col">PartyRoom 設備: ${partyroom_details.equipment_name}<br>種類: ${partyroom_details.type}</p>
+        <div class="col equipments m-3 p-3 d-flex flex-column justify-content-center">
+          <h4>場地設備</h4>
+          PartyRoom 設備: ${partyroom_details.equipment_name}<br>
+          種類: ${partyroom_details.type}
+        </div>
       </div>
-
-      <div class="right-part col d-flex justify-content-end">
+      <div class="col d-flex justify-content-end">
         <p class="room-image">${image}</p>
+      </div>
+      <div class=col d-flex justify-content-center text-center">
+        <div class="row owner-details d-flex flex-row justify-content-center m-3 p-3">
+          <div class="col-md-6">
+            <h4>場地主人</h4>
+            價錢: $${partyroom_details.price} (每小時)<br>
+            地址: ${partyroom_details.venue}
+          </div>
+          <div class="col-md-6 d-flex justify-content-center align-items-center">
+            <i class="fa-solid fa-user fa-6x"></i>
+          </div>
+        </div>
       </div>
     </div>
 
