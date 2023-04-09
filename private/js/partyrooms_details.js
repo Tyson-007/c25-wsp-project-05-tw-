@@ -53,6 +53,9 @@ async function inputRoomDetails() {
     "#partyroom-main-details-capacity"
   ).innerHTML = `最多容納人數：${partyroom_details.capacity}`;
   document.querySelector(
+    "#partyroom-main-details-intro"
+  ).innerHTML = `場地介紹：${partyroom_details.intro}`;
+  document.querySelector(
     "#partyroom-equipment-name"
   ).innerHTML = `特色設備：${partyroom_details.equipment_name}`;
   document.querySelector(
@@ -77,7 +80,9 @@ async function inputRoomDetails() {
   for (let comment of comment_details) {
     htmlStr += `
     <div class="commentBar">
-    ${comment.name}: ${comment.comments} <p class="score">給予評分: ${comment.ratings}</p>
+      <p><span class="fs-5"><b>${comment.name}分享的評論</b></span></p>
+      <p>${comment.comments}</p>
+      <span class="fs-5"><p class="score"><b>給予評分</b>: ${comment.ratings}</p></span>
     </div>
     
   `;

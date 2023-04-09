@@ -64,7 +64,7 @@ img {
   box-shadow: 4px 4px 20px 5px rgba(0, 0, 0, 0.1);
 }
 
-.room-others {
+.booked-card {
   padding: 36px;
   background-color: #fff5e4;
   border-radius: 16px;
