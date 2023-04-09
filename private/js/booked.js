@@ -2,6 +2,14 @@ const urlSearchParams = new URLSearchParams(window.location.search);
 bookingDetails();
 logout();
 deleteBooking();
+welcomeUser();
+
+async function welcomeUser() {
+  const res_user = await fetch("/user/self");
+  const user = await res_user.json();
+
+  document.querySelector("#welcome-user").innerHTML = ` ${user.name}`;
+}
 
 async function bookingDetails() {
   const bid = urlSearchParams.get("bid");

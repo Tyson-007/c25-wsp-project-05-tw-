@@ -10,6 +10,7 @@ nav {
 body {
   margin: 0;
   background-color: #f7f7f7;
+  color: #733e00;
 }
 
 a {
@@ -65,7 +66,7 @@ img {
 }
 
 .booked-card {
-  padding: 36px;
+  padding: 18px;
   background-color: #fff5e4;
   border-radius: 16px;
   font-size: 1.2rem;
