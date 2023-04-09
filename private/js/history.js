@@ -1,16 +1,8 @@
 window.onload = () => {
-  check();
   welcomeUser();
   getAllUserBookings();
-  // logout();
+  logout();
 };
-
-async function check() {
-  if (!urlSearchParams.has("pid")) {
-    window.location = `/`;
-    return;
-  }
-}
 
 async function welcomeUser() {
   const res_user = await fetch("/user/self");
@@ -78,17 +70,17 @@ async function getAllUserBookings() {
   document.querySelector(".bookings-container").innerHTML += allBookingsHTML;
 }
 
-//   async function logout() {
-//     document.querySelector(".logout").addEventListener("click", async (e) => {
-//       const resp = await fetch(`/auth/logout`, {
-//         method: "DELETE",
-//       });
+async function logout() {
+  document.querySelector(".logout").addEventListener("click", async (e) => {
+    const resp = await fetch(`/auth/logout`, {
+      method: "DELETE",
+    });
 
-//       const result = await resp.json();
-//       alert(result.message);
+    const result = await resp.json();
+    alert(result.message);
 
-//       if (resp.status === 200) {
-//         window.location = "/";
-//       }
-//     });
-//   }
+    if (resp.status === 200) {
+      window.location = "/";
+    }
+  });
+}

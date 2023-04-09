@@ -23,45 +23,59 @@ async function welcomeUser() {
 async function inputRoomDetails() {
   const resp = await fetch(`/roomDetails/${urlSearchParams.get("pid")}`);
   const partyroom_details = await resp.json();
+  console.log(partyroom_details);
   //get comment
   const resp_comment = await fetch(
     `/user/rating/${urlSearchParams.get("pid")}`
   );
   const comment_details = await resp_comment.json();
 
-  const image = `<img src="/images/${partyroom_details.imagefilename}" width = "20" alt=""/>`;
+  const image = `<img src="/images/${partyroom_details.imagefilename}" class="img-fluid" alt="${partyroom_details.name}"/>`;
+  const bookBtn = `<button class="booking-now btn btn-lg btn-primary" data-bs-toggle="modal" data-bs-target="#booking-modal">立即預約</button>`;
 
-  let htmlStr = `
-    <div class="details-header">
-      <div class="pr-booking-div">
-        <h1>場地名稱: ${partyroom_details.name}</h1>
+  // header
+  document.querySelector(
+    "#partyroom-name"
+  ).innerHTML = `<h2>${partyroom_details.name}</h2>`;
+  document.querySelector("#book-button").innerHTML = bookBtn;
 
-        <button class="booking-now btn btn-primary" data-bs-toggle="modal" data-bs-target="#booking-modal">立即預約</button>
-      </div>
-    </div>
-    <!-- Details-Area-->
-    <div class="row details-main-container">
-      <div class="col left-part d-flex flex-column justify-content-center">
-        <div class="room-details">
-        <p>場地資訊</p>
-        <p>價錢: $${partyroom_details.price} (每小時)</p>
-        <p>地址: ${partyroom_details.venue}</p>
-        </div>
+  // partyroom details
+  document.querySelector(
+    "#partyroom-main-details-price"
+  ).innerHTML = `時租價：$${partyroom_details.price}`;
+  document.querySelector(
+    "#partyroom-main-details-venue"
+  ).innerHTML = `地址：${partyroom_details.venue}`;
+  document.querySelector(
+    "#partyroom-main-details-area"
+  ).innerHTML = `面積：${partyroom_details.area}`;
+  document.querySelector(
+    "#partyroom-main-details-capacity"
+  ).innerHTML = `最多容納人數：${partyroom_details.capacity}`;
+  document.querySelector(
+    "#partyroom-equipment-name"
+  ).innerHTML = `特色設備：${partyroom_details.equipment_name}`;
+  document.querySelector(
+    "#partyroom-equipment-type"
+  ).innerHTML = `種類：${partyroom_details.type}`;
 
-        <p class="equipments col">PartyRoom 設備: ${partyroom_details.equipment_name}<br>種類: ${partyroom_details.type}</p>
-      </div>
+  //partyroom image and owner details
+  document.querySelector("#room-image").innerHTML = image;
+  document.querySelector(
+    "#owner-name"
+  ).innerHTML = `負責人：${partyroom_details.owner}`;
+  document.querySelector("#owner-phone_no").innerHTML = `
+  <i class="fa-solid fa-phone"></i>
+  ${partyroom_details.phone_no}
+  `;
+  document.querySelector("#owner-whatsapp").innerHTML = `
+  <i class="fa-brands fa-whatsapp"></i>
+  ${partyroom_details.phone_no}
+  `;
 
-      <div class="right-part col d-flex justify-content-end">
-        <p class="room-image">${image}</p>
-      </div>
-    </div>
-
-      `;
-
-  let htmlStr2 = "";
-
+  let htmlStr = "";
   for (let comment of comment_details) {
-    htmlStr2 += `
+    htmlStr += `
     <div class="commentBar">
     ${comment.name}: ${comment.comments} <p class="score">給予評分: ${comment.ratings}</p>
     </div>
@@ -69,8 +83,7 @@ async function inputRoomDetails() {
   `;
   }
 
-  document.querySelector(".result-container").innerHTML = htmlStr;
-  document.querySelector(".commentBox").innerHTML += htmlStr2;
+  document.querySelector(".commentBox").innerHTML += htmlStr;
 }
 
 async function uploadBookingInfo() {
