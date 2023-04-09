@@ -81,7 +81,7 @@ body {
 
 .banner {
   display: flex;
-  background-color: rgb(226, 182, 182);
+  /* background-color: rgb(226, 182, 182); */
   /* background-image: url(../assets/partyroom1); */
   align-items: center;
   text-align: center;

@@ -44,7 +44,7 @@ a {
 
 .banner {
   display: flex;
-  background-color: rgb(226, 182, 182);
+  /* background-color: rgb(226, 182, 182); */
   /* background-image: url(../assets/partyroom1); */
   align-items: center;
   text-align: center;
@@ -85,9 +85,8 @@ a {
   padding-bottom: 2vh;
   border-radius: 16px;
   font-size: 32px;
-  position: absolute;
-  left: 13%;
-  top: 30vh;
+  position: relative;
+  bottom: 23vh;
 }
 .card-and-controlBTN {
   margin-top: 5vh;

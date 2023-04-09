@@ -90,10 +90,11 @@ async function uploadBookingInfo() {
       },
       body: JSON.stringify({ start_at, finish_at, participants, special_req }),
     });
-    // const booking_details = await res.json();
+    const booking_details = await res.json();
     if (start_at < finish_at) {
       console.log("hihihi");
     }
+    console.log(booking_details);
     if (res.status === 200) {
       window.location = `/users.html`;
       alert("success");
@@ -103,6 +104,47 @@ async function uploadBookingInfo() {
     }
   });
 }
+
+//try
+async function uploadBookingInfo() {
+  const form = document.querySelector("#booking-form");
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const start_at = form.start_at.value;
+    const finish_at = form.finish_at.value;
+    const participants = form.participants.value;
+    const special_req = form.special_req.value;
+
+    const res = await fetch(
+      `/user/booking/${urlSearchParams.get(
+        "pid"
+      )}?start=${start_at}&end=${finish_at}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ participants, special_req }),
+      }
+    );
+
+    const booking_details = await res.json();
+    if (start_at < finish_at) {
+      console.log("hihihi");
+    }
+
+    if (res.status === 200) {
+      window.location = `/users.html`;
+      alert("success");
+    } else {
+      const data = await res.json();
+      alert(data.message);
+    }
+  });
+}
+
+//try
 
 async function logout() {
   document.querySelector(".logout").addEventListener("click", async (e) => {

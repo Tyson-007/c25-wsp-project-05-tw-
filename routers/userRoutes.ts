@@ -21,7 +21,6 @@ userRoutes.get("/rooms_self", getMyRooms);
 userRoutes.post("/rating/:pid", postComment);
 userRoutes.get("/rating/:pid", getUserIDNoSession);
 userRoutes.get("/search", searchRooms);
-// userRoutes.post("rating/:pid", postRating)
 
 // get user id, used in users.js //
 async function getUserID(req: Request, res: Response) {
@@ -139,7 +138,7 @@ async function bookRoom(req: Request, res: Response) {
   res.status(200).json({ message: "booking successful" });
 }
 
-// get user's booking info, used in mybookings.js
+// // get user's booking info, used in mybookings.js
 async function getAllBookings(req: Request, res: Response) {
   const queryResult = await dbClient.query<Booking>(
     `SELECT bookings.id AS id, name, venue, start_at, finish_at FROM bookings JOIN partyrooms ON bookings.partyroom_id = partyrooms.id WHERE bookings.user_id = $1;`,
@@ -234,3 +233,5 @@ async function searchRooms(req: Request, res: Response) {
     // console.log("all partyrooms data scraped");
   }
 }
+
+//try block bookings
