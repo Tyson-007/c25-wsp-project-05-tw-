@@ -1,16 +1,8 @@
 window.onload = () => {
-  // check();
   welcomeUser();
   getAllUserBookings();
   logout();
 };
-
-// async function check() {
-//   if (!urlSearchParams.has("pid")) {
-//     window.location = `/`;
-//     return;
-//   }
-// }
 
 async function welcomeUser() {
   const res_user = await fetch("/user/self");

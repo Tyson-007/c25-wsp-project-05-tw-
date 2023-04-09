@@ -19,23 +19,13 @@ async function getRoomDetails(req: Request, res: Response) {
       res.status(400).json({ message: "invalid room id" });
       return;
     }
-    let partyroomQuery = await dbClient.query(
-      /*SQL*/ `SELECT * FROM partyrooms WHERE id = $1`,
-      [roomId]
-    );
-    let equipmentQuery = await dbClient.query(
-      /*SQL*/ `SELECT * FROM equipments WHERE id = $1`,
+
+    const resultQuery = await dbClient.query(
+      /*SQL*/ `SELECT partyrooms.id AS id, partyrooms.name AS name, partyrooms.phone_no AS phone_no, price, venue, style, area, capacity, intro, imagefilename, user_id, users.name AS owner, equipments.name AS equipment_name, type FROM partyrooms JOIN users ON partyrooms.user_id = users.id JOIN equipments ON partyrooms.id = equipments.partyroom_id WHERE partyrooms.id = $1;`,
       [roomId]
     );
 
-    const resultQuery = partyroomQuery.rows[0];
-    const equipment = equipmentQuery.rows[0];
-
-    equipment["equipment_name"] = equipment["name"];
-    delete equipment["name"];
-    Object.assign(resultQuery, equipment);
-
-    res.json(resultQuery);
+    res.json(resultQuery.rows[0]);
   } catch (err) {
     console.log(err);
     res.status(500).json({ message: "internal server error" });
