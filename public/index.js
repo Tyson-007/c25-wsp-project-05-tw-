@@ -84,7 +84,7 @@ async function getAllRooms() {
         <div class="card w-75 partyroom-card mb-3" data-id="${partyroom.id}">
           <a href= "/partyrooms_details_logout.html?pid=${partyroom.id}">${card_image}</a>
           <div class="card-body">
-            <h5 class="card-title">${partyroom.name}</h5>
+            <div class="card-title h5">${partyroom.name}</div>
             <p class="card-text">${partyroom.venue}</p>
             <p class="card-text">最多${partyroom.capacity}人&nbsp;&nbsp;|&nbsp;&nbsp;${partyroom.style}</p>
           </div>
@@ -170,7 +170,7 @@ function instanceSearch() {
             <div class="card result w-75 partyroom-card mb-3 justify-content-center" data-id="${partyroom.id}">
               <a href= "/partyrooms_details.html?pid=${partyroom.id}" class="result">${card_image}</a>
               <div class="card-body">
-                <div class="card-title result"><h6>${partyroom.name}</h6></div>
+                <div class="card-title result"><h5>${partyroom.name}</h5></div>
                 <div class="card-text result">${partyroom.venue}</div>
               </div>
             </div>

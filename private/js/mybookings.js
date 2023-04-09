@@ -26,13 +26,14 @@ async function getAllUserBookings() {
   // console.log(isoString);
 
   for (let booking of bookingdetails) {
-    if (!booking.is_cancelled) {
-      try {
-        start_at = new Date(booking.start_at).toString().slice(0, 21);
-        finish_at = new Date(booking.finish_at).toString().slice(0, 21);
+    console.log(booking.start_at);
+    // if (!booking.is_cancelled) {
+    try {
+      start_at = new Date(booking.start_at).toString().slice(0, 21);
+      finish_at = new Date(booking.finish_at).toString().slice(0, 21);
 
-        if (booking.start_at > isoString) {
-          allBookingsHTML += `
+      if (booking.start_at > isoString) {
+        allBookingsHTML += `
           <div class="col-md-3 mx-0">
             <div class="booking-card card w-100">
               <div class="card-header text-center"><h5>${booking.name}</h5></div>
@@ -47,18 +48,19 @@ async function getAllUserBookings() {
             </div>
           </div>
             `;
-        } else {
-          allBookingsHTML += ``;
-        }
-      } catch (err) {
-        console.log(err);
-        res.status(500).json({ message: "Error" });
+      } else {
+        allBookingsHTML += ``;
       }
+    } catch (err) {
+      console.log(err);
+      res.status(500).json({ message: "Error" });
     }
   }
 
   document.querySelector(".bookings-container").innerHTML += allBookingsHTML;
 }
+
+// }
 async function logout() {
   document.querySelector(".logout").addEventListener("click", async (e) => {
     const resp = await fetch(`/auth/logout`, {

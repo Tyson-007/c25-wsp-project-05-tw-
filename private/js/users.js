@@ -105,7 +105,7 @@ async function getAllRooms() {
             partyroom.id
           }" class="result">${card_image}</a>
           <div class="card-body">
-            <div class="card-title result"><h6>${partyroom.name}</h6></div>
+            <div class="card-title result"><h4>${partyroom.name}</h4></div>
             <div class="card-text result">
               <p>${partyroom.venue}</p>
               最多${partyroom.capacity}人&nbsp;&nbsp;|&nbsp;&nbsp;${
@@ -168,8 +168,11 @@ async function getMyRooms() {
         <div class="card result w-75 partyroom-card mb-3 justify-content-center" data-id="${partyroom.id}">
           <a href= "/partyrooms_details.html?pid=${partyroom.id}" class="result">${card_image}</a>
           <div class="card-body">
-            <div class="card-title result"><h6>${partyroom.name}</h6></div>
-            <div class="card-text result">${partyroom.venue}</div>
+            <div class="card-title result"><h4>${partyroom.name}</h4></div>
+            <div class="card-text result"><p>${partyroom.venue}</p>
+            最多${partyroom.capacity}人&nbsp;&nbsp;|&nbsp;&nbsp;${partyroom.style}
+            </div>
+            
           </div>
           <div class="result card-footer d-flex justify-content-around" data-id=${partyroom.id}>
             ${editAndDeleteBtn}
@@ -203,8 +206,10 @@ async function getOthersRooms() {
         <div class="card result w-75 partyroom-card mb-3 justify-content-center" data-id="${partyroom.id}">
           <a href= "/partyrooms_details.html?pid=${partyroom.id}" class="result">${card_image}</a>
           <div class="card-body">
-            <div class="card-title result"><h6>${partyroom.name}</h6></div>
-            <div class="card-text result">${partyroom.venue}</div>
+            <div class="card-title result"><h4>${partyroom.name}</h4></div>
+            <div class="card-text result"><p>${partyroom.venue}</p>
+            最多${partyroom.capacity}人&nbsp;&nbsp;|&nbsp;&nbsp;${partyroom.style}
+            </div>
           </div>
           <div class="result card-footer d-flex justify-content-around" data-id=${partyroom.id}>
             ${bookButton}
@@ -339,7 +344,7 @@ function instanceSearch() {
                 partyroom.id
               }" class="result">${card_image}</a>
               <div class="card-body">
-                <div class="card-title result"><h6>${partyroom.name}</h6></div>
+                <div class="card-title result"><h4>${partyroom.name}</h4></div>
                 <div class="card-text result">${partyroom.venue}</div>
               </div>
               <div class="result card-footer d-flex justify-content-around" data-id=${

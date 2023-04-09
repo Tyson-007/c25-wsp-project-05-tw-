@@ -132,9 +132,9 @@
     </div>
   </div>
   <body>
-    <div class="container-fluid g-0">
+    <div class="container-fluid overflow-hidden g-0">
       <!--navbar-->
-      <nav class="navbar navbar-expand-lg px-2 mb-2">
+      <nav class="navbar navbar-expand-lg px-4">
         <!--navbar contianer-->
         <div class="container-fluid g-0 px-2">
           <!--responsive toggler-->
@@ -189,12 +189,93 @@
           </div>
         </div>
       </nav>
-      <!-- Result-Area -->
-      <div class="result-container d-flex flex-column px-4"></div>
+      <!--banner-->
+      <div
+        id="banner"
+        class="row justify-content-center align-content-center w-100 g-0 mb-md-4 py-5"
+      >
+        <div
+          id="banner-bubble"
+          class="col-md-4 col-10 d-flex flex-row justify-content-around py-4 px-2 align-content-center align-items-center text-center"
+        >
+          <div
+            class="d-flex justify-content-center align-content-center align-items-center text-center"
+            id="partyroom-name"
+          ></div>
+          <div
+            class="d-flex justify-content-center align-content-center align-items-center"
+            id="book-button"
+          ></div>
+        </div>
+      </div>
+      <!-- Details-Area -->
+      <div
+        class="partyroom-details row w-100 px-md-5 px-3 justify-content-around"
+      >
+        <!--text (left hand side)-->
+        <div class="col-md-4 d-flex flex-row flex-wrap align-items-md-center">
+          <!--main details-->
+          <div
+            id="partyroom-main-details"
+            class="mb-1 w-100 p-3 d-flex flex-wrap align-items-center align-content-center"
+          >
+            <div id="partyroom-main-details-title" class="w-100 h4 mb-3">
+              場地資訊
+            </div>
+            <div
+              id="partyroom-main-details-price"
+              class="w-100 fs-5 mb-1"
+            ></div>
+            <div
+              id="partyroom-main-details-venue"
+              class="w-100 fs-5 mb-1"
+            ></div>
+            <div id="partyroom-main-details-area" class="w-100 fs-5 mb-1"></div>
+            <div
+              id="partyroom-main-details-capacity"
+              class="w-100 fs-5 mb-1"
+            ></div>
+          </div>
+          <!--equipment details-->
+          <div
+            id="partyroom-equipment-details"
+            class="mb-1 w-100 p-3 d-flex flex-wrap align-items-center align-content-center"
+          >
+            <div id="partyroom-equipment-title" class="w-100 h4 mb-3">
+              Party Room 設備
+            </div>
+            <div id="partyroom-equipment-name" class="w-100 fs-5 mb-1"></div>
+            <div id="partyroom-equipment-type" class="w-100 fs-5"></div>
+          </div>
+          <!--owner details-->
+          <div
+            id="owner-details"
+            class="mb-1 w-100 p-3 d-flex flex-wrap align-items-center align-content-center"
+          >
+            <div class="col w-50">
+              <div id="owner-name" class="w-100 mb-3 h4"></div>
+              <div id="owner-phone_no" class="mb-3 fs-5"></div>
+              <div id="owner-whatsapp" class="fs-5"></div>
+            </div>
+            <div
+              class="col w-50 d-flex justify-content-center align-items-center"
+            >
+              <i class="fa-solid fa-user fa-6x"></i>
+            </div>
+          </div>
+        </div>
+        <!--photo (right hand side)-->
+        <div
+          id="partyroom-others"
+          class="col-md-6 d-flex flex-wrap justify-content-md-end"
+        >
+          <div id="room-image" style="width: fit-content"></div>
+        </div>
+      </div>
       <!-- Comment-Area -->
       <div class="comment-area">
-        <h2>用戶評論</h2>
-        <div class="comment-container">
+        <div class="comment-container p-2">
+          <div class="comment-heading ps-5 pt-4"><h2>用戶評論</h2></div>
           <br />
           <form id="ratingForm">
             <textarea
@@ -217,15 +298,19 @@
               </button>
             </div>
 
-            <div class="commentBox"><h2>用戶留言</h2></div>
+            <div class="commentBox">
+              <div class="comment-heading ps-5 pt-4">
+                <h2>用戶留言</h2>
+              </div>
+            </div>
             <br />
           </form>
         </div>
       </div>
-    </div>
-    <!--footer-->
-    <div class="row footer fixed-bottom justify-content-center text-center">
-      <div class="col-md-12 pt-1 pb-1">Powered by Tecky Group 5</div>
+      <!--footer-->
+      <div class="row footer fixed-bottom justify-content-center text-center">
+        <div class="col-md-12 pt-1 pb-1">Powered by Tecky Group 5</div>
+      </div>
     </div>
   </body>
   <script src="./js/partyrooms_details.js"></script>

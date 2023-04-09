@@ -135,7 +135,8 @@ async function bookRoom(req: Request, res: Response) {
     special_req,
   ]);
   // console.log(queryResult.rows[0]);
-  console.log(req.session.user_id);
+  // console.log(req.session.user_id);
+  console.log(req.body);
 
   res.status(200).json({ message: "booking successful" });
 }
@@ -236,7 +237,6 @@ async function searchRooms(req: Request, res: Response) {
     // console.log("all partyrooms data scraped");
   }
 }
-
 async function updateUserInfo(req: Request, res: Response) {
   const user_id = req.session.user_id;
   const newEmail = req.body.email;

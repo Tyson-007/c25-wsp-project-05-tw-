@@ -43,7 +43,6 @@ app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
 app.use("/roomDetails", roomDetailsRoutes);
 app.use("/bookingDetails", bookingDetailsRoutes);
-
 ////////////////////
 // express.static //
 ////////////////////
