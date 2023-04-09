@@ -21,6 +21,8 @@ userRoutes.get("/rooms_self", getMyRooms);
 userRoutes.post("/rating/:pid", postComment);
 userRoutes.get("/rating/:pid", getUserIDNoSession);
 userRoutes.get("/search", searchRooms);
+userRoutes.put("/user_info", updateUserInfo);
+// userRoutes.post("rating/:pid", postRating)
 
 // get user id, used in users.js //
 async function getUserID(req: Request, res: Response) {
@@ -133,17 +135,19 @@ async function bookRoom(req: Request, res: Response) {
     special_req,
   ]);
   // console.log(queryResult.rows[0]);
-  console.log(req.session.user_id);
+  // console.log(req.session.user_id);
+  console.log(req.body);
 
   res.status(200).json({ message: "booking successful" });
 }
 
-// // get user's booking info, used in mybookings.js
+// get user's booking info, used in mybookings.js
 async function getAllBookings(req: Request, res: Response) {
   const queryResult = await dbClient.query<Booking>(
-    `SELECT bookings.id AS id, name, venue, start_at, finish_at FROM bookings JOIN partyrooms ON bookings.partyroom_id = partyrooms.id WHERE bookings.user_id = $1;`,
+    `SELECT bookings.id AS id, name, venue, start_at, finish_at, is_cancelled FROM bookings JOIN partyrooms ON bookings.partyroom_id = partyrooms.id WHERE bookings.user_id = $1;`,
     [req.session.user_id]
   );
+
   res.json(queryResult.rows);
 }
 
@@ -169,7 +173,7 @@ async function postComment(req: Request, res: Response) {
   const comments = req.body.comments;
   const partyroom_id = +req.params.pid;
 
-  if (ratings != Number) {
+  if (ratings != req.body.ratings) {
     res.status(400).json({ message: "Please give a score" });
     return;
   }
@@ -233,5 +237,15 @@ async function searchRooms(req: Request, res: Response) {
     // console.log("all partyrooms data scraped");
   }
 }
+async function updateUserInfo(req: Request, res: Response) {
+  const user_id = req.session.user_id;
+  const newEmail = req.body.email;
+  const newPhone_no = req.body.phone_no;
+  const newDate_of_birth = req.body.date_of_birth;
+  await dbClient.query(
+    /*SQL*/ `UPDATE users SET email = $1, phone_no = $2, date_of_birth = $3 WHERE id = $4`,
+    [newEmail, newPhone_no, newDate_of_birth, user_id]
+  );
 
-//try block bookings
+  res.json({ message: "user info updated" });
+}

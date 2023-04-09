@@ -5,13 +5,77 @@ window.onload = async () => {
   selectorTabToggle();
   instanceSearch();
   welcomeUser();
+  modalAddParams();
+  modalRemoveParams();
 };
+
+uploadBookingInfo();
 
 async function welcomeUser() {
   const res_user = await fetch("/user/self");
   const user = await res_user.json();
 
   document.querySelector("#welcome-user").innerHTML = ` ${user.name}`;
+}
+
+async function modalAddParams() {
+  const bookingModal = new bootstrap.Modal("#booking-modal");
+
+  document.querySelectorAll(".book-button").forEach((bookBtn) =>
+    bookBtn.addEventListener("click", async (e) => {
+      const partyroomID = bookBtn.parentElement.dataset.id;
+
+      const currentURL = window.location.href;
+      const newURL = currentURL + "?pid=" + partyroomID;
+      window.history.pushState({ path: newURL }, "", newURL);
+
+      bookingModal.show();
+    })
+  );
+}
+
+async function modalRemoveParams() {
+  const bookingModal = document.querySelector("#booking-modal");
+  const usersHTML = "/users.html";
+
+  bookingModal.addEventListener("hidden.bs.modal", async (e) => {
+    window.history.replaceState({ path: usersHTML }, "", usersHTML);
+  });
+}
+
+async function uploadBookingInfo() {
+  const form = document.querySelector("#booking-form");
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const start_at = form.start_at.value;
+    const finish_at = form.finish_at.value;
+    const participants = form.participants.value;
+    const special_req = form.special_req.value;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const pid = urlParams.get("pid");
+
+    const res = await fetch(`/user/booking/${pid}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ start_at, finish_at, participants, special_req }),
+    });
+    console.log(res);
+
+    if (start_at < finish_at) {
+      console.log("fix time");
+    }
+    if (res.status === 200) {
+      window.location = `/users.html`;
+      alert("success");
+    } else {
+      const data = await res.json();
+      alert(data.message);
+    }
+  });
 }
 
 async function getAllRooms() {
@@ -30,7 +94,7 @@ async function getAllRooms() {
       const editAndDeleteBtn = `
       <div class="edit-button"><a href="/partyrooms_edit.html?pid=${partyroom.id}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a></div>
       <div class="del-button"><a href="#"><i class="fa-solid fa-trash fa-lg"></i></a></div>`;
-      const bookButton = `<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#booking-modal">立即預約</button>`;
+      const bookButton = `<button class="btn btn-primary book-button" data-id="${partyroom.id}">立即預約</button>`;
 
       partyroomCardsHtml += `
       <div class="col-md-3 d-flex justify-content-center text-center">
@@ -42,7 +106,12 @@ async function getAllRooms() {
           }" class="result">${card_image}</a>
           <div class="card-body">
             <div class="card-title result"><h6>${partyroom.name}</h6></div>
-            <div class="card-text result">${partyroom.venue}</div>
+            <div class="card-text result">
+              <p>${partyroom.venue}</p>
+              最多${partyroom.capacity}人&nbsp;&nbsp;|&nbsp;&nbsp;${
+        partyroom.style
+      }
+            </div>
           </div>
           <div class="result card-footer d-flex justify-content-around" data-id=${
             partyroom.id

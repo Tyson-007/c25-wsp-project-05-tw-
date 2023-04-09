@@ -1,0 +1,161 @@
+/* body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+* {
+  box-sizing: border-box;
+} */
+
+.fa-envelope {
+  font-size: 50px;
+}
+
+.fa-phone {
+  font-size: 50px;
+}
+
+.fa-cake-candles {
+  font-size: 55px;
+}
+/* Button used to open the contact form - fixed at the bottom of the page */
+.info-button {
+  margin-top: 50px;
+  margin-left: 50px;
+}
+
+.open-button {
+  width: 15%;
+  height: 15%;
+  background: #ff8a00;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  margin-top: 30px;
+  border-radius: 30px;
+  cursor: pointer;
+  border: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#my-info {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 88px;
+  color: #ffffff;
+}
+
+/* The popup form - hidden by default */
+.user-form-popup {
+  display: block;
+}
+
+.password-form-popup {
+  display: none;
+}
+
+/* Add styles to the form container */
+.form-container {
+  padding-top: 40px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  left: 400px;
+  top: -90px;
+  width: 70%;
+  height: 70%;
+  background: #fff2df;
+  box-shadow: 4px 4px 13px 1px rgba(162, 162, 162, 0.25);
+  border-radius: 50px;
+}
+
+/* Full-width input fields */
+.form-container input[type="text"],
+.form-container input[type="password"] {
+  width: 40%;
+  padding: 15px;
+  margin: 22.5px 0 22px 0;
+  border: none;
+  background: #ffffff;
+}
+
+/* When the inputs get focus, do something */
+.form-container input[type="text"]:focus,
+.form-container input[type="password"]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Set a style for the submit/login button */
+.form-container .btn {
+  position: relative;
+  width: 181px;
+  height: 80px;
+  background: #ff8a00;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.13);
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.user-info-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.password-info-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.user-info-icon {
+  margin-right: 50px;
+}
+
+.save-button {
+  margin: 50px 50px 50px 50px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.username {
+  display: flex;
+  justify-content: center;
+  font-family: "Content";
+  font-style: normal;
+  font-weight: 1000;
+  font-size: 48px;
+  line-height: 88px;
+  color: #733e00;
+}
+
+.user_image {
+  width: 20%; 
+  height: auto;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  /* border-radius: 200px;
+  margin-bottom: 20px; */
+}
+.user_info_image-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.password-label {
+  font-family: "Content";
+  font-style: normal;
+  font-weight: 1000;
+  font-size: 20px;
+  line-height: 37px;
+  color: #733E00;
+  margin: 50px;
+}
+
+.form-contain-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
