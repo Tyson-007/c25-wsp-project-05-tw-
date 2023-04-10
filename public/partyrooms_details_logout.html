@@ -29,20 +29,31 @@
     <!--custom css-->
     <link rel="stylesheet" href="./partyrooms_details_logout.css" />
   </head>
-  <!--booking modal-->
-
   <body>
     <div class="container-fluid g-0">
-      <div class="row header mb-4">
-        <div class="col-md-4" style="text-align: left">
-          <div class="header-content px-4">
-            <i class="fa-solid fa-bars fa-2x"></i>
-          </div>
-        </div>
+      <!--header-->
+      <div class="row header mb-4 p-3">
+        <div class="col-md-4" style="text-align: left"></div>
         <div class="col-md-4" style="text-align: center">
-          <div class="header-text">
-            <a href="/users.html"><h1>The Party Room</h1></a>
-          </div>
+          <div class="header-text justify-content-center"><a href="./index.html"><h1>Welcome to Soirée Suite</h1></a></div>
+        </div>
+        <div class="col-md-4" style="text-align: right">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-toggle="modal"
+            data-bs-target="#signupModal"
+          >
+            註冊
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#loginModal"
+          >
+            登入
+          </button>
         </div>
       </div>
       <div class="whole">
@@ -67,8 +78,9 @@
       </div>
     </div>
     </div>
-    <div class="footer">
-      <div>Footer</div>
+    <!--footer-->
+    <div class="row footer fixed-bottom justify-content-center text-center">
+      <div class="col-md-12 pt-1 pb-1">Powered by Tecky Group 5</div>
     </div>
   </body>
   <script src="./partyrooms_details_logout.js"></script>
