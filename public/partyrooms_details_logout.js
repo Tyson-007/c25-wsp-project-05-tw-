@@ -1,8 +1,6 @@
 const urlSearchParams = new URLSearchParams(window.location.search);
 check();
 inputRoomDetails();
-uploadBookingInfo();
-logout();
 uploadRating();
 
 async function check() {
@@ -25,10 +23,10 @@ async function inputRoomDetails() {
 
   let htmlStr = `
   
-    <div class="details-header">
+    <div class="row details-header justify-content-center w-100 mt-4 mb-3">
  
-      <div class="pr-booking-div">
-        <h1>場地名稱: ${partyroom_details.name}</h1>
+      <div class="pr-booking-div w-50 justify-content-center text-center align-items-center align-content-center pt-4 pb-3">
+        <h2>場地名稱: ${partyroom_details.name}</h2>
 
         
       </div>
@@ -36,14 +34,14 @@ async function inputRoomDetails() {
     <!-- Details-Area-->
     <div class="row details-main-container">
       <div class="col left-part d-flex flex-column justify-content-center">
-        <div class="room-details">
-        <p>場地資訊</p>
+        <div class="room-details fs-5">
+        <p><b>場地資訊</b></p>
         <p>價錢: $${partyroom_details.price} (每小時)</p>
         <p>地址: ${partyroom_details.venue}</p>
         </div>
 
-        <p class="equipments col">PartyRoom 設備: ${partyroom_details.equipment_name}<br>種類: ${partyroom_details.type}</p>
-      </div>
+        <p class="equipments col fs-5"><b>PartyRoom 設備:</b> ${partyroom_details.equipment_name}<br>種類: ${partyroom_details.type}</p>
+        </div>
       <div class="right-part col d-flex justify-content-end">
         <p class="room-image">${image}</p>
       </div>
@@ -91,21 +89,6 @@ async function uploadBookingInfo() {
     } else {
       const data = await res.json();
       alert(data.message);
-    }
-  });
-}
-
-async function logout() {
-  document.querySelector(".logout").addEventListener("click", async (e) => {
-    const resp = await fetch(`/auth/logout`, {
-      method: "DELETE",
-    });
-
-    const result = await resp.json();
-    alert(result.message);
-
-    if (resp.status === 200) {
-      window.location = "/";
     }
   });
 }
