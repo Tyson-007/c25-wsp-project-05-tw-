@@ -43,7 +43,7 @@ async function getAllUserBookings() {
                 ${booking.venue} 
               
               <br>
-              價錢：
+              價錢 (每小時)：
                 ${booking.price} 
               
               <br>
