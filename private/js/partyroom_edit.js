@@ -1,14 +1,37 @@
-console.log("testing");
 const urlSearchParams = new URLSearchParams(window.location.search);
 check();
 createUpdateForm();
 updateRoomDetails();
+logout();
+welcomeUser();
 
 async function check() {
   if (!urlSearchParams.has("pid")) {
     window.location = `/`;
     return;
   }
+}
+
+async function welcomeUser() {
+  const res_user = await fetch("/user/self");
+  const user = await res_user.json();
+
+  document.querySelector("#welcome-user").innerHTML = ` ${user.name}`;
+}
+
+async function logout() {
+  document.querySelector(".logout").addEventListener("click", async (e) => {
+    const resp = await fetch(`/auth/logout`, {
+      method: "DELETE",
+    });
+
+    const result = await resp.json();
+    alert(result.message);
+
+    if (resp.status === 200) {
+      window.location = "/";
+    }
+  });
 }
 
 async function createUpdateForm() {

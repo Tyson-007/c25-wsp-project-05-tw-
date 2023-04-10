@@ -34,13 +34,13 @@ async function getAllUserBookings() {
 
       if (booking.start_at > isoString) {
         allBookingsHTML += `
-          <div class="col-md-3 mx-0">
+          <div class="col-md-3 mx-2 mb-3">
             <div class="booking-card card w-100">
               <div class="card-header text-center"><h5>${booking.name}</h5></div>
               <div class="card-body">
-                <p><b>Venue:</b> ${booking.venue}</p>
-                <p><b>Starts at:</b> ${start_at}</p>
-                <p><b>Finishes at:</b> ${finish_at}</p>
+                <p><b>地址：</b> ${booking.venue}</p>
+                <p><b>活動開始時間：</b> ${start_at}</p>
+                <p><b>活動結束時間：</b> ${finish_at}</p>
                 <div class="card-button d-flex justify-content-center">
                   <a class="btn btn-primary" href="/booked.html?bid=${booking.id}">詳細資訊</a>
                 </div>
