@@ -34,7 +34,7 @@
     <!--navbar-->
     <nav class="navbar navbar-expand-lg px-2">
       <!--navbar contianer-->
-      <div class="container-fluid g-0 px-2">
+      <div class="container-fluid g-0 px-4">
         <!--responsive toggler-->
         <button
           class="navbar-toggler"
@@ -57,7 +57,9 @@
               <a class="nav-link" href="./postData.html">上傳新Party Room</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="./mybookings.html">你的Party Room預約</a>
+              <a class="nav-link" href="./mybookings.html"
+                >你的Party Room預約</a
+              >
             </li>
             <li class="nav-item">
               <a class="nav-link" href="./history.html">預約記錄</a>
@@ -66,13 +68,22 @@
         </div>
         <!--login/logout button-->
         <div class="nav-item dropdown">
-          <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <button
+            class="btn btn-primary dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
             歡迎,<span id="welcome-user"></span>
           </button>
           <ul class="dropdown-menu dropdown-menu-end">
-            <li><a class="dropdown-item" href="#">用戶資料</a></li>
             <li>
-              <a class="dropdown-item logout" href="#" style="color: red">登出</a>
+              <a class="dropdown-item" href="./user_info.html">用戶資料</a>
+            </li>
+            <li>
+              <a class="dropdown-item logout" href="#" style="color: red"
+                >登出</a
+              >
             </li>
           </ul>
         </div>
@@ -86,33 +97,45 @@
       </button>
       <div class="user-form-popup">
         <div class="append-here">
-        <form class="form-container" id="user_info_form">
-          <!-- email-area -->
-          <div class="user-info-div">
-            <div class="user-info-icon">
-              <i class="fa-regular fa-envelope" style="color: #733e00"></i>
+          <form class="form-container" id="user_info_form">
+            <!-- email-area -->
+            <div class="user-info-div">
+              <div class="user-info-icon">
+                <i class="fa-regular fa-envelope" style="color: #733e00"></i>
+              </div>
+              <input
+                type="text"
+                placeholder="輸入你的新電郵地址"
+                name="email"
+              />
             </div>
-            <input type="text" placeholder="輸入你的新電郵地址" name="email"/>
-          </div>
-          <!-- phone-area -->
-          <div class="user-info-div">
-            <div class="user-info-icon">
-              <i class="fa-solid fa-phone" style="color: #733e00"></i>
+            <!-- phone-area -->
+            <div class="user-info-div">
+              <div class="user-info-icon">
+                <i class="fa-solid fa-phone" style="color: #733e00"></i>
+              </div>
+              <input
+                type="text"
+                placeholder="輸入你的新流動電話號碼"
+                name="phone_no"
+              />
             </div>
-            <input type="text" placeholder="輸入你的新流動電話號碼" name="phone_no"/>
-          </div>
-          <!-- date-of-birth -->
-          <div class="user-info-div">
-            <div class="user-info-icon">
-              <i class="fa-solid fa-cake-candles" style="color: #733e00"></i>
+            <!-- date-of-birth -->
+            <div class="user-info-div">
+              <div class="user-info-icon">
+                <i class="fa-solid fa-cake-candles" style="color: #733e00"></i>
+              </div>
+              <input
+                type="text"
+                placeholder="輸入你的新出生日期"
+                name="date_of_birth"
+              />
             </div>
-            <input type="text" placeholder="輸入你的新出生日期" name="date_of_birth"/>
-          </div>
-          <!-- save button -->
-          <div class="save-button">
-            <button type="submit" class="btn">儲存更改</button>
-          </div>
-        </form>
+            <!-- save button -->
+            <div class="save-button">
+              <button type="submit" class="btn">儲存更改</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -122,15 +145,15 @@
       <div class="password-form-popup">
         <form class="form-container" id="password_reset_form">
           <div class="form-contain-container">
-          <!-- <div class="password-info-div"> 
+            <!-- <div class="password-info-div"> 
             <span class="password-label">請輸入舊密碼</span>
             <input type="text" placeholder="" name="old_password" />
           </div> -->
-          <div class="password-info-div"> 
-            <span class="password-label">請輸入新密碼</span>
-            <input type="text" placeholder="" name="new_password" />
-          </div>
-          <!-- <div class="password-info-div"> 
+            <div class="password-info-div">
+              <span class="password-label">請輸入新密碼</span>
+              <input type="text" placeholder="" name="new_password" />
+            </div>
+            <!-- <div class="password-info-div"> 
            <span class="password-label">再確認新密碼</span>
             <input type="text" placeholder="" name="confirm_new_password" />
           </div> -->
