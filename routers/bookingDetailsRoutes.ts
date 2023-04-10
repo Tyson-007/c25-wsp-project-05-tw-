@@ -10,7 +10,7 @@ import type { Request, Response } from "express";
 export const bookingDetailsRoutes = express.Router();
 
 bookingDetailsRoutes.get("/:bid", getBookingDetails);
-bookingDetailsRoutes.put("/:bid", deleteBooking);
+bookingDetailsRoutes.delete("/:bid", deleteBooking);
 
 // get details for one booking, used in booked.js
 async function getBookingDetails(req: Request, res: Response) {
@@ -46,8 +46,7 @@ async function deleteBooking(req: Request, res: Response) {
   }
 
   await dbClient.query(
-    /*SQL*/ `UPDATE bookings SET is_cancelled = true WHERE id = $1`,
-    [bookingId]
+    /*SQL*/ `DELETE from bookings WHERE id = $1`,[bookingId]
   );
 
   res.json({ message: "booking cancelled" });

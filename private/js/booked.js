@@ -79,14 +79,13 @@ async function deleteBooking() {
   document
     .querySelector("#cancel-button")
     .addEventListener("click", async (e) => {
+
+
       const resp = await fetch(
         `/bookingDetails/${urlSearchParams.get("bid")}`,
         {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ is_cancelled: true }),
-        }
-      );
+          method: "DELETE",
+        });
 
       const result = await resp.json();
       alert(result.message);
