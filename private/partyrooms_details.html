@@ -209,11 +209,12 @@
         </div>
       </div>
       <!-- Details-Area -->
+      <div class="alignment">
       <div
-        class="partyroom-details row w-100 px-md-5 ps-4 justify-content-center"
+        class="partyroom-details nopadding px-md-5 ps-4  row w-100"
       >
         <!--text (left hand side)-->
-        <div class="col-md-4 d-flex flex-row flex-wrap align-items-md-center">
+        <div class="col-md-4 d-flex flex-row flex-wrap align-items-md-center nopadding">
           <!--main details-->
           <div
             id="partyroom-main-details"
@@ -222,6 +223,7 @@
             <div id="partyroom-main-details-title" class="w-100 h4 mb-3">
               場地資訊
             </div>
+
             <div
               id="partyroom-main-details-price"
               class="w-100 fs-6 mb-1"
@@ -271,15 +273,15 @@
         <!--photo (right hand side)-->
         <div
           id="partyroom-others"
-          class="col-md-6 d-flex flex-wrap justify-content-md-end"
+          class="col-md-6 d-flex flex-wrap justify-content-md-end nopadding"
         >
           <div id="room-image" style="width: fit-content"></div>
         </div>
       </div>
       <!-- Comment-Area -->
       <div class="comment-area">
-        <div class="comment-container p-2">
-          <div class="comment-heading ps-5 pt-4"><h2>用戶評論</h2></div>
+        <div class="comment-container">
+          <div class="comment-heading ps-5 pt-4"><h2 class="leave-comment">用戶評論</h2></div>
           <br />
           <form id="ratingForm">
             <textarea
@@ -287,6 +289,7 @@
               id="commentTyping"
               cols="93"
               rows="10"
+              placeholder="歡迎留言"
             ></textarea>
             <div class="rating-div">
               <select name="ratings" id="score">
@@ -297,19 +300,15 @@
                 <option value="4">4</option>
                 <option value="5">5</option>
               </select>
-              <button type="submit" value="submit" class="btn btn-primary">
-                提交
+              <button type="submit" value="submit" id="submit-comment-div" class="btn btn-primary">
+                <span class="submit-comment">提交</span>
               </button>
             </div>
-
-            <div class="commentBox">
-              <div class="comment-heading ps-5 pt-4">
-                <h2>用戶留言</h2>
-              </div>
-            </div>
+            <div class="commentBox"></div>
             <br />
           </form>
         </div>
+      </div>
       </div>
       <!--footer-->
       <div class="row footer fixed-bottom justify-content-center text-center">

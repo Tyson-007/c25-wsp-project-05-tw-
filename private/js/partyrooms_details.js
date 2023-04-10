@@ -80,8 +80,8 @@ async function inputRoomDetails() {
   for (let comment of comment_details) {
     htmlStr += `
     <div class="commentBar">
-      <p><span class="fs-5"><b>${comment.name}分享的評論</b></span></p>
-      <p>${comment.comments}</p>
+      <p><span class="fs-5"><h3>${comment.name} 分享的評論</h3></span></p>
+      <span class="fs-5"><p>${comment.comments}</p></span>
       <span class="fs-5"><p class="score"><b>給予評分</b>: ${comment.ratings}</p></span>
     </div>
     
@@ -110,9 +110,6 @@ async function uploadBookingInfo() {
     });
 
     const booking_details = await res.json();
-    if (start_at < finish_at) {
-      console.log("hihihi");
-    }
     console.log(booking_details);
     if (res.status === 200) {
       window.location = `/users.html`;

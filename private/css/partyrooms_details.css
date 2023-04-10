@@ -35,7 +35,8 @@ body {
   --bs-btn-hover-border-color: #ec7e00;
   --bs-btn-active-bg: #ec7e00;
   --bs-btn-active-border-color: #ec7e00;
-  box-shadow: 0px 0px 3px #a3a3a3;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
 }
 
 .modal-footer {
@@ -55,6 +56,8 @@ body {
 /* 場地資訊 */
 .partyroom-details {
   color: #733e00;
+  display: flex;
+  justify-content: space-between;
 }
 
 #partyroom-main-details {
@@ -83,31 +86,43 @@ img {
 }
 
 /* Comment */
-.comment-area {
-  margin: 2%;
-}
 .comment-container {
-  background-color: #fff5e4;
+  background: #ffefc5;
+  box-shadow: 4px 4px 10px 3px rgba(0, 0, 0, 0.25);
   border-radius: 20px;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
-textarea {
+#commentTyping {
   margin-left: 3%;
   width: 92%;
+  background-color: #eeeeee;
+  height: 15vh;
 }
+
+::placeholder {
+  font-family: "Content";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 74px;
+  color: #646464;
+  padding-top: 2%;
+  padding-left: 2%;
+}
+
 .rating-div {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
+  margin-left: 3%;
 }
 .commentBox {
   margin-top: 2%;
 }
 .commentBar {
-  width: 90%;
-  margin: 3% 3% 5% 3%;
-  padding: 2%;
-  background-color: #ffbb55;
+  width: 92%;
+  margin: 3% 3% 3% 3%;
+  padding: 1% 0% 1% 2%;
+  background-color: #ffffff;
   color: #733e00;
   border-radius: 16px;
   box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.25);
@@ -118,4 +133,31 @@ textarea {
   color: #ffffff;
   padding-top: 4px;
   padding-bottom: 4px;
+}
+
+.nopadding {
+  padding: 0% !important;
+  margin: 0% !important;
+}
+
+.submit-comment {
+  font-family: "Content";
+  font-style: normal;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+#submit-comment-div {
+  margin-right: 5%;
+}
+
+.alignment {
+  padding: 3%;
+}
+
+.leave-comment {
+  font-family: "Content";
+  font-style: normal;
+  font-weight: 700;
+  color: #000000;
 }
