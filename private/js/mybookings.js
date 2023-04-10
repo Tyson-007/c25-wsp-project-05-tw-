@@ -26,7 +26,7 @@ async function getAllUserBookings() {
   // console.log(isoString);
 
   for (let booking of bookingdetails) {
-    console.log(booking.start_at);
+    console.log(booking);
     // if (!booking.is_cancelled) {
     try {
       start_at = new Date(booking.start_at).toString().slice(0, 21);
@@ -39,6 +39,7 @@ async function getAllUserBookings() {
               <div class="card-header text-center"><h5>${booking.name}</h5></div>
               <div class="card-body">
                 <p><b>地址：</b> ${booking.venue}</p>
+                <p><b>價錢(每小時)：</b> ${booking.price}</p>
                 <p><b>活動開始時間：</b> ${start_at}</p>
                 <p><b>活動結束時間：</b> ${finish_at}</p>
                 <div class="card-button d-flex justify-content-center">

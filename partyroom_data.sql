@@ -48,6 +48,7 @@ CREATE TABLE bookings (
 	updated_at TIMESTAMP DEFAULT NOW(),
     start_at TIMESTAMP,
     finish_at TIMESTAMP,
+    price INT,
     is_cancelled BOOLEAN DEFAULT FALSE
 );
 

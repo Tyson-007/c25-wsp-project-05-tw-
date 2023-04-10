@@ -26,11 +26,8 @@ userRoutes.put("/user_info", updateUserInfo);
 
 // get user id, used in users.js //
 async function getUserID(req: Request, res: Response) {
-  const user = (
-    await dbClient.query("SELECT id, name, phone_no FROM users WHERE id = $1", [
-      req.session.user_id,
-    ])
-  ).rows[0];
+  const user = (await dbClient.query("SELECT id, name, phone_no FROM users WHERE id = $1", [req.session.user_id]))
+    .rows[0];
   res.json(user);
 }
 //get user id no session
@@ -76,38 +73,22 @@ async function uploadRoom(req: Request, res: Response) {
     return;
   }
 
-  const imageFilename = (files.image as formidable.File | undefined)
-    ?.newFilename;
+  const imageFilename = (files.image as formidable.File | undefined)?.newFilename;
 
   await dbClient.query<Partyroom>(
     /*SQL*/ `INSERT INTO partyrooms (name, phone_no, price, venue, style,area,capacity,intro, imagefilename, user_id, is_hidden) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
-    [
-      name,
-      phone_no,
-      price,
-      venue,
-      style,
-      area,
-      capacity,
-      intro,
-      imageFilename,
-      req.session.user_id,
-      is_hidden,
-    ]
+    [name, phone_no, price, venue, style, area, capacity, intro, imageFilename, req.session.user_id, is_hidden]
   );
-
-  await dbClient.query<Equipment>(
-    /*SQL*/ `INSERT INTO equipments (name, type) VALUES ($1, $2)`,
-    [equipment_name, type]
-  );
+  await dbClient.query<Equipment>(/*SQL*/ `INSERT INTO equipments (name, type) VALUES ($1, $2)`, [
+    equipment_name,
+    type,
+  ]);
   res.json({ message: "party room uploaded" });
 }
 
 // show party room data from database, used in users.js //
 async function allRooms(req: Request, res: Response) {
-  const queryResult = await dbClient.query<Partyroom>(
-    "SELECT * FROM partyrooms"
-  );
+  const queryResult = await dbClient.query<Partyroom>("SELECT * FROM partyrooms");
   req.session.user_viewmode = "all";
   res.json(queryResult.rows); // pass array into res.json()
 }
@@ -134,6 +115,9 @@ async function bookRoom(req: Request, res: Response) {
     participants,
     special_req,
   ]);
+  await dbClient.query<Booking>(
+    /*SQL*/ `UPDATE bookings SET price = (SELECT price from partyrooms WHERE bookings.partyroom_id = partyrooms.id)`
+  );
   // console.log(queryResult.rows[0]);
   // console.log(req.session.user_id);
   console.log(req.body);
@@ -144,7 +128,7 @@ async function bookRoom(req: Request, res: Response) {
 // get user's booking info, used in mybookings.js
 async function getAllBookings(req: Request, res: Response) {
   const queryResult = await dbClient.query<Booking>(
-    `SELECT bookings.id AS id, name, venue, start_at, finish_at, is_cancelled FROM bookings JOIN partyrooms ON bookings.partyroom_id = partyrooms.id WHERE bookings.user_id = $1;`,
+    `SELECT bookings.price AS price, bookings.id AS id, name, venue, start_at, finish_at, is_cancelled FROM bookings JOIN partyrooms ON bookings.partyroom_id = partyrooms.id WHERE bookings.user_id = $1;`,
     [req.session.user_id]
   );
 
@@ -159,10 +143,7 @@ async function deleteRoom(req: Request, res: Response) {
     return;
   }
 
-  await dbClient.query(
-    /*SQL*/ `UPDATE partyrooms SET is_hidden = true WHERE id = $1`,
-    [partyroomId]
-  );
+  await dbClient.query(/*SQL*/ `UPDATE partyrooms SET is_hidden = true WHERE id = $1`, [partyroomId]);
 
   res.json({ message: "party room deleted" });
 }
@@ -179,12 +160,7 @@ async function postComment(req: Request, res: Response) {
   }
 
   const queryResult = /*SQL*/ `INSERT INTO ratings (user_id, partyroom_id, ratings, comments) VALUES ($1, $2, $3, $4) RETURNING id`;
-  await dbClient.query<Rating>(queryResult, [
-    req.session.user_id,
-    partyroom_id,
-    ratings,
-    comments,
-  ]);
+  await dbClient.query<Rating>(queryResult, [req.session.user_id, partyroom_id, ratings, comments]);
 
   // console.log(queryResult.rows[0]);
   res.status(200).json({ message: "submit rating successful" });
@@ -196,20 +172,18 @@ async function postComment(req: Request, res: Response) {
 
 // get other's party rooms, used in users.js //
 async function getOthersRooms(req: Request, res: Response) {
-  const queryResult = await dbClient.query(
-    /*SQL*/ `SELECT * from partyrooms WHERE user_id <> $1`,
-    [req.session.user_id]
-  );
+  const queryResult = await dbClient.query(/*SQL*/ `SELECT * from partyrooms WHERE user_id <> $1`, [
+    req.session.user_id,
+  ]);
   req.session.user_viewmode = "others";
   res.json(queryResult.rows);
 }
 
 // get my party rooms, used in users.js //
 async function getMyRooms(req: Request, res: Response) {
-  const queryResult = await dbClient.query(
-    /*SQL*/ `SELECT * from partyrooms WHERE user_id = $1`,
-    [req.session.user_id]
-  );
+  const queryResult = await dbClient.query(/*SQL*/ `SELECT * from partyrooms WHERE user_id = $1`, [
+    req.session.user_id,
+  ]);
   req.session.user_viewmode = "own";
   res.json(queryResult.rows);
 }
@@ -242,10 +216,12 @@ async function updateUserInfo(req: Request, res: Response) {
   const newEmail = req.body.email;
   const newPhone_no = req.body.phone_no;
   const newDate_of_birth = req.body.date_of_birth;
-  await dbClient.query(
-    /*SQL*/ `UPDATE users SET email = $1, phone_no = $2, date_of_birth = $3 WHERE id = $4`,
-    [newEmail, newPhone_no, newDate_of_birth, user_id]
-  );
+  await dbClient.query(/*SQL*/ `UPDATE users SET email = $1, phone_no = $2, date_of_birth = $3 WHERE id = $4`, [
+    newEmail,
+    newPhone_no,
+    newDate_of_birth,
+    user_id,
+  ]);
 
   res.json({ message: "user info updated" });
 }

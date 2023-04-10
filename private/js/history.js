@@ -43,6 +43,10 @@ async function getAllUserBookings() {
                 ${booking.venue} 
               
               <br>
+              價錢：
+                ${booking.price} 
+              
+              <br>
               
                 活動開始時間：${start_at} 
               
