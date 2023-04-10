@@ -34,25 +34,25 @@ async function getAllUserBookings() {
   
             <div class="booking-container">
             <h1>預約已完成</h2>
-              <div class="booked-info">
-              Party Room Name:
+              <div class="booked-info mb-2">
+              Party Room名稱：
                 ${booking.name} 
               
               <br>
-              Venue:
+              地址：
                 ${booking.venue} 
               
               <br>
               
-                Starts at: ${start_at} 
+                活動開始時間：${start_at} 
               
               <br>
               
-                Finishes at: ${finish_at}
+                活動結束時間：${finish_at}
               
               </div>
   
-            <div class="test"><a href="/booked.html?bid=${booking.id}">詳細資訊</a></div>
+            <div class="test"><a class="btn btn-primary" href="/booked.html?bid=${booking.id}">詳細資訊</a></div>
   
           
   
