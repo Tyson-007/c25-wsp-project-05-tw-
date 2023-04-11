@@ -56,7 +56,7 @@ async function getAllUserBookings() {
               
               </div>
   
-            <div class="test"><a class="btn btn-primary" href="/booked.html?bid=${booking.id}">詳細資訊</a></div>
+            
   
           
   

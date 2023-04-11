@@ -1,6 +1,9 @@
-\c party_room_project -- enter the database
+-- enter the database
+DROP DATABASE IF EXISTS party_room_project;
+CREATE DATABASE party_room_project;
+\c party_room_project 
 
-DROP TABLE IF EXISTS users;
+-- DROP TABLE IF EXISTS users;
 CREATE TABLE users (
 	id SERIAL PRIMARY KEY,
 	name VARCHAR(255) NOT NULL,
@@ -15,7 +18,7 @@ CREATE TABLE users (
 -- insert into users (name, password, phone_no, date_of_birth, email) values ('nero', 'nero', '55832260', '1996-01-01', 'nero@xxx.com');
 -- delete from users where id = 1;
 
-DROP TABLE IF EXISTS partyrooms;
+-- DROP TABLE IF EXISTS partyrooms;
 CREATE TABLE partyrooms (
 	id SERIAL PRIMARY KEY,
 	name VARCHAR(255),
@@ -34,7 +37,7 @@ CREATE TABLE partyrooms (
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
-DROP TABLE IF EXISTS bookings;
+-- DROP TABLE IF EXISTS bookings;
 CREATE TABLE bookings (
 	id SERIAL PRIMARY KEY,
     user_id INT,
@@ -52,7 +55,7 @@ CREATE TABLE bookings (
     is_cancelled BOOLEAN DEFAULT FALSE
 );
 
-DROP TABLE IF EXISTS ratings;
+-- DROP TABLE IF EXISTS ratings;
 CREATE TABLE ratings (
 	id SERIAL PRIMARY KEY,
     user_id INT,
@@ -65,7 +68,7 @@ CREATE TABLE ratings (
 	updated_at TIMESTAMP DEFAULT NOW()
 );
 
-DROP TABLE IF EXISTS equipments;
+-- DROP TABLE IF EXISTS equipments;
 CREATE TABLE equipments (
 	id SERIAL PRIMARY KEY,
     partyroom_id BIGSERIAL,
@@ -73,17 +76,3 @@ CREATE TABLE equipments (
     name VARCHAR (255),
     type VARCHAR (255)
 );
-
--- manual linking
-UPDATE equipments SET partyroom_id=5 WHERE equipments.id=5;
-
--- insert into equipments (equipment_in_service, switch_game, board_game) values ('air-condition', 'mario', 'monopoly');
--- insert into equipments (equipment_in_service, switch_game, board_game) values ('TV', '', 'card);
-
--- select from joining multiple tables.
--- SELECT * FROM partyrooms
--- 	INNER JOIN equipments
--- 		ON partyrooms.id = equipments.partyroom_id;
-
--- Drop eq_rm_relation;
-DROP TABLE IF EXISTS eq_rm_relation;

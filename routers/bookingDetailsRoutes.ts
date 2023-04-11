@@ -15,7 +15,7 @@ bookingDetailsRoutes.delete("/:bid", deleteBooking);
 // get details for one booking, used in booked.js
 async function getBookingDetails(req: Request, res: Response) {
   try {
-    const bookingId = +req.params.bid;
+    // const bookingId = +req.params.bid;
 
     // if (isNaN(bookingId)) {
     //   res.status(400).json({ message: "invalid booking id" });
@@ -24,8 +24,8 @@ async function getBookingDetails(req: Request, res: Response) {
 
     let resultQuery = (
       await dbClient.query(
-        /*SQL*/ `SELECT bookings.id, users.name AS owner, partyrooms.name AS room_name, start_at, finish_at, participants, special_req, venue, partyrooms.phone_no AS phone_no, imagefilename FROM bookings INNER JOIN partyrooms ON bookings.partyroom_id = partyrooms.id INNER JOIN users ON partyrooms.user_id = users.id WHERE bookings.id = $1`,
-        [bookingId]
+        /*SQL*/ `SELECT bookings.id, users.name AS owner, partyrooms.name AS room_name, start_at, finish_at, participants, special_req, venue, partyrooms.phone_no AS phone_no, imagefilename FROM bookings INNER JOIN partyrooms ON bookings.partyroom_id = partyrooms.id INNER JOIN users ON partyrooms.user_id = users.id WHERE bookings.user_id = $1`,
+        [req.session.user_id]
       )
     ).rows[0];
 
@@ -45,9 +45,9 @@ async function deleteBooking(req: Request, res: Response) {
     return;
   }
 
-  await dbClient.query(
-    /*SQL*/ `DELETE from bookings WHERE id = $1`,[bookingId]
-  );
+  await dbClient.query(/*SQL*/ `DELETE from bookings WHERE id = $1`, [
+    bookingId,
+  ]);
 
   res.json({ message: "booking cancelled" });
 }
