@@ -16,7 +16,7 @@ export interface Booking {
   special_req?: string;
   user_id: number;
   partyroom_id: number;
-  price:number
+  price: number;
   //try
   is_cancelled: boolean;
   //try
@@ -25,7 +25,7 @@ export interface Booking {
 export interface Partyroom {
   id: number;
   name?: string;
-  phone_no?: number;
+  phone_no?: string;
   price?: number;
   venue: string;
   style?: string;

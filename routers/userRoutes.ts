@@ -2,7 +2,7 @@ import express from "express";
 import formidable from "formidable";
 import { partyroomForm, partyroomFormPromise } from "../formidable";
 import type { Request, Response } from "express";
-import { dbClient } from "../server";
+import { dbClient, guardMiddleware } from "../server";
 import { Booking } from "../model";
 import { Partyroom } from "../model";
 import { Equipment } from "../model";
@@ -10,7 +10,7 @@ import { Rating } from "../model";
 
 export const userRoutes = express.Router();
 
-userRoutes.put("/upload/:pid", deleteRoom);
+userRoutes.put("/upload/:pid", guardMiddleware, deleteRoom);
 userRoutes.post("/booking/:pid", bookRoom);
 userRoutes.get("/booking", getAllBookings);
 userRoutes.post("/upload", uploadRoom);

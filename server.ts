@@ -13,6 +13,21 @@ export const dbClient = new pg.Client({
 });
 dbClient.connect();
 
+////////////////////
+// Login Guard    //
+////////////////////
+export const guardMiddleware = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  if (req.session.isLoggedIn) {
+    next();
+  } else {
+    res.redirect("/");
+  }
+};
+
 declare module "express-session" {
   interface SessionData {
     isLoggedIn?: boolean;
@@ -48,13 +63,7 @@ app.use("/bookingDetails", bookingDetailsRoutes);
 ////////////////////
 app.use(express.static("public"));
 app.use("/images", express.static(path.join(__dirname, "uploads")));
-const guardMiddleware = (req: Request, res: Response, next: NextFunction) => {
-  if (req.session.isLoggedIn) {
-    next();
-  } else {
-    res.redirect("/");
-  }
-};
+
 app.use("/images", express.static(path.join(__dirname, "uploads")));
 app.use(guardMiddleware, express.static("private"));
 
