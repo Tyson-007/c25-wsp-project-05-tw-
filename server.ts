@@ -64,7 +64,7 @@ app.use("/bookingDetails", bookingDetailsRoutes);
 app.use(express.static("public"));
 app.use("/images", express.static(path.join(__dirname, "uploads")));
 
-app.use("/images", express.static(path.join(__dirname, "uploads")));
+// app.use("/images", express.static(path.join(__dirname, "uploads")));
 app.use(guardMiddleware, express.static("private"));
 
 // Error Handling
