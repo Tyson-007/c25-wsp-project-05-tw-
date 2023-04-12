@@ -126,26 +126,34 @@ async function getAllRooms() {
 
   document.querySelector(".roomInfo-and-photo").innerHTML += partyroomCardsHtml;
 
-  document.querySelectorAll(".del-button").forEach((delBtn) =>
-    delBtn.addEventListener("click", async (e) => {
-      // document.querySelector(".roomInfo-and-photo").style.display = "none";
-      const roomDiv = e.currentTarget.parentElement;
-      const roomId = roomDiv.dataset.id;
+  document.querySelectorAll(".del-button").forEach((testBtn) =>
+    testBtn.addEventListener("click", async (e) => {
+      const confirmDeleteModal = new bootstrap.Modal("#delete-room-modal");
 
-      const resp = await fetch(`/user/upload/${roomId}`, {
-        method: "PUT", // change to PUT
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ is_hidden: true }),
-      });
-
-      const result = await resp.json();
-      alert(result.message);
-
-      if (resp.status === 200) {
-        getAllRooms();
-      }
+      confirmDeleteModal.show();
     })
   );
+
+  // document.querySelectorAll(".del-button").forEach((delBtn) =>
+  //   delBtn.addEventListener("click", async (e) => {
+  //     // document.querySelector(".roomInfo-and-photo").style.display = "none";
+  //     const roomDiv = e.currentTarget.parentElement;
+  //     const roomId = roomDiv.dataset.id;
+
+  //     const resp = await fetch(`/user/upload/${roomId}`, {
+  //       method: "PUT", // change to PUT
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify({ is_hidden: true }),
+  //     });
+
+  //     const result = await resp.json();
+  //     alert(result.message);
+
+  //     if (resp.status === 200) {
+  //       getAllRooms();
+  //     }
+  //   })
+  // );
 }
 
 async function getMyRooms() {
