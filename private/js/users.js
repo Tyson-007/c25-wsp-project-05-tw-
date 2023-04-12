@@ -38,7 +38,13 @@ async function modalRemoveParams() {
   const bookingModal = document.querySelector("#booking-modal");
   const usersHTML = "/users.html";
 
-  bookingModal.addEventListener("hidden.bs.modal", async (e) => {
+  bookingModal.addEventListener("hidden.bs.modal", async () => {
+    window.history.replaceState({ path: usersHTML }, "", usersHTML);
+  });
+
+  const confirmDeleteModal = document.querySelector("#delete-room-modal");
+
+  confirmDeleteModal.addEventListener("hidden.bs.modal", async () => {
     window.history.replaceState({ path: usersHTML }, "", usersHTML);
   });
 }
@@ -93,7 +99,7 @@ async function getAllRooms() {
       const card_image = `<img src="/images/${partyroom.imagefilename}" class="card-img-top" alt="${partyroom.name}">`;
       const editAndDeleteBtn = `
       <div class="edit-button"><a href="/partyrooms_edit.html?pid=${partyroom.id}"><i class="fa-solid fa-pen-to-square fa-lg"></i></a></div>
-      <div class="del-button"><a href="#"><i class="fa-solid fa-trash fa-lg"></i></a></div>`;
+      <div class="del-button"><i class="fa-solid fa-trash fa-lg"></i></div>`;
       const bookButton = `<button class="btn btn-primary book-button" data-id="${partyroom.id}">立即預約</button>`;
 
       partyroomCardsHtml += `
@@ -129,31 +135,35 @@ async function getAllRooms() {
   document.querySelectorAll(".del-button").forEach((testBtn) =>
     testBtn.addEventListener("click", async (e) => {
       const confirmDeleteModal = new bootstrap.Modal("#delete-room-modal");
+      const partyroomID = testBtn.parentElement.dataset.id;
+
+      const currentURL = window.location.href;
+      const newURL = currentURL + "?pid=" + partyroomID;
+      window.history.pushState({ path: newURL }, "", newURL);
 
       confirmDeleteModal.show();
     })
   );
 
-  // document.querySelectorAll(".del-button").forEach((delBtn) =>
-  //   delBtn.addEventListener("click", async (e) => {
-  //     // document.querySelector(".roomInfo-and-photo").style.display = "none";
-  //     const roomDiv = e.currentTarget.parentElement;
-  //     const roomId = roomDiv.dataset.id;
+  document
+    .querySelector("#delete-room-button")
+    .addEventListener("click", async (e) => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const pid = urlParams.get("pid");
 
-  //     const resp = await fetch(`/user/upload/${roomId}`, {
-  //       method: "PUT", // change to PUT
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify({ is_hidden: true }),
-  //     });
+      const resp = await fetch(`/user/upload/${pid}`, {
+        method: "PUT", // change to PUT
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ is_hidden: true }),
+      });
 
-  //     const result = await resp.json();
-  //     alert(result.message);
+      const result = await resp.json();
+      alert(result.message);
 
-  //     if (resp.status === 200) {
-  //       getAllRooms();
-  //     }
-  //   })
-  // );
+      if (resp.status === 200) {
+        window.location = "/users.html";
+      }
+    });
 }
 
 async function getMyRooms() {
