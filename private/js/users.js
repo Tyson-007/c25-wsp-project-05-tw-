@@ -202,6 +202,39 @@ async function getMyRooms() {
   }
 
   document.querySelector(".roomInfo-and-photo").innerHTML += partyroomCardsHtml;
+
+  document.querySelectorAll(".del-button").forEach((testBtn) =>
+    testBtn.addEventListener("click", async (e) => {
+      const confirmDeleteModal = new bootstrap.Modal("#delete-room-modal");
+      const partyroomID = testBtn.parentElement.dataset.id;
+
+      const currentURL = window.location.href;
+      const newURL = currentURL + "?pid=" + partyroomID;
+      window.history.pushState({ path: newURL }, "", newURL);
+
+      confirmDeleteModal.show();
+    })
+  );
+
+  document
+    .querySelector("#delete-room-button")
+    .addEventListener("click", async (e) => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const pid = urlParams.get("pid");
+
+      const resp = await fetch(`/user/upload/${pid}`, {
+        method: "PUT", // change to PUT
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ is_hidden: true }),
+      });
+
+      const result = await resp.json();
+      alert(result.message);
+
+      if (resp.status === 200) {
+        window.location = "/users.html";
+      }
+    });
 }
 
 async function getOthersRooms() {
